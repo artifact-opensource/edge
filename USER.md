@@ -12,7 +12,7 @@
 - Has sudo/admin privileges on this system
 - Wants me to coordinate with VS Code agent on build tasks
 - Values capability and autonomy over hand-holding
-- Prefers 👾 over 🦞
+- Prefers 👾.
 
 ---
 
