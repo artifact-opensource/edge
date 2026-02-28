@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.nginx
+    container_name: artifact-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../../infrastructure/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../../infrastructure/nginx/sites-available:/etc/nginx/sites-available:ro
+      - ../../infrastructure/nginx/conf.d:/etc/nginx/conf.d:ro
+      - web-content:/var/www/artifactvirtual:ro
+      - ssl-certs:/etc/ssl/certs:ro
+      - ssl-keys:/etc/ssl/private:ro
+      - nginx-logs:/var/log/nginx
+    networks:
+      - artifact-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  # Add application containers as needed
+  # api:
+  #   build:
+  #     context: ../..
+  #     dockerfile: infrastructure/docker/Dockerfile.api
+  #   container_name: artifact-api
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - NODE_ENV=production
+  #   env_file:
+  #     - ../../.env
+  #   networks:
+  #     - artifact-network
+  #   restart: unless-stopped
+
+volumes:
+  web-content:
+  ssl-certs:
+  ssl-keys:
+  nginx-logs:
+
+networks:
+  artifact-network:
+    driver: bridge

@@ -1,0 +1,222 @@
+{
+  "report_type": "compliance_audit",
+  "generated_at": "2026-02-02T10:54:20.256935",
+  "organization": "Artifact Virtual (SMC-Private) Limited",
+  "readiness": {
+    "readiness_percent": 75.0,
+    "total": 10,
+    "status_counts": {
+      "compliant": 7,
+      "in_progress": 1,
+      "not_started": 2,
+      "non_compliant": 0
+    },
+    "timestamp": "2026-02-02T10:54:20.256884"
+  },
+  "control_results": [
+    {
+      "control_id": "G-01",
+      "control": "Organizational Security Policy",
+      "status": "compliant",
+      "priority": "P1",
+      "checks": [
+        {
+          "type": "evidence_exists",
+          "path": "divisions/departments/legal-compliance/policies/information-security-policy.md",
+          "passed": true
+        },
+        {
+          "type": "review_currency",
+          "days_since_review": 0,
+          "passed": true
+        }
+      ],
+      "overall_passed": true
+    },
+    {
+      "control_id": "G-02",
+      "control": "Risk Register & Treatment Plan",
+      "status": "not_started",
+      "priority": "P1",
+      "checks": [
+        {
+          "type": "evidence_exists",
+          "path": "audit/risk/",
+          "passed": true
+        },
+        {
+          "type": "review_currency",
+          "days_since_review": null,
+          "passed": false,
+          "note": "Never reviewed"
+        }
+      ],
+      "overall_passed": false
+    },
+    {
+      "control_id": "G-03",
+      "control": "Roles & Responsibilities",
+      "status": "compliant",
+      "priority": "P2",
+      "checks": [
+        {
+          "type": "evidence_exists",
+          "path": "divisions/departments/hr/org-structure/organizational-structure.md",
+          "passed": true
+        },
+        {
+          "type": "review_currency",
+          "days_since_review": 0,
+          "passed": true
+        }
+      ],
+      "overall_passed": true
+    },
+    {
+      "control_id": "G-04",
+      "control": "Vendor/Third-Party Risk Management",
+      "status": "not_started",
+      "priority": "P2",
+      "checks": [
+        {
+          "type": "evidence_exists",
+          "path": "audit/vendor/",
+          "passed": true
+        },
+        {
+          "type": "review_currency",
+          "days_since_review": null,
+          "passed": false,
+          "note": "Never reviewed"
+        }
+      ],
+      "overall_passed": false
+    },
+    {
+      "control_id": "A-01",
+      "control": "System Architecture Diagram",
+      "status": "compliant",
+      "priority": "P1",
+      "checks": [
+        {
+          "type": "evidence_exists",
+          "path": "infrastructure.md",
+          "passed": true
+        },
+        {
+          "type": "evidence_exists",
+          "path": "infrastructure/SCALING-ARCHITECTURE.md",
+          "passed": true
+        },
+        {
+          "type": "review_currency",
+          "days_since_review": 0,
+          "passed": true
+        }
+      ],
+      "overall_passed": true
+    },
+    {
+      "control_id": "A-02",
+      "control": "Threat Modeling",
+      "status": "in_progress",
+      "priority": "P1",
+      "checks": [
+        {
+          "type": "evidence_exists",
+          "path": "audit/security/threat-models/",
+          "passed": true
+        },
+        {
+          "type": "review_currency",
+          "days_since_review": null,
+          "passed": false,
+          "note": "Never reviewed"
+        }
+      ],
+      "overall_passed": false
+    },
+    {
+      "control_id": "N-04",
+      "control": "Infrastructure as Code (IaC)",
+      "status": "compliant",
+      "priority": "P2",
+      "checks": [
+        {
+          "type": "evidence_exists",
+          "path": "infrastructure/",
+          "passed": true
+        },
+        {
+          "type": "review_currency",
+          "days_since_review": 0,
+          "passed": true
+        }
+      ],
+      "overall_passed": true
+    },
+    {
+      "control_id": "I-01",
+      "control": "Centralized Identity",
+      "status": "compliant",
+      "priority": "P0",
+      "checks": [
+        {
+          "type": "evidence_exists",
+          "path": "audit/iam/identity-access-policy.md",
+          "passed": true
+        },
+        {
+          "type": "review_currency",
+          "days_since_review": 0,
+          "passed": true
+        }
+      ],
+      "overall_passed": true
+    },
+    {
+      "control_id": "IR-01",
+      "control": "Incident Response Plan",
+      "status": "compliant",
+      "priority": "P0",
+      "checks": [
+        {
+          "type": "evidence_exists",
+          "path": "audit/incident/incident-response-plan.md",
+          "passed": true
+        },
+        {
+          "type": "review_currency",
+          "days_since_review": 0,
+          "passed": true
+        }
+      ],
+      "overall_passed": true
+    },
+    {
+      "control_id": "BCDR-01",
+      "control": "DR Plan",
+      "status": "compliant",
+      "priority": "P0",
+      "checks": [
+        {
+          "type": "evidence_exists",
+          "path": "audit/bcdr/dr-plan.md",
+          "passed": true
+        },
+        {
+          "type": "review_currency",
+          "days_since_review": 0,
+          "passed": true
+        }
+      ],
+      "overall_passed": true
+    }
+  ],
+  "frameworks": [
+    "SOC2",
+    "ISO27001",
+    "GDPR"
+  ],
+  "recommendations": []
+}

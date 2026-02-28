@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-02-06",
+  "organization": "Artifact Virtual (SMC-Private) Limited",
+  "vendors": [
+    {
+      "id": "VENDOR-001",
+      "name": "GitHub",
+      "category": "Development",
+      "criticality": "High",
+      "services": ["Git repository", "CI/CD"],
+      "status": "Active",
+      "riskLevel": "Low"
+    },
+    {
+      "id": "VENDOR-002",
+      "name": "Railway/Render",
+      "category": "Cloud Hosting",
+      "criticality": "High",
+      "services": ["Hosting"],
+      "status": "Active",
+      "riskLevel": "Medium"
+    }
+  ],
+  "totalVendors": 2
+}

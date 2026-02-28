@@ -1,0 +1,90 @@
+<div class="kanban-container">
+  <header class="kanban-header">
+    <h1>Kanban Board</h1>
+    <p class="subtitle">Project: {{ projectId | uppercase }}</p>
+  </header>
+
+  <div class="kanban-board">
+    <div class="kanban-column" *ngFor="let column of columns">
+      <div class="column-header">
+        <h2 class="column-title">{{ column.title }}</h2>
+        <span class="column-count">{{ column.tasks.length }}</span>
+      </div>
+
+      <div 
+        class="column-content"
+        cdkDropList
+        [id]="column.id"
+        [cdkDropListData]="column.tasks"
+        [cdkDropListConnectedTo]="getColumnConnectedTo()"
+        (cdkDropListDropped)="drop($event, column.id)">
+        
+        <div 
+          class="task-card"
+          *ngFor="let task of column.tasks"
+          cdkDrag
+          [ngClass]="getPriorityClass(task.priority)">
+          
+          <div class="task-card-header">
+            <h3 class="task-title">{{ task.name }}</h3>
+            <span class="task-priority-badge" [ngClass]="getPriorityClass(task.priority)">
+              {{ task.priority }}
+            </span>
+          </div>
+
+          <p class="task-description" *ngIf="task.description">
+            {{ task.description }}
+          </p>
+
+          <div class="task-meta">
+            <div class="task-progress" *ngIf="task.progress > 0">
+              <div class="progress-bar">
+                <div 
+                  class="progress-fill" 
+                  [style.width.%]="task.progress"
+                  [style.background]="getProgressColor(task.progress)">
+                </div>
+              </div>
+              <span class="progress-text">{{ task.progress }}%</span>
+            </div>
+
+            <div class="task-details">
+              <span class="task-due" *ngIf="task.dueDate">
+                📅 {{ formatDate(task.dueDate) }}
+              </span>
+
+              <span class="task-assignee" *ngIf="task.assignedTo">
+                👤 {{ task.assignedTo }}
+              </span>
+            </div>
+
+            <div class="task-indicators">
+              <span class="indicator dependency" *ngIf="task.dependencies && task.dependencies.length > 0" title="Has dependencies">
+                🔗 {{ task.dependencies.length }}
+              </span>
+
+              <span class="indicator blocker" *ngIf="task.blockedBy && task.blockedBy.length > 0" title="Blocked">
+                🚫
+              </span>
+            </div>
+          </div>
+
+          <div class="task-tags" *ngIf="task.tags && task.tags.length > 0">
+            <span class="tag" *ngFor="let tag of task.tags">{{ tag }}</span>
+          </div>
+
+          <!-- Drag preview -->
+          <div class="drag-preview" *cdkDragPreview>
+            <div class="preview-card">
+              <strong>{{ task.name }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="column-empty" *ngIf="column.tasks.length === 0">
+          <p>No tasks in {{ column.title.toLowerCase() }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

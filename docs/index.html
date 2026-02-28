@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>commit.</title>
+    <meta name="description" content="High-precision data center, cloud, and AI/ML solutions engineered for the most demanding global markets.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --basalt-deep: #080809;
+            --basalt-surface: #121215;
+            --basalt-elevated: #1a1a1f;
+            --basalt-edge: #2a2a30;
+            --accent-cyan: #00ffd5;
+            --accent-blue: #0A4D8C;
+            --text-primary: #e0e0e0;
+            --text-secondary: #8c8c94;
+            --machined-line: rgba(255, 255, 255, 0.05);
+            --glint: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--basalt-deep);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        /* Machined Texture Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Structural Grid Lines */
+        .machined-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(to right, var(--machined-line) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--machined-line) 1px, transparent 1px);
+            background-size: 10vw 10vh;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(to bottom, var(--basalt-deep), transparent);
+            backdrop-filter: blur(8px);
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+
+
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 8rem;
+            position: relative;
+        }
+
+        .monolith-header {
+            position: relative;
+            z-index: 2;
+        }
+
+        .pre-title {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-weight: 900;
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: -0.04em;
+            margin-bottom: 2rem;
+            background: linear-gradient(to bottom, #fff 0%, #444 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-desc {
+            max-width: 600px;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            border-left: 1px solid var(--accent-cyan);
+            padding-left: 1.5rem;
+        }
+
+        .monolith-section {
+            padding: 8rem 4rem;
+            background: var(--basalt-deep);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1px;
+            background: var(--basalt-edge);
+            border: 1px solid var(--basalt-edge);
+        }
+
+        .machined-block {
+            grid-column: span 4;
+            background: var(--basalt-surface);
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .machined-block:hover {
+            background: var(--basalt-elevated);
+            transform: translateY(-5px);
+            z-index: 10;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .machined-block::after {
+            content: "";
+            position: absolute;
+            top: 0; right: 0;
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, transparent 50%, var(--basalt-edge) 50%);
+        }
+
+        .block-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+            margin-bottom: 2rem;
+            display: block;
+            opacity: 0.5;
+        }
+
+        .block-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        .block-content {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .block-footer {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--machined-line);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .featured-span {
+            grid-column: span 8;
+            display: flex;
+            background: var(--basalt-surface);
+        }
+
+        .stat-strip {
+            display: flex;
+            background: var(--basalt-surface);
+            border-top: 1px solid var(--basalt-edge);
+            border-bottom: 1px solid var(--basalt-edge);
+        }
+
+        .stat-item {
+            flex: 1;
+            padding: 4rem;
+            border-right: 1px solid var(--basalt-edge);
+            text-align: center;
+        }
+
+        .stat-value {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-cyan);
+        }
+
+        .cta-monolith {
+            display: inline-block;
+            padding: 1.25rem 3rem;
+            background: var(--text-primary);
+            color: var(--basalt-deep);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .cta-monolith:hover {
+            background: var(--accent-cyan);
+            transform: translateX(10px);
+        }
+
+        footer {
+            padding: 6rem 4rem 2rem;
+            background: var(--basalt-deep);
+            border-top: 1px solid var(--basalt-edge);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-heading {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .shimmer {
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--glint), transparent);
+            transform: skewX(-20deg);
+            animation: shimmer 8s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+
+        @media (max-width: 1024px) {
+            nav { padding: 1rem 2rem; }
+            .hero { padding: 0 2rem; }
+            .monolith-section { padding: 4rem 2rem; }
+            .grid-container { display: flex; flex-direction: column; }
+            .machined-block { grid-column: span 12; }
+            .featured-span { grid-column: span 12; }
+            .stat-strip { flex-direction: column; }
+            .stat-item { padding: 2rem; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+            footer { padding: 4rem 2rem 2rem; }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links { display: none; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="machined-grid"></div>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <img src="../enterprise/divisions/departments/marketing/assets/av-logo-white.png" alt="Artifact Virtual">
+        </a>
+        <ul class="nav-links">
+            <li><a href="#solutions">Solutions</a></li>
+            <li><a href="infrastructure.html">Infrastructure</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+        <a href="mailto:info@artifactvirtual.com" class="cta-monolith" style="padding: 0.75rem 1.5rem; font-size: 0.7rem;">Initialize_Contact</a>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="monolith-header">
+                <span class="pre-title">// ENTERPRISE_INFRASTRUCTURE</span>
+                <h1>Monolithic<br>Foundations</h1>
+                <p class="hero-desc">High-precision data center, cloud, and AI/ML solutions engineered for the most demanding global markets in Asia, Americas, and Europe.</p>
+                <a href="#solutions" class="cta-monolith">Deploy Solution</a>
+            </div>
+            <div class="shimmer"></div>
+        </section>
+
+        <div class="stat-strip">
+            <div class="stat-item">
+                <span class="stat-value">99.99%</span>
+                <span class="stat-label">SLA Uptime</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">3ms</span>
+                <span class="stat-label">HEKTOR Latency</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">3</span>
+                <span class="stat-label">Global Regions</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">$56M</span>
+                <span class="stat-label">Revenue Target</span>
+            </div>
+        </div>
+
+        <section class="monolith-section" id="solutions">
+            <div class="grid-container">
+                <!-- Row 1 -->
+                <div class="machined-block featured-span">
+                    <div style="width: 100%">
+                        <span class="block-id">MOD_01 // CORE_STUDIO</span>
+                        <h2 class="block-title">Artifact Virtual Studio</h2>
+                        <p class="block-content">A machined-precision ERP ecosystem. Unified CRM, Finance, and DevOps integration for the modern enterprise. Self-hosted, air-gapped ready, and natively built for CI/CD.</p>
+                        <div class="block-footer">
+                            <span>TIER: PRODUCTION</span>
+                            <span>FROM $49/USER</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="machined-block">
+                    <span class="block-id">MOD_02 // SPECTRAL</span>
+                    <h2 class="block-title">HEKTOR</h2>
+                    <p class="block-content">The world's first perceptual vector database. Optimized for color-accurate similarity search and quantum-resistant ML workloads.</p>
+                    <div class="block-footer">
+                        <span>ETA: 2027</span>
+                        <span>v.0.1.0_ALPHA</span>
+                    </div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="machined-block">
+                    <span class="block-id">MOD_03 // EXECUTION</span>
+                    <h2 class="block-title">Herald Agent</h2>
+                    <p class="block-content">Sub-millisecond trading execution. Smart order routing with automated risk management for multi-asset portfolios.</p>
+                    <div class="block-footer">
+                        <span>DEV_MODE</span>
+                        <span>SECURE_LINK</span>
+                    </div>
+                </div>
+                <div class="machined-block">
+                    <span class="block-id">MOD_04 // DATA_CENTER</span>
+                    <h2 class="block-title">Colocation</h2>
+                    <p class="block-content">Raw industrial compute. Full rack and custom cage options in Asia's premier data center facilities.</p>
+                    <div class="block-footer">
+                        <span>LOC: ASIA</span>
+                        <span>99.9% UPTIME</span>
+                    </div>
+                </div>
+                <div class="machined-block">
+                    <span class="block-id">MOD_05 // AI_CONSULT</span>
+                    <h2 class="block-title">Fractional CTO</h2>
+                    <p class="block-content">Expert technical leadership for AI/ML infrastructure, Computer Vision, and high-scale MLOps migrations.</p>
+                    <div class="block-footer">
+                        <span>GLOBAL</span>
+                        <span>$150/HOUR</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="monolith-section" id="about" style="background: #000; text-align: center; padding: 12rem 4rem;">
+            <span class="pre-title">SYSTEM READY</span>
+            <h2 style="font-size: 3rem; margin-bottom: 2rem; color: var(--text-primary);">Build on Solid Ground.</h2>
+            <a href="mailto:info@artifactvirtual.com" class="cta-monolith">Request Architecture Audit</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <a href="index.html" class="logo" style="margin-bottom: 1.5rem;">
+                    <img src="../enterprise/divisions/departments/marketing/assets/av-logo-white.png" alt="Artifact Virtual">
+                </a>
+                <p style="color: var(--text-secondary); font-size: 0.85rem;">(SMC-Private) Limited.<br>Machined infrastructure for the digital age.</p>
+                <p style="color: var(--accent-cyan); font-family: 'JetBrains Mono', monospace; font-size: 1rem; margin-top: 1rem;">commit.</p>
+            </div>
+            <div>
+                <h4 class="footer-heading">Ecosystem</h4>
+                <ul class="footer-links">
+                    <li><a href="#solutions">Studio ERP</a></li>
+                    <li><a href="#solutions">HEKTOR DB</a></li>
+                    <li><a href="#solutions">Herald Trading</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-heading">Services</h4>
+                <ul class="footer-links">
+                    <li><a href="infrastructure.html#capacity">Cloud Compute</a></li>
+                    <li><a href="infrastructure.html">Managed K8s</a></li>
+                    <li><a href="infrastructure.html#capacity">GPU Clusters</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-heading">Governance</h4>
+                <ul class="footer-links">
+                    <li><a href="privacy-policy.html">Privacy Protocol</a></li>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="sla.html">SLA Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--machined-line); padding-top: 2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: #444;">
+            <p>&copy; 2026 ARTIFACT VIRTUAL. ALL RIGHTS RESERVED.</p>
+            <p>SYSTEM_STATUS: OPERATIONAL_V.4.0.1</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth parallax effect for blocks
+        document.addEventListener('mousemove', (e) => {
+            const blocks = document.querySelectorAll('.machined-block');
+            blocks.forEach(block => {
+                const rect = block.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    // Parallax ready for future enhancement
+                }
+            });
+        });
+    </script>
+</body>
+</html>

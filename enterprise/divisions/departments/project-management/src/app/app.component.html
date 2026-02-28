@@ -1,0 +1,67 @@
+<div class="app-container">
+  <!-- Mobile menu overlay -->
+  <div class="sidebar-overlay" [class.active]="mobileMenuOpen" (click)="closeMobileMenu()"></div>
+  
+  <aside class="sidebar" [class.collapsed]="sidebarCollapsed" [class.mobile-open]="mobileMenuOpen">
+    <div class="sidebar-header">
+      <h1 class="logo" *ngIf="!sidebarCollapsed">PM Studio</h1>
+      <h1 class="logo-collapsed" *ngIf="sidebarCollapsed">PM</h1>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/my-tasks" routerLinkActive="active" class="nav-item" title="My Tasks" (click)="closeMobileMenu()">
+        <span class="nav-icon">✓</span>
+        <span class="nav-label" *ngIf="!sidebarCollapsed">My Tasks</span>
+      </a>
+
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-item" title="Dashboard" (click)="closeMobileMenu()">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label" *ngIf="!sidebarCollapsed">Dashboard</span>
+      </a>
+
+      <div class="nav-separator" *ngIf="!sidebarCollapsed"></div>
+
+      <div class="nav-section" *ngIf="!sidebarCollapsed">
+        <div class="section-label">Quick Access</div>
+      </div>
+
+      <a routerLink="/project/goldmax/kanban" routerLinkActive="active" class="nav-item" title="GoldMax Kanban" (click)="closeMobileMenu()">
+        <span class="nav-icon">📋</span>
+        <span class="nav-label" *ngIf="!sidebarCollapsed">GoldMax Kanban</span>
+      </a>
+
+      <a routerLink="/project/goldmax/gantt" routerLinkActive="active" class="nav-item" title="GoldMax Gantt" (click)="closeMobileMenu()">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label" *ngIf="!sidebarCollapsed">GoldMax Gantt</span>
+      </a>
+
+      <a routerLink="/project/goldmax/dependencies" routerLinkActive="active" class="nav-item" title="GoldMax Dependencies" (click)="closeMobileMenu()">
+        <span class="nav-icon">🔗</span>
+        <span class="nav-label" *ngIf="!sidebarCollapsed">GoldMax Deps</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="theme-toggle" (click)="toggleTheme()" title="Toggle theme">
+        <span class="nav-icon">🌓</span>
+        <span class="nav-label" *ngIf="!sidebarCollapsed">Theme</span>
+      </button>
+
+      <button class="collapse-btn" (click)="toggleSidebar()" title="Toggle sidebar">
+        <span *ngIf="!sidebarCollapsed">◀</span>
+        <span *ngIf="sidebarCollapsed">▶</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+  
+  <!-- Mobile menu toggle button -->
+  <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" title="Toggle menu">
+    <span *ngIf="!mobileMenuOpen">☰</span>
+    <span *ngIf="mobileMenuOpen">✕</span>
+  </button>
+</div>
+

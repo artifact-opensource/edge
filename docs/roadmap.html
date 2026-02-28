@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artifact Virtual - Strategic Roadmap Management</title>
+    <style>
+        :root {
+            --primary: #2563eb; --success: #10b981; --warning: #f59e0b; --danger: #ef4444;
+            --bg-dark: #0f172a; --bg-med: #1e293b; --bg-light: #334155;
+            --text: #f8fafc; --text-sec: #cbd5e1; --border: #475569;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-dark); color: var(--text); line-height: 1.6; 
+        }
+        .container { max-width: 1600px; margin: 0 auto; padding: 20px; }
+        header { 
+            background: var(--bg-med); border-bottom: 2px solid var(--primary); 
+            padding: 20px; margin-bottom: 30px; border-radius: 8px; 
+        }
+        header h1 { font-size: 2rem; margin-bottom: 10px; color: var(--primary); }
+        header p { color: var(--text-sec); font-size: 0.95rem; }
+        .loading { 
+            text-align: center; padding: 60px 20px; font-size: 1.2rem; 
+            color: var(--text-sec); 
+        }
+        .stats-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 15px; margin-bottom: 30px; 
+        }
+        .stat-card { 
+            background: var(--bg-med); padding: 20px; border-radius: 8px; 
+            border-left: 4px solid var(--primary); 
+        }
+        .stat-value { font-size: 2rem; font-weight: bold; color: var(--primary); }
+        .stat-label { color: var(--text-sec); font-size: 0.9rem; margin-top: 5px; }
+        .controls { 
+            background: var(--bg-med); padding: 20px; border-radius: 8px; 
+            margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; 
+        }
+        button { 
+            background: var(--primary); color: white; border: none; padding: 10px 20px; 
+            border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; 
+        }
+        button:hover { background: #1d4ed8; transform: translateY(-1px); }
+        button.secondary { background: var(--bg-light); }
+        button.secondary:hover { background: #475569; }
+        .filters { 
+            display: flex; gap: 10px; flex: 1; min-width: 200px; flex-wrap: wrap; 
+        }
+        .filters input, .filters select { 
+            background: var(--bg-dark); color: var(--text); border: 1px solid var(--border); 
+            padding: 8px 12px; border-radius: 4px; font-size: 0.9rem; 
+        }
+        .filters input { flex: 1; min-width: 200px; }
+        .phase-section { 
+            background: var(--bg-med); border-radius: 8px; padding: 20px; 
+            margin-bottom: 20px; 
+        }
+        .phase-header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            cursor: pointer; padding: 15px; background: var(--bg-light); 
+            border-radius: 6px; margin-bottom: 15px; transition: all 0.2s; 
+        }
+        .phase-header:hover { background: #3f4c63; }
+        .phase-title { font-size: 1.3rem; font-weight: 600; }
+        .phase-meta { 
+            display: flex; gap: 20px; align-items: center; flex-wrap: wrap; 
+        }
+        .status-badge { 
+            padding: 4px 12px; border-radius: 12px; font-size: 0.85rem; 
+            font-weight: 500; white-space: nowrap; 
+        }
+        .status-complete { background: var(--success); color: white; }
+        .status-progress { background: var(--warning); color: white; }
+        .status-pending { background: var(--border); color: white; }
+        .progress-bar { 
+            width: 120px; height: 8px; background: var(--bg-dark); 
+            border-radius: 4px; overflow: hidden; 
+        }
+        .progress-fill { 
+            height: 100%; background: var(--success); 
+            transition: width 0.3s ease; 
+        }
+        .milestones-grid { display: grid; gap: 15px; }
+        .milestone-card { 
+            background: var(--bg-dark); border: 1px solid var(--border); 
+            border-radius: 6px; padding: 15px; transition: all 0.2s; 
+        }
+        .milestone-card:hover { 
+            border-color: var(--primary); transform: translateY(-2px); 
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); 
+        }
+        .milestone-header { 
+            display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; 
+        }
+        .milestone-checkbox { 
+            margin-top: 4px; width: 20px; height: 20px; cursor: pointer; 
+        }
+        .milestone-info { flex: 1; }
+        .milestone-id { 
+            color: var(--primary); font-weight: 600; font-size: 0.95rem; 
+            margin-bottom: 5px; 
+        }
+        .milestone-title { font-size: 1.05rem; margin-bottom: 5px; }
+        .milestone-date { 
+            color: var(--text-sec); font-size: 0.85rem; margin-top: 5px; 
+        }
+        .dependencies { 
+            margin-top: 10px; padding-top: 10px; 
+            border-top: 1px solid var(--border); 
+        }
+        .dep-label { 
+            font-size: 0.85rem; color: var(--text-sec); 
+            margin-bottom: 5px; font-weight: 500; 
+        }
+        .dep-list { display: flex; flex-wrap: wrap; gap: 5px; }
+        .dep-tag { 
+            background: var(--bg-light); padding: 3px 8px; border-radius: 4px; 
+            font-size: 0.8rem; color: var(--text-sec); 
+        }
+        .ceo-tasks { 
+            margin-top: 15px; padding: 15px; background: var(--bg-light); 
+            border-radius: 6px; border-left: 3px solid var(--warning); 
+        }
+        .ceo-header { 
+            font-weight: 600; color: var(--warning); margin-bottom: 10px; 
+            display: flex; align-items: center; gap: 8px; 
+        }
+        .ceo-task { 
+            padding: 8px 0; border-bottom: 1px solid var(--border); 
+        }
+        .ceo-task:last-child { border-bottom: none; }
+        .ceo-task-header { 
+            display: flex; align-items: center; gap: 8px; margin-bottom: 5px; 
+        }
+        .ceo-task-dep { 
+            color: var(--text-sec); font-size: 0.85rem; font-weight: 500; 
+        }
+        .ceo-task-desc { 
+            font-size: 0.9rem; color: var(--text); margin-left: 28px; 
+        }
+        .quick-steps { 
+            margin-top: 8px; margin-left: 28px; 
+            padding-left: 15px; border-left: 2px solid var(--border); 
+        }
+        .quick-step { 
+            font-size: 0.85rem; color: var(--text-sec); padding: 2px 0; 
+        }
+        details { margin-left: 28px; margin-top: 5px; }
+        summary { 
+            cursor: pointer; color: var(--primary); font-size: 0.85rem; 
+            padding: 5px 0; user-select: none; 
+        }
+        summary:hover { text-decoration: underline; }
+        .collapsed { display: none; }
+        .error { 
+            background: var(--danger); color: white; padding: 15px; 
+            border-radius: 6px; margin: 20px 0; 
+        }
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .phase-meta { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .controls { flex-direction: column; align-items: stretch; }
+            .filters { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Artifact Virtual - Strategic Roadmap</h1>
+            <p>Comprehensive BOD → CEO Milestone Tracking System | SECP #0325693 | Incorporated: Feb 6, 2026</p>
+            <p style="margin-top: 8px; font-size: 0.85rem;">
+                <strong>Live Data:</strong> Dynamically loaded from BOD_ROADMAP.md and CEO_EXECUTION_PLAN.md
+            </p>
+        </header>
+
+        <div id="loading" class="loading">
+            <div>⏳ Loading roadmap data from repository...</div>
+            <div style="font-size: 0.9rem; margin-top: 10px;">Fetching BOD_ROADMAP.md and CEO_EXECUTION_PLAN.md</div>
+        </div>
+
+        <div id="error" style="display: none;"></div>
+
+        <div id="app" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="total-milestones">0</div>
+                    <div class="stat-label">Total Milestones</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="completed-milestones">0</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="progress-milestones">0</div>
+                    <div class="stat-label">In Progress</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="overall-progress">0%</div>
+                    <div class="stat-label">Overall Progress</div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button onclick="refreshData()">🔄 Refresh from Markdown</button>
+                <button onclick="exportJSON()" class="secondary">📥 Export JSON</button>
+                <button onclick="exportCSV()" class="secondary">📊 Export CSV</button>
+                <button onclick="saveProgress()" class="secondary">💾 Save Progress</button>
+                <button onclick="loadProgress()" class="secondary">📂 Load Progress</button>
+            </div>
+
+            <div class="controls">
+                <div class="filters">
+                    <input type="text" id="search" placeholder="🔍 Search milestones..." oninput="filterMilestones()">
+                    <select id="phase-filter" onchange="filterMilestones()">
+                        <option value="all">All Phases</option>
+                        <option value="0-1">Phase 0-1: Formation</option>
+                        <option value="2">Phase 2: Technology</option>
+                        <option value="3">Phase 3: Organization</option>
+                        <option value="4">Phase 4: Pakistan Launch</option>
+                        <option value="5">Phase 5: US/EU Services</option>
+                        <option value="6">Phase 6: Global SaaS</option>
+                        <option value="7">Phase 7: Multi-Region</option>
+                        <option value="8">Phase 8: Market Leadership</option>
+                    </select>
+                    <select id="status-filter" onchange="filterMilestones()">
+                        <option value="all">All Status</option>
+                        <option value="complete">✅ Complete</option>
+                        <option value="progress">🔄 In Progress</option>
+                        <option value="pending">⏳ Pending</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="roadmap-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Global roadmap data
+        let roadmapData = { metadata: {}, phases: [] };
+        
+        // Fetch and parse markdown files
+        async function fetchMarkdownFiles() {
+            try {
+                const baseUrl = 'https://raw.githubusercontent.com/amuzetnoM/enterprise/main/admin/';
+                
+                const [bodResponse, ceoResponse] = await Promise.all([
+                    fetch(baseUrl + 'BOD_ROADMAP.md'),
+                    fetch(baseUrl + 'CEO_EXECUTION_PLAN.md')
+                ]);
+                
+                if (!bodResponse.ok || !ceoResponse.ok) {
+                    throw new Error('Failed to fetch markdown files');
+                }
+                
+                const bodContent = await bodResponse.text();
+                const ceoContent = await ceoResponse.text();
+                
+                return { bodContent, ceoContent };
+            } catch (error) {
+                console.error('Error fetching markdown:', error);
+                throw error;
+            }
+        }
+        
+        // Parse BOD markdown to extract milestones
+        function parseBODMarkdown(content) {
+            const phases = [];
+            let currentPhase = null;
+            const lines = content.split('\n');
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                
+                // Detect phase headers
+                if (line.startsWith('## PHASE')) {
+                    if (currentPhase) phases.push(currentPhase);
+                    
+                    const phaseMatch = line.match(/## (PHASE [0-9-]+): (.*?) \(([0-9-]+)%\)/);
+                    if (phaseMatch) {
+                        const timelineMatch = lines[i+1]?.match(/\*\*Timeline:\*\* (.*)/);
+                        const statusMatch = lines[i+2]?.match(/\*\*Status:\*\* ([✅🔄⏳]) (.*)/);
+                        
+                        currentPhase = {
+                            id: 'phase-' + phaseMatch[1].match(/[0-9-]+/)[0],
+                            title: phaseMatch[1] + ': ' + phaseMatch[2] + ' (' + phaseMatch[3] + '%)',
+                            timeline: timelineMatch ? timelineMatch[1] : '',
+                            status: statusMatch ? (statusMatch[1] === '✅' ? 'complete' : statusMatch[1] === '🔄' ? 'progress' : 'pending') : 'pending',
+                            progress: 0,
+                            milestones: []
+                        };
+                    }
+                }
+                
+                // Detect milestones
+                if (currentPhase && line.match(/^- ([✅🔄⏳]) \*\*M[0-9.]+\*\*/)) {
+                    const match = line.match(/- ([✅🔄⏳]) \*\*(M[0-9.]+)\*\* (.*?)(?:\||$)/);
+                    if (match) {
+                        const dateMatch = match[3].match(/Target: (.+?)$|\| (.+?)$/);
+                        currentPhase.milestones.push({
+                            id: match[2],
+                            title: match[3].replace(/\| .*$/, '').replace(/Target: .*$/, '').trim(),
+                            date: dateMatch ? (dateMatch[1] || dateMatch[2]) : '',
+                            status: match[1] === '✅' ? 'complete' : match[1] === '🔄' ? 'progress' : 'pending',
+                            bodDeps: [],
+                            ceoTasks: []
+                        });
+                    }
+                }
+                
+                // Detect dependencies
+                if (currentPhase && line.match(/\*\*DEP-[0-9.]+:\*\*/)) {
+                    const depMatches = line.matchAll(/\*\*DEP-([0-9.]+):\*\* (.*?)(?:→|$)/g);
+                    for (const depMatch of depMatches) {
+                        const depId = 'DEP-' + depMatch[1];
+                        // Add dependency to the last milestone
+                        if (currentPhase.milestones.length > 0) {
+                            const lastMilestone = currentPhase.milestones[currentPhase.milestones.length - 1];
+                            if (!lastMilestone.bodDeps.includes(depId)) {
+                                lastMilestone.bodDeps.push(depId);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if (currentPhase) phases.push(currentPhase);
+            return phases;
+        }
+        
+        // Parse CEO markdown to add CEO tasks to milestones
+        function parseCEOMarkdown(content, phases) {
+            const lines = content.split('\n');
+            let currentMilestone = null;
+            let currentTask = null;
+            let inQuickSteps = false;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                
+                // Detect milestone headers in CEO plan
+                if (line.match(/^### ([✅🔄⏳]) (M[0-9.]+):/)) {
+                    const match = line.match(/^### ([✅🔄⏳]) (M[0-9.]+):/);
+                    if (match) {
+                        // Find this milestone in phases
+                        for (const phase of phases) {
+                            const milestone = phase.milestones.find(m => m.id === match[2]);
+                            if (milestone) {
+                                currentMilestone = milestone;
+                                break;
+                            }
+                        }
+                    }
+                    inQuickSteps = false;
+                }
+                
+                // Detect CEO tasks
+                if (currentMilestone && line.match(/^\s*- (CEO-DEP-[0-9.]+):/)) {
+                    const match = line.match(/^\s*- (CEO-DEP-[0-9.]+): (.*)/);
+                    if (match) {
+                        currentTask = {
+                            id: match[1],
+                            desc: match[2],
+                            completed: false,
+                            quickSteps: []
+                        };
+                        currentMilestone.ceoTasks.push(currentTask);
+                        inQuickSteps = false;
+                    }
+                }
+                
+                // Detect Quick Steps section
+                if (line.match(/^\*\*Quick Steps:/)) {
+                    inQuickSteps = true;
+                }
+                
+                // Collect quick steps
+                if (inQuickSteps && currentTask && line.match(/^[0-9]+\. /)) {
+                    currentTask.quickSteps.push(line.replace(/^[0-9]+\.\s*/, ''));
+                }
+            }
+            
+            return phases;
+        }
+        
+        // Load and parse all data
+        async function loadRoadmapData() {
+            try {
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('error').style.display = 'none';
+                document.getElementById('app').style.display = 'none';
+                
+                const { bodContent, ceoContent } = await fetchMarkdownFiles();
+                
+                // Parse BOD roadmap
+                let phases = parseBODMarkdown(bodContent);
+                
+                // Add CEO tasks
+                phases = parseCEOMarkdown(ceoContent, phases);
+                
+                // Calculate progress
+                phases.forEach(phase => {
+                    const total = phase.milestones.length;
+                    const complete = phase.milestones.filter(m => m.status === 'complete').length;
+                    phase.progress = total > 0 ? Math.round((complete / total) * 100) : 0;
+                });
+                
+                roadmapData.phases = phases;
+                roadmapData.metadata = {
+                    lastUpdated: new Date().toISOString(),
+                    source: 'BOD_ROADMAP.md + CEO_EXECUTION_PLAN.md',
+                    totalMilestones: phases.reduce((sum, p) => sum + p.milestones.length, 0)
+                };
+                
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('app').style.display = 'block';
+                
+                renderRoadmap();
+                updateStats();
+                
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').innerHTML = 
+                    '<div class="error">❌ Error loading roadmap data: ' + error.message + 
+                    '<br><br>Please ensure the markdown files exist in the repository.</div>';
+                document.getElementById('error').style.display = 'block';
+                console.error('Error:', error);
+            }
+        }
+        
+        // Render roadmap HTML
+        function renderRoadmap() {
+            const content = document.getElementById('roadmap-content');
+            content.innerHTML = '';
+            
+            roadmapData.phases.forEach(phase => {
+                const section = document.createElement('div');
+                section.className = 'phase-section';
+                section.innerHTML = `
+                    <div class="phase-header" onclick="this.nextElementSibling.style.display = 
+                        this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+                        <div class="phase-title">${phase.title}</div>
+                        <div class="phase-meta">
+                            <span class="status-badge status-${phase.status}">
+                                ${phase.status === 'complete' ? '✅ Complete' : 
+                                  phase.status === 'progress' ? '🔄 In Progress' : '⏳ Pending'}
+                            </span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${phase.progress}%"></div>
+                            </div>
+                            <span style="font-size: 0.9rem;">${phase.progress}%</span>
+                            <span style="font-size: 0.9rem; color: var(--text-sec);">${phase.timeline}</span>
+                        </div>
+                    </div>
+                    <div class="milestones-grid" data-phase="${phase.id}">
+                        ${phase.milestones.map(m => renderMilestone(m, phase.id)).join('')}
+                    </div>
+                `;
+                content.appendChild(section);
+            });
+        }
+        
+        // Render individual milestone
+        function renderMilestone(milestone, phaseId) {
+            const statusIcon = milestone.status === 'complete' ? '✅' : 
+                             milestone.status === 'progress' ? '🔄' : '⏳';
+            
+            return `
+                <div class="milestone-card" data-status="${milestone.status}" data-phase="${phaseId}" data-id="${milestone.id}">
+                    <div class="milestone-header">
+                        <input type="checkbox" class="milestone-checkbox" 
+                               ${milestone.status === 'complete' ? 'checked' : ''} 
+                               onchange="updateMilestoneStatus('${milestone.id}', this.checked)">
+                        <div class="milestone-info">
+                            <div class="milestone-id">${statusIcon} ${milestone.id}</div>
+                            <div class="milestone-title">${milestone.title}</div>
+                            <div class="milestone-date">📅 ${milestone.date}</div>
+                        </div>
+                    </div>
+                    ${milestone.bodDeps && milestone.bodDeps.length > 0 ? `
+                        <div class="dependencies">
+                            <div class="dep-label">🔗 BOD Dependencies:</div>
+                            <div class="dep-list">
+                                ${milestone.bodDeps.map(d => `<span class="dep-tag">${d}</span>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                    ${milestone.ceoTasks && milestone.ceoTasks.length > 0 ? `
+                        <div class="ceo-tasks">
+                            <div class="ceo-header">
+                                👨‍💼 CEO Execution Tasks (${milestone.ceoTasks.length})
+                            </div>
+                            ${milestone.ceoTasks.map((task, idx) => `
+                                <div class="ceo-task">
+                                    <div class="ceo-task-header">
+                                        <input type="checkbox" ${task.completed ? 'checked' : ''} 
+                                               onchange="updateCEOTask('${milestone.id}', ${idx}, this.checked)">
+                                        <span class="ceo-task-dep">${task.id}</span>
+                                    </div>
+                                    <div class="ceo-task-desc">${task.desc}</div>
+                                    ${task.quickSteps && task.quickSteps.length > 0 ? `
+                                        <details>
+                                            <summary>📋 Quick Steps (${task.quickSteps.length})</summary>
+                                            <div class="quick-steps">
+                                                ${task.quickSteps.map(s => `<div class="quick-step">• ${s}</div>`).join('')}
+                                            </div>
+                                        </details>
+                                    ` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+        
+        // Update milestone status
+        function updateMilestoneStatus(id, checked) {
+            roadmapData.phases.forEach(phase => {
+                const milestone = phase.milestones.find(m => m.id === id);
+                if (milestone) {
+                    milestone.status = checked ? 'complete' : 'pending';
+                }
+            });
+            updateStats();
+            saveProgress();
+        }
+        
+        // Update CEO task status
+        function updateCEOTask(milestoneId, taskIdx, checked) {
+            roadmapData.phases.forEach(phase => {
+                const milestone = phase.milestones.find(m => m.id === milestoneId);
+                if (milestone && milestone.ceoTasks[taskIdx]) {
+                    milestone.ceoTasks[taskIdx].completed = checked;
+                }
+            });
+            saveProgress();
+        }
+        
+        // Update statistics
+        function updateStats() {
+            let total = 0, complete = 0, inProgress = 0;
+            roadmapData.phases.forEach(phase => {
+                phase.milestones.forEach(m => {
+                    total++;
+                    if (m.status === 'complete') complete++;
+                    if (m.status === 'progress') inProgress++;
+                });
+            });
+            
+            document.getElementById('total-milestones').textContent = total;
+            document.getElementById('completed-milestones').textContent = complete;
+            document.getElementById('progress-milestones').textContent = inProgress;
+            document.getElementById('overall-progress').textContent = 
+                total > 0 ? Math.round((complete / total) * 100) + '%' : '0%';
+        }
+        
+        // Filter milestones
+        function filterMilestones() {
+            const search = document.getElementById('search').value.toLowerCase();
+            const phase = document.getElementById('phase-filter').value;
+            const status = document.getElementById('status-filter').value;
+            
+            document.querySelectorAll('.milestone-card').forEach(card => {
+                const matchesSearch = search === '' || card.textContent.toLowerCase().includes(search);
+                const matchesPhase = phase === 'all' || card.dataset.phase === 'phase-' + phase;
+                const matchesStatus = status === 'all' || card.dataset.status === status;
+                
+                card.style.display = (matchesSearch && matchesPhase && matchesStatus) ? 'block' : 'none';
+            });
+        }
+        
+        // Save progress to localStorage
+        function saveProgress() {
+            try {
+                localStorage.setItem('artifact-roadmap-progress', JSON.stringify({
+                    timestamp: new Date().toISOString(),
+                    data: roadmapData
+                }));
+                console.log('✅ Progress saved to localStorage');
+            } catch (e) {
+                console.error('Failed to save progress:', e);
+            }
+        }
+        
+        // Load progress from localStorage
+        function loadProgress() {
+            try {
+                const saved = localStorage.getItem('artifact-roadmap-progress');
+                if (saved) {
+                    const progress = JSON.parse(saved);
+                    if (confirm('Load saved progress from ' + new Date(progress.timestamp).toLocaleString() + '?')) {
+                        roadmapData = progress.data;
+                        renderRoadmap();
+                        updateStats();
+                        console.log('✅ Progress loaded from localStorage');
+                    }
+                }
+            } catch (e) {
+                console.error('Failed to load progress:', e);
+            }
+        }
+        
+        // Export to JSON
+        function exportJSON() {
+            const data = JSON.stringify(roadmapData, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `artifact-roadmap-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // Export to CSV
+        function exportCSV() {
+            let csv = 'Phase,Milestone ID,Title,Date,Status,BOD Deps,CEO Tasks Count\n';
+            roadmapData.phases.forEach(phase => {
+                phase.milestones.forEach(m => {
+                    csv += `"${phase.title}","${m.id}","${m.title}","${m.date}","${m.status}",` +
+                           `"${(m.bodDeps || []).join('; ')}",${(m.ceoTasks || []).length}\n`;
+                });
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `artifact-roadmap-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // Refresh data from markdown files
+        function refreshData() {
+            if (confirm('Refresh data from markdown files? Unsaved progress will be lost.')) {
+                loadRoadmapData();
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', loadRoadmapData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+ARTIFACT VIRTUAL - HUMAN RESOURCES DASHBOARD,Version 2.0.0,Date: 2026-02-11,,,,,,,
+,,,,,,,,,
+SHEET 1: HEADCOUNT & WORKFORCE PLANNING,,,,,,,,,
+,,,,,,,,,
+Department,Jan Headcount,Feb Headcount,Mar Headcount,Q1 Target,Q2 Target,Q3 Target,Q4 Target,2026 Year End Target,Current vs Target,Hiring Priority,Open Positions
+Executive,5,5,5,5,5,5,5,5,0,Low,0
+Finance,7,7,8,8,9,10,12,12,0,Medium,2
+HR,5,5,6,6,7,8,10,10,0,Medium,1
+Marketing,8,9,10,10,12,14,18,18,0,High,3
+Operations,6,7,8,8,10,12,15,15,0,High,2
+IT Infrastructure,10,11,12,12,15,18,22,22,0,Critical,5
+AI/ML (AVML),8,9,10,10,12,15,18,18,0,Critical,4
+R&D (AVRD),7,7,8,8,10,12,15,15,0,High,3
+Legal,3,3,4,4,5,6,7,7,0,Medium,1
+,,,,,,,,,,,
+TOTALS,0,0,0,0,0,0,0,0,0,,0
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+SHEET 2: RECRUITMENT PIPELINE,,,,,,,,,
+,,,,,,,,,,,,,
+Requisition ID,Position Title,Department,Level,Status,Date Opened,Days Open,Candidates Screened,Interviews Scheduled,Offers Extended,Hiring Manager,Recruiter,Target Start Date
+REQ-001,Senior ML Engineer,AI/ML,Senior,Offer Stage,2026-01-15,0,12,5,1,Tech Lead 1,Recruiter 1,2026-03-01
+REQ-002,DevOps Engineer,IT Infrastructure,Mid,Interviewing,2026-01-20,0,8,3,0,CTO,Recruiter 2,2026-03-15
+REQ-003,Product Marketing Manager,Marketing,Senior,Screening,2026-02-01,0,15,2,0,CMO,Recruiter 1,2026-04-01
+REQ-004,Finance Analyst,Finance,Junior,Screening,2026-02-05,0,6,1,0,CFO,Recruiter 3,2026-03-20
+REQ-005,Data Scientist,AI/ML,Mid,New,2026-02-10,0,3,0,0,Tech Lead 2,Recruiter 2,2026-04-15
+,,,,,,,,,,,,
+TOTALS,,,,,,0,0,0,0,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+SHEET 3: EMPLOYEE ROSTER,,,,,,,,,
+,,,,,,,,,,,,,
+Employee ID,Full Name,Department,Title,Level,Start Date,Tenure (years),Employment Type,Location,Manager,Salary,Performance Rating,Status
+EMP-001,John Smith,Executive,CEO,C-Level,2025-06-01,0,Full-time,Islamabad,Board,200000,Excellent,Active
+EMP-002,Jane Doe,Finance,CFO,C-Level,2025-07-01,0,Full-time,Islamabad,CEO,180000,Excellent,Active
+EMP-003,Bob Johnson,AI/ML,Tech Lead,Senior,2025-08-01,0,Full-time,Lahore,CTO,120000,Excellent,Active
+EMP-004,Alice Chen,Marketing,Marketing Manager,Mid,2025-09-15,0,Full-time,Islamabad,CMO,75000,Good,Active
+EMP-005,David Lee,IT Infrastructure,DevOps Lead,Senior,2025-10-01,0,Full-time,Remote,CTO,110000,Good,Active
+,,,,,,,,,,,,
+Sample data - actual roster contains all 45 employees,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+SHEET 4: PERFORMANCE MANAGEMENT,,,,,,,,,
+,,,,,,,,,,,,,
+Employee ID,Employee Name,Department,Review Period,Review Date,Self Rating,Manager Rating,Final Rating,Goals Met %,Promotion Eligible,Raise %,Status,Next Review
+EMP-001,John Smith,Executive,2025 Annual,2026-01-15,5,5,5,100,No,5,Complete,2027-01-15
+EMP-003,Bob Johnson,AI/ML,2025 Annual,2026-01-20,5,5,5,95,Yes,8,Complete,2027-01-20
+EMP-004,Alice Chen,Marketing,2025 Annual,2026-01-22,4,4,4,85,No,4,Complete,2027-01-22
+EMP-005,David Lee,IT Infrastructure,2025 Annual,2026-01-25,4,4,4,90,Yes,5,Complete,2027-01-25
+EMP-020,New Employee,Operations,2026 Q1,2026-04-01,0,0,0,0,No,0,Scheduled,2026-04-01
+,,,,,,,,,,,,
+AVERAGES,,,,,0,0,0,0,,0,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+SHEET 5: COMPENSATION & BENEFITS,,,,,,,,,
+,,,,,,,,,,,,,
+Category,Subcategory,Monthly Cost,Q1 Cost,Q1 Budget,Variance,Variance %,Annual Cost,Annual Budget,Per Employee,Notes
+Salaries,Base Salaries,350000,1050000,1100000,0,0,4200000,4400000,0,Core compensation
+Salaries,Bonuses & Commissions,25000,75000,80000,0,0,300000,320000,0,Performance-based
+Benefits,Health Insurance,15000,45000,50000,0,0,180000,200000,0,"Medical, dental, vision"
+Benefits,Retirement (401k),10000,30000,33000,0,0,120000,132000,0,Company match
+Benefits,Life & Disability,3000,9000,10000,0,0,36000,40000,0,Insurance
+Benefits,Paid Time Off,0,0,0,0,0,0,0,0,Built into salary
+Equity,Stock Options,8333,25000,25000,0,0,100000,100000,0,Vesting schedule
+Perks,Learning & Development,5000,15000,20000,0,0,60000,80000,0,"Training, courses"
+Perks,Wellness Programs,2000,6000,7000,0,0,24000,28000,0,"Gym, mental health"
+Perks,Team Events,3000,9000,10000,0,0,36000,40000,0,"Offsites, celebrations"
+,,,,,,,,,,
+TOTALS,,0,0,0,0,0,0,0,0,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+SHEET 6: RETENTION & ATTRITION,,,,,,,,,
+,,,,,,,,,,,,,
+Metric,Jan,Feb,Mar,Q1,Q2,Q3,Q4,2026 YTD,Target,Status
+Voluntary Attrition,0,1,0,0,0,0,0,0,<5,Yellow
+Involuntary Attrition,0,0,1,0,0,0,0,0,<2,Yellow
+Total Separations,0,0,0,0,0,0,0,0,<7,Yellow
+New Hires,5,4,3,0,12,15,18,0,55,Behind
+Net Headcount Change,0,0,0,0,12,15,18,0,48,On Track
+Retention Rate %,100,98,100,0,98,98,98,0,95,Excellent
+Turnover Rate %,0,1.7,1.7,0,0,0,0,0,<5,Good
+Avg Tenure (years),1.2,1.3,1.3,1.3,1.4,1.5,1.6,1.3,2.0,Good
+,,,,,,,,,,
+,,,,,,,,,,,,,
+SHEET 7: TRAINING & DEVELOPMENT,,,,,,,,,
+,,,,,,,,,,,,,
+Program Name,Type,Target Audience,Provider,Participants,Hours per Person,Total Hours,Cost,Cost per Person,Completion Rate %,Satisfaction Score,Status
+Leadership Development,Management,Managers,External Coach,8,40,0,15000,0,75,9.0,In Progress
+Technical Certifications,Technical,Engineers,AWS/GCP,15,80,0,30000,0,60,8.5,In Progress
+Sales Training,Sales,Marketing/Sales,Internal,10,20,0,5000,0,100,8.8,Complete
+Onboarding Program,General,New Hires,HR Team,12,16,0,3000,0,100,9.2,Ongoing
+Diversity & Inclusion,Culture,All Employees,External,45,4,0,8000,0,95,8.7,Complete
+,,,,,,,,,,,
+TOTALS,,,,0,0,0,0,0,0,0,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+SHEET 8: HR KPI DASHBOARD,,,,,,,,,,
+,,,,,,,,,,,,,
+Metric,Current Month,Last Month,Change,Change %,Q1 Total,Target,Progress %,Status
+Total Headcount,45,43,0,0,45,100,0,On Track
+New Hires,3,4,0,0,12,55,0,Behind
+Separations,1,1,0,0,2,<7,0,Good
+Open Requisitions,5,4,0,0,5,21,0,On Track
+Time to Hire (days),42,45,0,0,42,35,0,Needs Work
+Offer Acceptance Rate %,85,80,0,0,85,90,0,Good
+Employee Satisfaction,8.5,8.3,0,0,8.5,9.0,0,Good
+Retention Rate %,100,98,0,0,99,95,0,Excellent
+Training Hours per Employee,5,4,0,0,15,40,0,On Track
+HR Cost per Employee,933,930,0,0,933,1000,0,Good
+,,,,,,,,,
+,,,,,,,,,,,,,
+INSTRUCTIONS:,,,,,,,,,
+1. Update headcount and roster weekly,,,,,,,,,
+2. Track recruitment pipeline daily,,,,,,,,,
+3. Conduct performance reviews quarterly,,,,,,,,,
+4. Monitor retention and satisfaction monthly,,,,,,,,,
+5. Report to executive team monthly,,,,,,,,,
+,,,,,,,,,,,,,
+For full documentation see: HR_DASHBOARD.md,,,,,,,,,

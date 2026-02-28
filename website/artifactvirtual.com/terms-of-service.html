@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service | Artifact Virtual</title>
+    <meta name="description" content="Artifact Virtual Terms of Service - Terms and conditions for using our services.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --basalt-deep: #080809;
+            --basalt-surface: #121215;
+            --basalt-elevated: #1a1a1f;
+            --basalt-edge: #2a2a30;
+            --accent-cyan: #00ffd5;
+            --accent-blue: #0A4D8C;
+            --text-primary: #e0e0e0;
+            --text-secondary: #8c8c94;
+            --machined-line: rgba(255, 255, 255, 0.05);
+            --glint: rgba(255, 255, 255, 0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--basalt-deep);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .machined-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(to right, var(--machined-line) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--machined-line) 1px, transparent 1px);
+            background-size: 10vw 10vh;
+            pointer-events: none;
+            z-index: -1;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(to bottom, var(--basalt-deep), transparent);
+            backdrop-filter: blur(8px);
+        }
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .logo img {
+            height: 40px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent-cyan); }
+        .cta-monolith {
+            display: inline-block;
+            padding: 1.25rem 3rem;
+            background: var(--text-primary);
+            color: var(--basalt-deep);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+        }
+        .cta-monolith:hover {
+            background: var(--accent-cyan);
+            transform: translateX(10px);
+        }
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem 8rem;
+        }
+        .pre-title {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: -0.04em;
+            margin-bottom: 1rem;
+            background: linear-gradient(to bottom, #fff 0%, #444 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .last-updated {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--basalt-edge);
+        }
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 3rem 0 1rem;
+            color: var(--text-primary);
+        }
+        p, ul, ol {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            padding: 4rem;
+            background: var(--basalt-deep);
+            border-top: 1px solid var(--basalt-edge);
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        .footer-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .footer-links a:hover { color: var(--accent-cyan); }
+        .copyright {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: #444;
+        }
+        @media (max-width: 768px) {
+            nav { padding: 1rem 2rem; }
+            .nav-links { display: none; }
+            .content { padding: 2rem 1rem 4rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="machined-grid"></div>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <img src="../enterprise/divisions/departments/marketing/assets/av-logo-white.png" alt="Artifact Virtual">
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html#solutions">Solutions</a></li>
+            <li><a href="infrastructure.html">Infrastructure</a></li>
+            <li><a href="index.html#about">About</a></li>
+        </ul>
+        <a href="mailto:info@artifactvirtual.com" class="cta-monolith" style="padding: 0.75rem 1.5rem; font-size: 0.7rem;">Initialize_Contact</a>
+    </nav>
+
+    <main class="content">
+        <span class="pre-title">// LEGAL_PROTOCOL</span>
+        <h1>Terms of Service</h1>
+        <p class="last-updated">Last Updated: February 7, 2026 | Effective: February 7, 2026</p>
+
+        <p>These Terms of Service ("Terms") govern your access to and use of the services, websites, and applications offered by Artifact Virtual (SMC-Private) Limited ("Artifact Virtual", "we", "us", or "our"). By accessing or using our services, you agree to be bound by these Terms.</p>
+
+        <h2>1. Acceptance of Terms</h2>
+        <p>By accessing or using our services, you confirm that you:</p>
+        <ul>
+            <li>Are at least 18 years old or have legal capacity to enter into contracts</li>
+            <li>Have the authority to bind yourself or your organization to these Terms</li>
+            <li>Will comply with all applicable laws and regulations</li>
+        </ul>
+
+        <h2>2. Services Description</h2>
+        <p>Artifact Virtual provides enterprise infrastructure services including but not limited to:</p>
+        <ul>
+            <li>Cloud computing and infrastructure services (IaaS, PaaS)</li>
+            <li>AI/ML platforms and tools (HEKTOR, CTHULU, GLADIUS)</li>
+            <li>Enterprise resource planning software (Artifact ERP, Studio)</li>
+            <li>Blockchain infrastructure and identity services (ARC)</li>
+            <li>Professional consulting and managed services</li>
+            <li>Data center colocation services</li>
+        </ul>
+
+        <h2>3. Account Registration</h2>
+        <p>To access certain services, you must create an account. You agree to:</p>
+        <ul>
+            <li>Provide accurate, current, and complete information</li>
+            <li>Maintain and promptly update your account information</li>
+            <li>Maintain the security of your account credentials</li>
+            <li>Accept responsibility for all activities under your account</li>
+            <li>Notify us immediately of any unauthorized access</li>
+        </ul>
+
+        <h2>4. Acceptable Use</h2>
+        <p>You agree NOT to use our services to:</p>
+        <ul>
+            <li>Violate any applicable laws or regulations</li>
+            <li>Infringe on intellectual property rights of others</li>
+            <li>Transmit malware, viruses, or malicious code</li>
+            <li>Attempt to gain unauthorized access to systems</li>
+            <li>Engage in cryptocurrency mining without authorization</li>
+            <li>Send spam or unsolicited communications</li>
+            <li>Harass, abuse, or harm others</li>
+            <li>Interfere with or disrupt our services</li>
+        </ul>
+
+        <h2>5. Payment Terms</h2>
+        <p>For paid services:</p>
+        <ul>
+            <li>Fees are as specified in your service agreement or order form</li>
+            <li>Payment is due according to the agreed billing cycle</li>
+            <li>All fees are non-refundable unless otherwise stated</li>
+            <li>We may suspend services for non-payment after notice</li>
+            <li>You are responsible for all applicable taxes</li>
+        </ul>
+
+        <h2>6. Service Level Agreement</h2>
+        <p>Our service level commitments are detailed in our <a href="sla.html">SLA Policy</a>. Key commitments include:</p>
+        <ul>
+            <li>99.9% uptime guarantee for production services</li>
+            <li>Defined response times for support requests</li>
+            <li>Service credits for qualifying outages</li>
+        </ul>
+
+        <h2>7. Intellectual Property</h2>
+        <p><strong>Our Property:</strong> All content, software, and technology provided through our services remain our exclusive property or that of our licensors. You receive only a limited, non-exclusive license to use the services.</p>
+        <p><strong>Your Property:</strong> You retain all rights to data and content you upload to our services. You grant us a license to host, store, and process your content solely to provide the services.</p>
+
+        <h2>8. Data Protection</h2>
+        <p>We process your data in accordance with our <a href="privacy-policy.html">Privacy Policy</a>. You represent that you have all necessary rights and consents for any data you provide to us.</p>
+
+        <h2>9. Confidentiality</h2>
+        <p>Both parties agree to protect confidential information received from the other party. Confidential information excludes information that is publicly available, independently developed, or rightfully received from third parties.</p>
+
+        <h2>10. Warranties and Disclaimers</h2>
+        <p>We provide services "AS IS" and "AS AVAILABLE". To the maximum extent permitted by law, we disclaim all warranties, express or implied, including warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
+        <p>We do not warrant that services will be uninterrupted, error-free, or completely secure.</p>
+
+        <h2>11. Limitation of Liability</h2>
+        <p>To the maximum extent permitted by law:</p>
+        <ul>
+            <li>We are not liable for indirect, incidental, special, consequential, or punitive damages</li>
+            <li>Our total liability is limited to fees paid in the 12 months preceding the claim</li>
+            <li>These limitations apply regardless of the theory of liability</li>
+        </ul>
+
+        <h2>12. Indemnification</h2>
+        <p>You agree to indemnify, defend, and hold harmless Artifact Virtual and its officers, directors, employees, and agents from any claims, damages, losses, and expenses arising from your use of services or violation of these Terms.</p>
+
+        <h2>13. Term and Termination</h2>
+        <p>These Terms remain effective until terminated. We may suspend or terminate your access for:</p>
+        <ul>
+            <li>Violation of these Terms</li>
+            <li>Non-payment of fees</li>
+            <li>Illegal or fraudulent activity</li>
+            <li>At our discretion with 30 days notice</li>
+        </ul>
+        <p>Upon termination, you must cease using the services. We will provide a reasonable period to export your data.</p>
+
+        <h2>14. Modifications</h2>
+        <p>We may modify these Terms at any time. We will notify you of material changes via email or through the services. Continued use after changes constitutes acceptance of the modified Terms.</p>
+
+        <h2>15. Governing Law</h2>
+        <p>These Terms are governed by the laws applicable to the jurisdiction of service delivery. Disputes shall be resolved through binding arbitration or in courts of competent jurisdiction.</p>
+
+        <h2>16. General Provisions</h2>
+        <ul>
+            <li><strong>Entire Agreement:</strong> These Terms constitute the entire agreement between you and Artifact Virtual</li>
+            <li><strong>Severability:</strong> If any provision is unenforceable, the remaining provisions remain in effect</li>
+            <li><strong>Waiver:</strong> Failure to enforce any right is not a waiver of future enforcement</li>
+            <li><strong>Assignment:</strong> You may not assign these Terms without our consent</li>
+        </ul>
+
+        <h2>17. Contact Us</h2>
+        <p>For questions about these Terms:</p>
+        <ul>
+            <li>Email: <a href="mailto:legal@artifactvirtual.com">legal@artifactvirtual.com</a></li>
+            <li>Support: <a href="mailto:support@artifactvirtual.com">support@artifactvirtual.com</a></li>
+        </ul>
+
+        <p style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--basalt-edge);">
+            <strong>Artifact Virtual (SMC-Private) Limited</strong><br>
+            Registration No: 0325693<br>
+            Asia • Americas • Europe
+        </p>
+    </main>
+
+    <footer>
+        <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="infrastructure.html">Infrastructure</a></li>
+            <li><a href="privacy-policy.html">Privacy</a></li>
+            <li><a href="terms-of-service.html">Terms</a></li>
+            <li><a href="sla.html">SLA</a></li>
+        </ul>
+        <p class="copyright">&copy; 2026 ARTIFACT VIRTUAL. ALL RIGHTS RESERVED.</p>
+    </footer>
+</body>
+</html>

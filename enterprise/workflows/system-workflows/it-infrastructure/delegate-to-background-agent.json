@@ -1,0 +1,73 @@
+{
+  "enabled": false,
+  "name": "Delegate to Background Agent",
+  "description": "Delegates tasks to background processing agents",
+  "department": "it-infrastructure",
+  "type": "system-workflow",
+  "skip_change_type": "delegation",
+  "triggers": [
+    "manual_delegation",
+    "task_overflow",
+    "scheduled_offload"
+  ],
+  "delegation_config": {
+    "agent_pool": "background-workers",
+    "max_concurrent_tasks": 10,
+    "priority_levels": ["low", "normal", "high"],
+    "default_priority": "normal"
+  },
+  "tasks": [
+    {
+      "name": "validate_task",
+      "enabled": false,
+      "description": "Validate task is suitable for background processing",
+      "timeout": 30,
+      "actions": ["accept", "reject", "queue"]
+    },
+    {
+      "name": "assign_to_agent",
+      "enabled": false,
+      "description": "Assign validated task to available background agent",
+      "depends_on": "validate_task",
+      "timeout": 60,
+      "retry": 3,
+      "actions": ["assign", "requeue", "escalate"]
+    },
+    {
+      "name": "monitor_execution",
+      "enabled": false,
+      "description": "Monitor background agent task execution",
+      "depends_on": "assign_to_agent",
+      "timeout": 0,
+      "actions": ["complete", "fail", "timeout"]
+    },
+    {
+      "name": "report_results",
+      "enabled": false,
+      "description": "Report task completion results back to originator",
+      "depends_on": "monitor_execution",
+      "automated": true,
+      "actions": ["notify", "archive"]
+    }
+  ],
+  "skip_conditions": {
+    "immediate_execution": {
+      "skip_steps": ["validate_task"],
+      "when": "priority == 'high'"
+    },
+    "silent_processing": {
+      "skip_steps": ["report_results"],
+      "when": "notification_preference == 'none'"
+    }
+  },
+  "notifications": {
+    "enabled": false,
+    "notify_on": ["delegation_start", "delegation_complete", "delegation_failed"],
+    "channels": ["email", "in-app", "webhook"]
+  },
+  "audit_trail": {
+    "enabled": true,
+    "log_level": "info",
+    "retention_days": 90
+  }
+}

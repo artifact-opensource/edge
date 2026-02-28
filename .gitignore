@@ -1,0 +1,105 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+build/
+.vite/
+*.tsbuildinfo
+
+# Environment files (keep templates)
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test coverage
+coverage/
+
+# Data directories (but allow database/data)
+/data
+data/
+!database/data/
+
+# Database files - keep structure, optionally exclude data
+# Uncomment the line below to exclude database data from git:
+# database/data/*.json
+# !database/data/.gitkeep
+
+# Cache
+.cache/
+*.cache
+.admin/
+
+# Copyright tool backups
+*.backup-*
+
+scripts/notion/build_portal.py
+scripts/notion/__pycache__/notion_client.cpython-312.pyc
+scripts/notion/update_av_live.py
+scripts/notion/__pycache__/notion_client.cpython-312.pyc
+.dev
+
+# Artifact Shield - Encryption keys and config (NEVER COMMIT!)
+.artifact_shield/
+*.enc.backup
+__pycache__/
+*.pyc
+-
+backups/AVML_DASHBOARD.csv.pre-eval.bak
+backups/AVRD_DASHBOARD.csv.pre-eval.bak
+backups/AVRM_DASHBOARD.csv.pre-eval.bak
+backups/CEO_CALENDAR.csv.20260206005032.bak
+backups/CEO_CALENDAR.csv.pre-merge.20260206005032.bak
+backups/EXECUTIVE_DASHBOARD.csv.pre-eval.bak
+backups/FINANCE_DASHBOARD.csv.pre-eval.bak
+backups/HR_DASHBOARD.csv.pre-eval.bak
+backups/IT_INFRASTRUCTURE_DASHBOARD.csv.pre-eval.bak
+backups/LEGAL_COMPLIANCE_DASHBOARD.csv.pre-eval.bak
+backups/MARKETING_OPS_DASHBOARD.csv.pre-eval.bak
+backups/OPERATIONS_DASHBOARD.csv.pre-eval.bak
+enterprise/departments/avml/AVML_DASHBOARD.evaluated.csv
+enterprise/departments/avrd/AVRD_DASHBOARD.evaluated.csv
+enterprise/departments/avrm/AVRM_DASHBOARD.evaluated.csv
+enterprise/departments/executive/EXECUTIVE_DASHBOARD.evaluated.csv
+enterprise/departments/finance/FINANCE_DASHBOARD.evaluated.csv
+enterprise/departments/hr/HR_DASHBOARD.evaluated.csv
+enterprise/departments/it-infrastructure/IT_INFRASTRUCTURE_DASHBOARD.evaluated.csv
+enterprise/departments/legal-compliance/LEGAL_COMPLIANCE_DASHBOARD.evaluated.csv
+enterprise/departments/marketing/MARKETING_OPS_DASHBOARD.evaluated.csv
+enterprise/departments/operations/OPERATIONS_DASHBOARD.evaluated.csv
+
+# Generic backups and encryption artifacts
+backups/
+*.bundle
+*.zip
+*.redacted.csv
+*.evaluated.csv
+reports/security-scan-20260206074150.json
+tmp_encryption_test.txt
+# Note: encrypted artifacts (*.enc) are intentionally tracked in the repo (do not ignore)
+# Allow encrypted artifacts in project_management data folder (un-ignore)
+!enterprise/project_management/data/*.enc
+!enterprise/project_management/data/
+enterprise/project_management/data/projects-dashboard.csv
+enterprise/project_management/data/project.json
+_dev/.env.dev
+_dev
+_dev/*

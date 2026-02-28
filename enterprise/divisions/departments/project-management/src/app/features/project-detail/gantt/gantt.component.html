@@ -1,0 +1,61 @@
+<div class="gantt-container">
+  <header class="gantt-header">
+    <h1>Gantt Chart</h1>
+    <p class="subtitle">Project: {{ projectId | uppercase }}</p>
+  </header>
+
+  <div class="gantt-chart" *ngIf="tasks.length > 0">
+    <!-- Timeline Header -->
+    <div class="timeline-header">
+      <div class="task-names-header">Tasks</div>
+      <div class="timeline-months">
+        <div class="month" *ngFor="let month of timelineMonths">
+          {{ month }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Task Rows -->
+    <div class="gantt-body">
+      <div class="task-row" *ngFor="let task of tasks">
+        <div class="task-name">
+          <div class="task-info">
+            <h3>{{ task.name }}</h3>
+            <div class="task-meta">
+              <span class="priority-badge" [ngClass]="getPriorityClass(task.priority)">
+                {{ task.priority }}
+              </span>
+              <span class="status-badge">{{ task.status }}</span>
+              <span class="dependency-indicator" *ngIf="hasDependencies(task)" title="Has dependencies">
+                🔗 {{ task.dependencies!.length }}
+              </span>
+            </div>
+            <div class="task-dates">
+              {{ formatDate(task.startDate) }} → {{ formatDate(task.dueDate) }}
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-track">
+          <div 
+            class="task-bar"
+            [ngClass]="getPriorityClass(task.priority)"
+            [style.left.%]="task.startPosition"
+            [style.width.%]="task.duration">
+            <div class="task-bar-content">
+              <span class="task-bar-label">{{ task.name }}</span>
+              <span class="progress-indicator">{{ task.progress }}%</span>
+            </div>
+            <div class="progress-overlay" [style.width.%]="task.progress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-tasks" *ngIf="tasks.length === 0">
+    <div class="no-tasks-icon">📅</div>
+    <h2>No Timeline Data</h2>
+    <p>Add start and due dates to tasks to see them in the Gantt chart.</p>
+  </div>
+</div>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Level Agreement | Artifact Virtual</title>
+    <meta name="description" content="Artifact Virtual SLA - Our uptime commitments and service level guarantees.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --basalt-deep: #080809;
+            --basalt-surface: #121215;
+            --basalt-elevated: #1a1a1f;
+            --basalt-edge: #2a2a30;
+            --accent-cyan: #00ffd5;
+            --accent-blue: #0A4D8C;
+            --text-primary: #e0e0e0;
+            --text-secondary: #8c8c94;
+            --machined-line: rgba(255, 255, 255, 0.05);
+            --glint: rgba(255, 255, 255, 0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--basalt-deep);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .machined-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(to right, var(--machined-line) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--machined-line) 1px, transparent 1px);
+            background-size: 10vw 10vh;
+            pointer-events: none;
+            z-index: -1;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(to bottom, var(--basalt-deep), transparent);
+            backdrop-filter: blur(8px);
+        }
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .logo img {
+            height: 40px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent-cyan); }
+        .cta-monolith {
+            display: inline-block;
+            padding: 1.25rem 3rem;
+            background: var(--text-primary);
+            color: var(--basalt-deep);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+        }
+        .cta-monolith:hover {
+            background: var(--accent-cyan);
+            transform: translateX(10px);
+        }
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem 8rem;
+        }
+        .pre-title {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: -0.04em;
+            margin-bottom: 1rem;
+            background: linear-gradient(to bottom, #fff 0%, #444 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .last-updated {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--basalt-edge);
+        }
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 3rem 0 1rem;
+            color: var(--text-primary);
+        }
+        p, ul, ol {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+        th, td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--basalt-edge);
+        }
+        th {
+            color: var(--accent-cyan);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: var(--basalt-surface);
+        }
+        td {
+            color: var(--text-secondary);
+        }
+        tr:hover td {
+            background: var(--basalt-elevated);
+            color: var(--text-primary);
+        }
+        .highlight-box {
+            background: var(--basalt-surface);
+            border: 1px solid var(--basalt-edge);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+        }
+        .highlight-box strong {
+            color: var(--accent-cyan);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+        }
+        footer {
+            padding: 4rem;
+            background: var(--basalt-deep);
+            border-top: 1px solid var(--basalt-edge);
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        .footer-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .footer-links a:hover { color: var(--accent-cyan); }
+        .copyright {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: #444;
+        }
+        @media (max-width: 768px) {
+            nav { padding: 1rem 2rem; }
+            .nav-links { display: none; }
+            .content { padding: 2rem 1rem 4rem; }
+            table { font-size: 0.75rem; }
+            th, td { padding: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="machined-grid"></div>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <img src="../enterprise/divisions/departments/marketing/assets/av-logo-white.png" alt="Artifact Virtual">
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html#solutions">Solutions</a></li>
+            <li><a href="infrastructure.html">Infrastructure</a></li>
+            <li><a href="index.html#about">About</a></li>
+        </ul>
+        <a href="mailto:info@artifactvirtual.com" class="cta-monolith" style="padding: 0.75rem 1.5rem; font-size: 0.7rem;">Initialize_Contact</a>
+    </nav>
+
+    <main class="content">
+        <span class="pre-title">// SERVICE_GUARANTEE</span>
+        <h1>Service Level Agreement</h1>
+        <p class="last-updated">Last Updated: February 7, 2026 | Version 1.0</p>
+
+        <p>This Service Level Agreement ("SLA") describes the service level commitments for Artifact Virtual infrastructure and platform services. This SLA applies to customers with active paid subscriptions.</p>
+
+        <div class="highlight-box">
+            <strong>UPTIME COMMITMENT</strong>
+            <p style="margin-top: 0.5rem; margin-bottom: 0;">We guarantee 99.9% monthly uptime for production services. Enterprise customers receive 99.99% uptime guarantees with enhanced SLA terms.</p>
+        </div>
+
+        <h2>1. Service Availability</h2>
+        
+        <table>
+            <tr>
+                <th>Service Tier</th>
+                <th>Monthly Uptime</th>
+                <th>Max Downtime/Month</th>
+                <th>Credit %</th>
+            </tr>
+            <tr>
+                <td>Standard</td>
+                <td>99.9%</td>
+                <td>43.8 minutes</td>
+                <td>10%</td>
+            </tr>
+            <tr>
+                <td>Professional</td>
+                <td>99.95%</td>
+                <td>21.9 minutes</td>
+                <td>15%</td>
+            </tr>
+            <tr>
+                <td>Enterprise</td>
+                <td>99.99%</td>
+                <td>4.4 minutes</td>
+                <td>25%</td>
+            </tr>
+        </table>
+
+        <h2>2. Service Credits</h2>
+        <p>If we fail to meet the uptime commitment, you may be eligible for service credits:</p>
+        
+        <table>
+            <tr>
+                <th>Monthly Uptime</th>
+                <th>Service Credit (% of Monthly Fee)</th>
+            </tr>
+            <tr>
+                <td>99.0% - 99.9%</td>
+                <td>10%</td>
+            </tr>
+            <tr>
+                <td>95.0% - 99.0%</td>
+                <td>25%</td>
+            </tr>
+            <tr>
+                <td>90.0% - 95.0%</td>
+                <td>50%</td>
+            </tr>
+            <tr>
+                <td>Below 90.0%</td>
+                <td>100%</td>
+            </tr>
+        </table>
+
+        <p>To receive credits, submit a request to <a href="mailto:support@artifactvirtual.com">support@artifactvirtual.com</a> within 30 days of the incident. Credits are applied to future invoices and do not exceed one month's service fees.</p>
+
+        <h2>3. Support Response Times</h2>
+        
+        <table>
+            <tr>
+                <th>Priority</th>
+                <th>Description</th>
+                <th>Standard</th>
+                <th>Professional</th>
+                <th>Enterprise</th>
+            </tr>
+            <tr>
+                <td style="color: #ff4444;">P0 - Critical</td>
+                <td>Production down, no workaround</td>
+                <td>4 hours</td>
+                <td>1 hour</td>
+                <td>15 minutes</td>
+            </tr>
+            <tr>
+                <td style="color: #ffaa00;">P1 - High</td>
+                <td>Major feature impaired</td>
+                <td>8 hours</td>
+                <td>4 hours</td>
+                <td>1 hour</td>
+            </tr>
+            <tr>
+                <td style="color: #00aaff;">P2 - Medium</td>
+                <td>Feature degraded, workaround exists</td>
+                <td>24 hours</td>
+                <td>8 hours</td>
+                <td>4 hours</td>
+            </tr>
+            <tr>
+                <td style="color: var(--text-secondary);">P3 - Low</td>
+                <td>General questions, minor issues</td>
+                <td>72 hours</td>
+                <td>24 hours</td>
+                <td>8 hours</td>
+            </tr>
+        </table>
+
+        <h2>4. Support Channels</h2>
+        <ul>
+            <li><strong>Email:</strong> <a href="mailto:support@artifactvirtual.com">support@artifactvirtual.com</a> (All tiers)</li>
+            <li><strong>Ticket Portal:</strong> Available 24/7 for all customers</li>
+            <li><strong>Phone:</strong> Enterprise tier only, 24/7</li>
+            <li><strong>Dedicated Slack:</strong> Enterprise tier only</li>
+        </ul>
+
+        <h2>5. Scheduled Maintenance</h2>
+        <p>We perform scheduled maintenance during low-traffic windows:</p>
+        <ul>
+            <li><strong>Standard Maintenance:</strong> Saturdays 02:00-06:00 UTC</li>
+            <li><strong>Emergency Maintenance:</strong> As needed with minimum 1-hour notice</li>
+            <li><strong>Advance Notice:</strong> 7 days for standard maintenance</li>
+        </ul>
+        <p>Scheduled maintenance is excluded from uptime calculations when proper notice is given.</p>
+
+        <h2>6. Exclusions</h2>
+        <p>This SLA does not apply to:</p>
+        <ul>
+            <li>Features labeled as "Alpha", "Beta", or "Preview"</li>
+            <li>Free tier or trial accounts</li>
+            <li>Outages caused by customer actions or third-party services</li>
+            <li>Force majeure events (natural disasters, war, government action)</li>
+            <li>Scheduled maintenance windows</li>
+            <li>DNS propagation delays</li>
+            <li>Issues caused by customer code or configurations</li>
+        </ul>
+
+        <h2>7. Service-Specific SLAs</h2>
+
+        <h3>Compute Services</h3>
+        <table>
+            <tr>
+                <th>Service</th>
+                <th>Availability</th>
+                <th>Notes</th>
+            </tr>
+            <tr>
+                <td>Cloud VMs</td>
+                <td>99.99%</td>
+                <td>Per-instance guarantee</td>
+            </tr>
+            <tr>
+                <td>Kubernetes Clusters</td>
+                <td>99.95%</td>
+                <td>Control plane availability</td>
+            </tr>
+            <tr>
+                <td>GPU Instances</td>
+                <td>99.9%</td>
+                <td>Best effort scheduling</td>
+            </tr>
+        </table>
+
+        <h3>Database & Storage</h3>
+        <table>
+            <tr>
+                <th>Service</th>
+                <th>Availability</th>
+                <th>Durability</th>
+            </tr>
+            <tr>
+                <td>Managed PostgreSQL</td>
+                <td>99.95%</td>
+                <td>99.999999999%</td>
+            </tr>
+            <tr>
+                <td>Object Storage</td>
+                <td>99.99%</td>
+                <td>99.999999999%</td>
+            </tr>
+            <tr>
+                <td>HEKTOR Vector DB</td>
+                <td>99.9%</td>
+                <td>99.99%</td>
+            </tr>
+        </table>
+
+        <h3>AI/ML Platform</h3>
+        <table>
+            <tr>
+                <th>Service</th>
+                <th>Availability</th>
+                <th>Latency (p99)</th>
+            </tr>
+            <tr>
+                <td>Model Inference API</td>
+                <td>99.9%</td>
+                <td>&lt; 100ms</td>
+            </tr>
+            <tr>
+                <td>Training Jobs</td>
+                <td>99.5%</td>
+                <td>N/A</td>
+            </tr>
+            <tr>
+                <td>MLOps Pipeline</td>
+                <td>99.9%</td>
+                <td>N/A</td>
+            </tr>
+        </table>
+
+        <h2>8. Monitoring & Reporting</h2>
+        <p>We provide:</p>
+        <ul>
+            <li><strong>Status Page:</strong> Real-time service status at status.artifactvirtual.com</li>
+            <li><strong>Incident Reports:</strong> Post-incident reports within 5 business days</li>
+            <li><strong>Monthly Reports:</strong> Enterprise customers receive monthly uptime reports</li>
+            <li><strong>API Health Checks:</strong> Programmatic access to service status</li>
+        </ul>
+
+        <h2>9. Escalation Process</h2>
+        <ol>
+            <li><strong>Level 1:</strong> Support Team (initial response)</li>
+            <li><strong>Level 2:</strong> Senior Engineer (within 2 hours if unresolved)</li>
+            <li><strong>Level 3:</strong> Engineering Lead (within 4 hours if unresolved)</li>
+            <li><strong>Level 4:</strong> CTO/Executive (P0 incidents exceeding 1 hour)</li>
+        </ol>
+
+        <h2>10. Customer Responsibilities</h2>
+        <p>To ensure SLA coverage, customers must:</p>
+        <ul>
+            <li>Implement recommended high-availability configurations</li>
+            <li>Maintain current contact information</li>
+            <li>Respond to service notifications promptly</li>
+            <li>Report issues through official support channels</li>
+            <li>Cooperate with troubleshooting requests</li>
+        </ul>
+
+        <h2>11. SLA Modifications</h2>
+        <p>We may update this SLA with 30 days notice. Changes will not reduce service commitments during an active subscription term. Continued use after notice period constitutes acceptance.</p>
+
+        <h2>12. Contact</h2>
+        <p>For SLA-related inquiries:</p>
+        <ul>
+            <li>Support: <a href="mailto:support@artifactvirtual.com">support@artifactvirtual.com</a></li>
+            <li>SLA Claims: <a href="mailto:sla@artifactvirtual.com">sla@artifactvirtual.com</a></li>
+        </ul>
+
+        <p style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--basalt-edge);">
+            <strong>Artifact Virtual (SMC-Private) Limited</strong><br>
+            Registration No: 0325693<br>
+            Asia • Americas • Europe
+        </p>
+    </main>
+
+    <footer>
+        <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="infrastructure.html">Infrastructure</a></li>
+            <li><a href="privacy-policy.html">Privacy</a></li>
+            <li><a href="terms-of-service.html">Terms</a></li>
+            <li><a href="sla.html">SLA</a></li>
+        </ul>
+        <p class="copyright">&copy; 2026 ARTIFACT VIRTUAL. ALL RIGHTS RESERVED.</p>
+    </footer>
+</body>
+</html>

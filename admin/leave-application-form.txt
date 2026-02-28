@@ -1,0 +1,116 @@
+================================================================================
+                   ARTIFACT VIRTUAL (SMC-Private) Limited
+                          Leave Application Form
+================================================================================
+Template Code: HR-LAF-002                                     Version: 1.0
+Date of Issue: February 2026
+================================================================================
+
+APPLICATION DETAILS:
+Date of Application: [DATE]
+Application Reference: [REF_NUMBER]
+
+EMPLOYEE INFORMATION:
+Full Name: [EMPLOYEE_NAME]
+Employee ID: [EMPLOYEE_ID]
+Designation: [DESIGNATION]
+Department: [DEPARTMENT]
+Reporting Manager: [MANAGER_NAME]
+Contact Number: [CONTACT_NUMBER]
+Email: [EMAIL_ADDRESS]
+
+LEAVE DETAILS:
+
+Type of Leave: [SELECT_ONE]
+[ ] Annual Leave        [ ] Sick Leave          [ ] Casual Leave
+[ ] Maternity Leave     [ ] Paternity Leave     [ ] Unpaid Leave
+[ ] Hajj Leave          [ ] Study Leave         [ ] Emergency Leave
+[ ] Other: [SPECIFY]
+
+Leave Period:
+From Date: [START_DATE]                Time: [START_TIME]
+To Date: [END_DATE]                    Time: [END_TIME]
+Total Days Requested: [NUMBER_OF_DAYS]
+Half Day: [ ] Yes  [ ] No              If Yes: [ ] First Half [ ] Second Half
+
+LEAVE BALANCE STATUS:
+Annual Leave Balance: [DAYS] days
+Sick Leave Balance: [DAYS] days
+Casual Leave Balance: [DAYS] days
+Other Leave Balance: [DAYS] days
+
+REASON FOR LEAVE:
+[DETAILED_REASON_FOR_LEAVE_APPLICATION]
+________________________________________________________________________
+________________________________________________________________________
+________________________________________________________________________
+
+CONTACT DURING LEAVE:
+Address: [CONTACT_ADDRESS_DURING_LEAVE]
+Phone Number: [EMERGENCY_CONTACT_NUMBER]
+Alternative Contact: [ALTERNATIVE_CONTACT]
+
+WORK COVERAGE ARRANGEMENT:
+Colleague Covering: [COLLEAGUE_NAME]
+Designation: [COLLEAGUE_DESIGNATION]
+Has been briefed: [ ] Yes  [ ] No
+
+Pending Tasks Handover Status:
+[ ] Completed  [ ] In Progress  [ ] Not Applicable
+
+Critical Deliverables: [LIST_CRITICAL_ITEMS]
+
+MEDICAL CERTIFICATE (if applicable):
+Attached: [ ] Yes  [ ] No
+Doctor Name: [DOCTOR_NAME]
+Medical Facility: [FACILITY_NAME]
+
+SUPPORTING DOCUMENTS:
+[ ] Medical Certificate    [ ] Travel Documents    [ ] Other: [SPECIFY]
+
+APPLICANT DECLARATION:
+I certify that the information provided above is true and accurate. I understand 
+that providing false information may result in disciplinary action including 
+termination. I will remain accessible during leave for emergency matters.
+
+_________________________                    Date: __________________
+Employee Signature
+
+================================================================================
+
+APPROVAL SECTION:
+
+IMMEDIATE SUPERVISOR/LINE MANAGER:
+Recommendation: [ ] Approved  [ ] Rejected  [ ] Deferred
+Comments: [MANAGER_COMMENTS]
+
+_________________________                    Date: __________________
+Manager Signature & Seal
+
+DEPARTMENT HEAD:
+Recommendation: [ ] Approved  [ ] Rejected  [ ] Deferred
+Comments: [DEPARTMENT_HEAD_COMMENTS]
+
+_________________________                    Date: __________________
+Department Head Signature
+
+HR DEPARTMENT:
+Leave Balance Verified: [ ] Yes  [ ] No
+Final Decision: [ ] Approved  [ ] Rejected
+HR Comments: [HR_COMMENTS]
+
+_________________________                    Date: __________________
+HR Manager Signature & Seal
+
+================================================================================
+                      CONFIDENTIAL - COPY PROTECTED
+           Page 1 of 1 | Template: HR-LAF-002 | Version 1.0 | Feb 2026
+================================================================================
+
+SOURCES & REFERENCES:
+- Pakistan Factories Act, 1934
+- West Pakistan Shops and Establishments Ordinance, 1969
+- ISO 30414:2018 - Human Capital Reporting
+- Company Leave Policy
+- ILO Convention on Workers with Family Responsibilities
+================================================================================

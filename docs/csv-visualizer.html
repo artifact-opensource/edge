@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSV Visualizer — Artifact Virtual</title>
+  <!-- DataTables -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datatables@1.13.6/media/css/jquery.dataTables.min.css" />
+  <style>
+    :root{
+      --bg:#0f1720; --panel:#0b1220; --text:#e6eef8; --muted:#93a3b7; --accent:#6ee7b7; --glass: rgba(255,255,255,0.03);
+      --max-width:1200px;
+    }
+    [data-theme='light']{ --bg:#f6f9fb; --panel:#ffffff; --text:#0b1220; --muted:#4b5563; --accent:#0ea5a4; --glass: rgba(11,18,32,0.03); }
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg), #071022);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
+    .wrap{max-width:var(--max-width);margin:28px auto;padding:20px;background:var(--panel);border-radius:10px;box-shadow:0 10px 40px rgba(2,6,23,0.6)}
+    .header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .title{font-size:20px;font-weight:700}
+    .controls{display:flex;gap:8px;align-items:center}
+    .list{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+    .csv-card{background:var(--glass);padding:10px;border-radius:8px;cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
+    .csv-card:hover{transform:translateY(-4px)}
+    #viewer{margin-top:18px}
+    .meta{color:var(--muted);font-size:13px;margin-bottom:8px}
+    .toolbar{display:flex;gap:8px;align-items:center}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:6px;color:var(--text);cursor:pointer}
+    .btn.primary{background:var(--accent);color:#032128;border:none}
+    .charts{display:flex;gap:18px;margin-top:16px;flex-wrap:wrap}
+    .chart{background:var(--glass);padding:12px;border-radius:8px;min-width:260px;flex:1}
+    .table-wrap{margin-top:12px;overflow:auto;background:var(--panel);padding:12px;border-radius:8px}
+    footer{color:var(--muted);font-size:12px;margin-top:12px}
+    .warning{background:#4b2a2a;color:#ffe6e6;padding:8px;border-radius:6px}
+    .muted{color:var(--muted);font-size:13px}
+    label.switch{display:inline-flex;align-items:center;gap:8px}
+    input[type=checkbox]{accent-color:var(--accent)}
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="wrap">
+    <div class="header">
+      <div>
+        <div class="title">CSV Visualizer — Artifact Virtual</div>
+        <div class="muted">Browse and visualize departmental CSV dashboards</div>
+      </div>
+      <div class="controls">
+        <label class="switch"><input id="toggleTheme" type="checkbox" /> Dark / Light</label>
+        <label class="switch"><input id="toggleRedact" type="checkbox" /> Redact sensitive</label>
+        <button id="refreshManifest" class="btn">Refresh manifest</button>
+      </div>
+    </div>
+
+    <div class="meta">Found CSVs: <span id="csvCount">—</span></div>
+
+    <div class="controls" style="margin-top:12px">
+      <label style="font-size:13px;color:var(--muted);margin-right:10px">Filter:</label>
+      <select id="colSelect" class="btn" style="min-width:220px">
+        <option value="">-- select column for quick filters --</option>
+      </select>
+      <input id="colFilter" placeholder="filter value" style="padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);margin-left:8px" />
+      <button id="applyFilter" class="btn">Apply</button>
+      <button id="exportJson" class="btn primary" style="margin-left:8px">Export JSON</button>
+    </div>
+
+    <div id="list"></div>
+    <div id="viewer"></div>
+
+    <footer>Built with PapaParse, DataTables, and D3.js — supports streaming parse and large files. Use a static server for full functionality.</footer>
+  </div>
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/datatables@1.13.6/media/js/jquery.dataTables.min.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <script>
+    const SENSITIVE_KEYS = ['ssn','password','secret','token','key','private','dob','email'];
+    const MAX_PREVIEW_ROWS = 1000;
+
+    async function fetchManifest(){
+      try{ const res = await fetch('csv-manifest.json'); return await res.json(); }catch(e){console.error(e); return []}
+    }
+
+    function mkCard(item){
+      const el = document.createElement('div'); el.className='csv-card';
+      el.innerHTML = `<div style="font-weight:600">${item.name}</div><div class="muted">${item.path}</div>`;
+      el.onclick = ()=> loadCSV(item);
+      return el;
+    }
+
+    async function loadCSV(item){
+      document.getElementById('viewer').innerHTML = `<div class="meta">Loading <strong>${item.name}</strong> — ${item.path}</div>`;
+      const redact = document.getElementById('toggleRedact').checked;
+
+      let rows = [];
+      let parseError = null;
+
+      Papa.parse(item.path, {
+        download: true,
+        header: true,
+        dynamicTyping: true,
+        worker: true,
+        skipEmptyLines: true,
+        step: function(results, parser){
+          rows.push(results.data);
+          if(rows.length >= MAX_PREVIEW_ROWS){ parser.abort(); }
+        },
+        complete: function() { renderViewer(item, rows, redact); },
+        error: function(err){ parseError = err; document.getElementById('viewer').innerHTML = `<div class='warning'>CSV parse error: ${err.message}</div>` }
+      });
+    }
+
+    function detectNumeric(colVals){
+      return colVals.every(v=> (v===null||v===undefined||v==='' ) || typeof v === 'number');
+    }
+
+    function maskValue(v){ if(v==null) return ''; if(typeof v === 'number') return '***'; return '•••REDACTED•••'; }
+
+    function renderViewer(item, rows, redact){
+      const viewer = document.getElementById('viewer');
+      if(rows.length===0){ viewer.innerHTML = `<div class='warning'>No rows parsed (file may be large or not accessible). Try running a local server to serve files.</div>`; return }
+
+      const columns = Object.keys(rows[0]);
+      const tableId = 'tbl-'+item.id;
+
+      // build header
+      let html = `<div class='meta'>Showing <strong>${item.name}</strong> — ${rows.length} preview rows</div>`;
+      html += `<div class='toolbar'><button id='downloadCsv' class='btn'>Download CSV</button><label class='muted' style='margin-left:10px'>Preview limited to ${MAX_PREVIEW_ROWS} rows</label></div>`;
+      html += '<div class="charts">';
+
+      // quick numeric charts
+      columns.forEach(col=>{
+        const vals = rows.map(r=>r[col]);
+        const numeric = detectNumeric(vals);
+        if(numeric){ html += `<div class='chart' id='chart-${col.replace(/[^a-z0-9]/gi,'_')}'><div style='font-weight:600;margin-bottom:6px'>${col}</div><svg width='100%' height='120'></svg></div>` }
+      });
+
+      // date/time inference for simple line chart
+      const dateCol = columns.find(c=> c.toLowerCase().includes('date') || c.toLowerCase().includes('day'));
+      if(dateCol){ html += `<div class='chart' id='chart-timeseries'><div style='font-weight:600;margin-bottom:6px'>${dateCol} — time series</div><svg width='100%' height='120'></svg></div>` }
+
+      html += '</div>'; // charts
+
+      html += `<div class='table-wrap'><table id='${tableId}' class='display' style='width:100%'></table></div>`;
+      viewer.innerHTML = html;
+
+      // add download
+      document.getElementById('downloadCsv').onclick = ()=> window.open(item.path, '_blank');
+
+      // infer column types and apply redaction
+      const columnTypes = {};
+      const sample = rows.slice(0, 200);
+      Object.keys(rows[0]).forEach(col=>{
+        const vals = sample.map(r=>r[col]).filter(v => v!=null && v!=='');
+        const isDate = vals.every(v=> !isNaN(Date.parse(v)));
+        const isNumeric = vals.every(v=> (v===null||v==='') || !isNaN(+v));
+        if(isDate) columnTypes[col] = 'date'; else if(isNumeric) columnTypes[col] = 'numeric'; else columnTypes[col]='text';
+      });
+
+      const maskedRows = rows.map(r=>{
+        const out = {};
+        for(const k of Object.keys(r)){
+          const kc = k.toLowerCase();
+          if(redact && SENSITIVE_KEYS.some(s=> kc.includes(s))) out[k] = maskValue(r[k]); else out[k] = r[k];
+        }
+        return out;
+      });
+
+      // populate column filter select
+      const colSelect = document.getElementById('colSelect'); colSelect.innerHTML = '<option value="">-- select column for quick filters --</option>';
+      Object.keys(columnTypes).forEach(c=>{ const opt=document.createElement('option'); opt.value=c; opt.innerText = `${c} (${columnTypes[c]})`; colSelect.appendChild(opt); });
+
+      document.getElementById('applyFilter').onclick = ()=>{
+        const col = document.getElementById('colSelect').value; const val = document.getElementById('colFilter').value.trim();
+        if(!col || !val){ // reset
+          $(`#${tableId}`).DataTable().search('').draw(); return;
+        }
+        // basic column filter by DataTables
+        $(`#${tableId}`).DataTable().columns().every(function(){ const idx=this.index(); if(this.header().innerText===col){ this.search(val, true, false).draw(); } else { this.search('', true, false); }});
+      };
+
+      document.getElementById('exportJson').onclick = ()=>{
+        const j = JSON.stringify({meta:{name:item.name,path:item.path,columns:Object.keys(columnTypes)},rows:maskedRows});
+        const blob = new Blob([j], {type:'application/json'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`${item.id}.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      };
+
+
+      // DataTables
+      const dtCols = Object.keys(maskedRows[0]).map(c=>({title:c,data:c}));
+      $(`#${tableId}`).DataTable({data: maskedRows, columns: dtCols, pageLength: 25, lengthMenu:[10,25,50,100,500]});
+
+      // charts using D3
+      columns.forEach(col=>{
+        const vals = rows.map(r=>r[col]).filter(v=> v !== null && v !== undefined && v !== '');
+        if(detectNumeric(vals)){
+          const numericVals = vals.map(v=>+v).filter(v=> !isNaN(v));
+          drawHistogram(`#chart-${col.replace(/[^a-z0-9]/gi,'_')} svg`, numericVals);
+        } else {
+          // categorical top-values bar chart
+          const counts = {};
+          vals.forEach(v=>{ if(v!=null && v!=="") counts[v]= (counts[v]||0)+1});
+          const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,8);
+          if(entries.length>0){
+            drawCategories(`#chart-${col.replace(/[^a-z0-9]/gi,'_')} svg`, entries);
+          }
+        }
+      });
+
+      if(dateCol){
+        const series = rows.map(r=>({d: new Date(r[dateCol]), v:1})).filter(x=> x.d.toString() !== 'Invalid Date');
+        if(series.length>0) drawTimeseries('#chart-timeseries svg', series);
+      }
+    }
+
+    function drawHistogram(selector, values){
+      const svg = d3.select(selector);
+      svg.selectAll('*').remove();
+      const width = svg.node().getBoundingClientRect().width; const height = +svg.attr('height');
+      const margin = {top:6,right:6,bottom:20,left:6};
+      const x = d3.scaleLinear().domain(d3.extent(values)).nice().range([margin.left,width-margin.right]);
+      const bins = d3.bin().domain(x.domain()).thresholds(20)(values);
+      const y = d3.scaleLinear().domain([0, d3.max(bins, d=>d.length)]).range([height-margin.bottom, margin.top]);
+      const bar = svg.append('g').attr('fill','var(--accent)')
+        .selectAll('rect').data(bins).enter().append('rect')
+        .attr('x', d=> x(d.x0)+1)
+        .attr('y', d=> y(d.length))
+        .attr('width', d=> Math.max(0, x(d.x1)-x(d.x0)-1))
+        .attr('height', d=> y(0)-y(d.length));
+      svg.append('g').attr('transform',`translate(0,${height-margin.bottom})`).call(d3.axisBottom(x).ticks(4)).attr('color','var(--muted)');
+    }
+
+    function drawTimeseries(selector, series){
+      const svg = d3.select(selector); svg.selectAll('*').remove();
+      const width = svg.node().getBoundingClientRect().width; const height = +svg.attr('height');
+      const margin = {top:6,right:6,bottom:22,left:28};
+      const aggregated = d3.rollups(series, v=>v.length, d=> d3.timeDay.floor(d.d)).map(d=>({d:d[0],v:d[1]})).sort((a,b)=>a.d-b.d);
+      const x = d3.scaleTime().domain(d3.extent(aggregated, d=>d.d)).range([margin.left,width-margin.right]);
+      const y = d3.scaleLinear().domain([0,d3.max(aggregated,d=>d.v)]).range([height-margin.bottom,margin.top]);
+      const line = d3.line().x(d=>x(d.d)).y(d=>y(d.v));
+      svg.append('path').datum(aggregated).attr('fill','none').attr('stroke','var(--accent)').attr('stroke-width',2).attr('d',line);
+      svg.append('g').attr('transform',`translate(0,${height-margin.bottom})`).call(d3.axisBottom(x).ticks(4)).attr('color','var(--muted)');
+    }
+
+    function drawCategories(selector, entries){
+      const svg = d3.select(selector); svg.selectAll('*').remove();
+      const width = svg.node().getBoundingClientRect().width; const height = +svg.attr('height');
+      const margin = {top:6,right:6,bottom:24,left:60};
+      const x = d3.scaleLinear().domain([0, d3.max(entries, d=>d[1])]).range([margin.left, width-margin.right]);
+      const y = d3.scaleBand().domain(entries.map(d=>d[0])).range([margin.top, height-margin.bottom]).padding(0.1);
+      svg.selectAll('rect').data(entries).enter().append('rect').attr('x', margin.left).attr('y', d=>y(d[0])).attr('width', d=> x(d[1]) - margin.left).attr('height', y.bandwidth()).attr('fill','var(--accent)');
+      svg.append('g').attr('transform',`translate(${margin.left},0)`).call(d3.axisLeft(y)).attr('color','var(--muted)');
+    }
+
+    // Setup
+    (async function(){
+      const manifest = await fetchManifest();
+      const list = document.getElementById('list');
+      document.getElementById('csvCount').innerText = manifest.length;
+      manifest.forEach(it=> list.appendChild(mkCard(it)));
+
+      document.getElementById('toggleTheme').addEventListener('change', (e)=>{
+        document.body.setAttribute('data-theme', e.target.checked ? 'light' : 'dark');
+      });
+
+      document.getElementById('toggleRedact').addEventListener('change', ()=>{
+        const activeCard = list.querySelector('.csv-card.active');
+        if(activeCard) activeCard.click();
+      });
+
+      document.getElementById('refreshManifest').addEventListener('click', async ()=>{
+        list.innerHTML=''; const m = await fetchManifest(); document.getElementById('csvCount').innerText = m.length; m.forEach(it=> list.appendChild(mkCard(it)));
+      });
+    })();
+  </script>
+</body>
+</html>

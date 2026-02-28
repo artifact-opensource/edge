@@ -1,0 +1,338 @@
+================================================================================
+                   ARTIFACT VIRTUAL (SMC-Private) Limited
+                          PROJECT PROPOSAL
+================================================================================
+Template Code: OPS-PRJ-006                                    Version: 1.0
+Date of Issue: February 2026
+================================================================================
+
+PROJECT IDENTIFICATION:
+
+Proposal ID: [PROPOSAL_ID]
+Submission Date: [DATE]
+Project Title: [PROJECT_TITLE]
+Project Code: [PROJECT_CODE]
+
+Classification: [ ] Strategic  [ ] Operational  [ ] Tactical  [ ] Research
+
+Priority Level: [ ] Critical  [ ] High  [ ] Medium  [ ] Low
+
+================================================================================
+1. EXECUTIVE SUMMARY:
+================================================================================
+
+[CONCISE_OVERVIEW_OF_PROJECT_OBJECTIVES_BENEFITS_AND_OUTCOMES_2-3_PARAGRAPHS]
+
+Key Highlights:
+- Total Budget: PKR [AMOUNT]
+- Duration: [TIMEFRAME]
+- Expected ROI: [PERCENTAGE]%
+- Strategic Alignment: [ALIGNMENT_WITH_COMPANY_GOALS]
+
+================================================================================
+2. PROPOSER INFORMATION:
+================================================================================
+
+Project Sponsor: [SPONSOR_NAME]
+Department: [DEPARTMENT]
+Designation: [DESIGNATION]
+Contact: [EMAIL] | [PHONE]
+
+Project Manager (Proposed): [PM_NAME]
+Department: [DEPARTMENT]
+Experience: [YEARS] years in [DOMAIN]
+
+Core Team Members:
+1. [NAME] - [ROLE] - [DEPARTMENT]
+2. [NAME] - [ROLE] - [DEPARTMENT]
+3. [NAME] - [ROLE] - [DEPARTMENT]
+
+================================================================================
+3. BUSINESS CASE AND JUSTIFICATION:
+================================================================================
+
+3.1 PROBLEM STATEMENT:
+[DETAILED_DESCRIPTION_OF_PROBLEM_OR_OPPORTUNITY]
+
+3.2 STRATEGIC ALIGNMENT:
+This project aligns with:
+- Corporate Strategy: [ALIGNMENT]
+- Business Objectives: [SPECIFIC_OBJECTIVES]
+- Key Performance Indicators: [RELEVANT_KPIs]
+
+3.3 NEED ANALYSIS:
+Current State: [CURRENT_SITUATION]
+Desired State: [TARGET_SITUATION]
+Gap: [WHAT_NEEDS_TO_CHANGE]
+
+3.4 BENEFITS:
+Tangible Benefits:
+- [QUANTIFIABLE_BENEFIT_1]: PKR [AMOUNT] or [PERCENTAGE]%
+- [QUANTIFIABLE_BENEFIT_2]: [METRIC]
+- [QUANTIFIABLE_BENEFIT_3]: [METRIC]
+
+Intangible Benefits:
+- [QUALITATIVE_BENEFIT_1]
+- [QUALITATIVE_BENEFIT_2]
+- [QUALITATIVE_BENEFIT_3]
+
+3.5 CONSEQUENCES OF NOT PROCEEDING:
+[RISKS_AND_IMPACTS_IF_PROJECT_NOT_APPROVED]
+
+================================================================================
+4. PROJECT SCOPE:
+================================================================================
+
+4.1 IN SCOPE:
+- [DELIVERABLE_1]
+- [DELIVERABLE_2]
+- [DELIVERABLE_3]
+- [ACTIVITY_1]
+- [ACTIVITY_2]
+
+4.2 OUT OF SCOPE:
+- [EXCLUSION_1]
+- [EXCLUSION_2]
+- [EXCLUSION_3]
+
+4.3 KEY DELIVERABLES:
+No. | Deliverable | Description | Target Date | Owner
+1.  | [NAME]      | [DETAILS]   | [DATE]      | [PERSON]
+2.  | [NAME]      | [DETAILS]   | [DATE]      | [PERSON]
+3.  | [NAME]      | [DETAILS]   | [DATE]      | [PERSON]
+
+4.4 SUCCESS CRITERIA:
+- [MEASURABLE_CRITERION_1]
+- [MEASURABLE_CRITERION_2]
+- [MEASURABLE_CRITERION_3]
+
+================================================================================
+5. PROJECT APPROACH AND METHODOLOGY:
+================================================================================
+
+Methodology: [ ] Agile  [ ] Waterfall  [ ] Hybrid  [ ] Other: [SPECIFY]
+
+5.1 PHASES:
+Phase 1: [PHASE_NAME] - [DURATION]
+[DESCRIPTION_AND_KEY_ACTIVITIES]
+
+Phase 2: [PHASE_NAME] - [DURATION]
+[DESCRIPTION_AND_KEY_ACTIVITIES]
+
+Phase 3: [PHASE_NAME] - [DURATION]
+[DESCRIPTION_AND_KEY_ACTIVITIES]
+
+[ADD_MORE_PHASES]
+
+5.2 KEY MILESTONES:
+Milestone 1: [MILESTONE_NAME] - [DATE]
+Milestone 2: [MILESTONE_NAME] - [DATE]
+Milestone 3: [MILESTONE_NAME] - [DATE]
+
+================================================================================
+6. PROJECT TIMELINE:
+================================================================================
+
+Project Start Date: [START_DATE]
+Project End Date: [END_DATE]
+Total Duration: [MONTHS] months
+
+[HIGH_LEVEL_GANTT_CHART_OR_TIMELINE_DESCRIPTION]
+
+Critical Path Activities:
+- [ACTIVITY_1]: [DURATION]
+- [ACTIVITY_2]: [DURATION]
+
+================================================================================
+7. RESOURCE REQUIREMENTS:
+================================================================================
+
+7.1 HUMAN RESOURCES:
+Role             | Allocation | Duration | Department  | Cost (PKR)
+[ROLE_1]         | [%]        | [MONTHS] | [DEPT]      | [AMOUNT]
+[ROLE_2]         | [%]        | [MONTHS] | [DEPT]      | [AMOUNT]
+External Experts | [%]        | [MONTHS] | External    | [AMOUNT]
+
+Total HR Cost: PKR [AMOUNT]
+
+7.2 TECHNICAL RESOURCES:
+- Hardware: [SPECIFICATIONS] - PKR [AMOUNT]
+- Software: [LICENSES/TOOLS] - PKR [AMOUNT]
+- Infrastructure: [REQUIREMENTS] - PKR [AMOUNT]
+
+7.3 OTHER RESOURCES:
+- Training: PKR [AMOUNT]
+- Travel: PKR [AMOUNT]
+- Miscellaneous: PKR [AMOUNT]
+
+================================================================================
+8. BUDGET AND FINANCIAL ANALYSIS:
+================================================================================
+
+8.1 COST BREAKDOWN:
+
+Category                  | Amount (PKR) | % of Total
+Personnel                 | [AMOUNT]     | [%]
+Technology/Equipment      | [AMOUNT]     | [%]
+Software/Licenses         | [AMOUNT]     | [%]
+External Services         | [AMOUNT]     | [%]
+Training & Development    | [AMOUNT]     | [%]
+Operations & Maintenance  | [AMOUNT]     | [%]
+Contingency ([%]%)        | [AMOUNT]     | [%]
+---------------------------------------------------------
+TOTAL PROJECT COST        | [AMOUNT]     | 100%
+
+8.2 FUNDING SOURCE:
+[ ] Operating Budget  [ ] Capital Budget  [ ] External Funding
+[ ] Other: [SPECIFY]
+
+Budget Code: [BUDGET_CODE]
+
+8.3 FINANCIAL ANALYSIS:
+Payback Period: [MONTHS] months
+Net Present Value (NPV): PKR [AMOUNT]
+Internal Rate of Return (IRR): [PERCENTAGE]%
+Return on Investment (ROI): [PERCENTAGE]%
+
+8.4 COST-BENEFIT ANALYSIS:
+Total Costs (3 years): PKR [AMOUNT]
+Total Benefits (3 years): PKR [AMOUNT]
+Benefit-Cost Ratio: [RATIO]
+
+================================================================================
+9. RISK ASSESSMENT:
+================================================================================
+
+Risk | Impact | Probability | Mitigation Strategy | Owner
+[RISK_1] | H/M/L | H/M/L | [STRATEGY] | [NAME]
+[RISK_2] | H/M/L | H/M/L | [STRATEGY] | [NAME]
+[RISK_3] | H/M/L | H/M/L | [STRATEGY] | [NAME]
+
+Risk Response Budget: PKR [AMOUNT]
+
+================================================================================
+10. STAKEHOLDER ANALYSIS:
+================================================================================
+
+Stakeholder | Interest | Influence | Engagement Strategy
+[NAME/GROUP] | [LEVEL] | [LEVEL] | [STRATEGY]
+[NAME/GROUP] | [LEVEL] | [LEVEL] | [STRATEGY]
+[NAME/GROUP] | [LEVEL] | [LEVEL] | [STRATEGY]
+
+================================================================================
+11. ASSUMPTIONS AND CONSTRAINTS:
+================================================================================
+
+11.1 ASSUMPTIONS:
+- [ASSUMPTION_1]
+- [ASSUMPTION_2]
+- [ASSUMPTION_3]
+
+11.2 CONSTRAINTS:
+- [CONSTRAINT_1]
+- [CONSTRAINT_2]
+- [CONSTRAINT_3]
+
+11.3 DEPENDENCIES:
+- [DEPENDENCY_1]
+- [DEPENDENCY_2]
+
+================================================================================
+12. QUALITY AND COMPLIANCE:
+================================================================================
+
+Quality Standards: [ISO/INTERNAL_STANDARDS]
+Compliance Requirements: [REGULATORY_REQUIREMENTS]
+Audit Requirements: [AUDIT_SCHEDULE]
+
+================================================================================
+13. COMMUNICATION PLAN:
+================================================================================
+
+Stakeholder | Information Needs | Frequency | Method | Owner
+[GROUP] | [NEEDS] | [FREQUENCY] | [METHOD] | [NAME]
+
+================================================================================
+14. CHANGE MANAGEMENT:
+================================================================================
+
+Impact on Organization: [DESCRIPTION]
+Change Strategy: [APPROACH]
+Training Requirements: [TRAINING_PLAN]
+Resistance Management: [STRATEGY]
+
+================================================================================
+15. POST-PROJECT EVALUATION:
+================================================================================
+
+Evaluation Criteria: [CRITERIA]
+Evaluation Timeline: [MONTHS] months post-completion
+Success Metrics: [METRICS]
+
+================================================================================
+16. APPENDICES:
+================================================================================
+
+Appendix A: Detailed Budget Breakdown
+Appendix B: Detailed Project Schedule
+Appendix C: Risk Register
+Appendix D: Stakeholder Analysis Matrix
+Appendix E: Technical Specifications
+Appendix F: [OTHER_SUPPORTING_DOCUMENTS]
+
+================================================================================
+APPROVALS REQUIRED:
+================================================================================
+
+PREPARED BY:
+
+_________________________                    Date: __________________
+[PROPOSER_NAME]
+[DESIGNATION]
+
+
+REVIEWED BY:
+
+_________________________                    Date: __________________
+[DEPARTMENT_HEAD]
+Department Head
+
+
+_________________________                    Date: __________________
+[FINANCE_HEAD]
+Chief Financial Officer
+
+
+APPROVED BY:
+
+_________________________                    Date: __________________
+[APPROVER_NAME]
+[DESIGNATION]
+
+Company Seal: [AFFIX_SEAL]
+
+================================================================================
+DECISION:
+
+[ ] APPROVED - Proceed with implementation
+[ ] APPROVED WITH CONDITIONS: [SPECIFY_CONDITIONS]
+[ ] DEFERRED - Review Date: [DATE]
+[ ] REJECTED - Reason: [REASON]
+
+Approval Date: [DATE]
+Reference Number: [APPROVAL_REFERENCE]
+
+================================================================================
+                      CONFIDENTIAL - COPY PROTECTED
+           Page 1 of 1 | Template: OPS-PRJ-006 | Version 1.0 | Feb 2026
+================================================================================
+
+SOURCES & REFERENCES:
+- PMBOK Guide (Project Management Body of Knowledge) 7th Edition
+- ISO 21500:2012 - Project Management
+- PRINCE2 Methodology
+- Agile Practice Guide
+- Financial Management Best Practices
+- Cost-Benefit Analysis Standards
+- Change Management Best Practices (Kotter, ADKAR)
+================================================================================

@@ -1,0 +1,150 @@
+{
+  "enabled": false,
+  "name": "Artifact Virtual Website Deployment",
+  "description": "Automated deployment and health monitoring for artifactvirtual.com website",
+  "department": "it-infrastructure",
+  "type": "system-workflow",
+  "schedule": "0 */4 * * *",
+  "timezone": "UTC",
+  "triggers": {
+    "manual": true,
+    "webhook": true,
+    "schedule": true
+  },
+  "tasks": [
+    {
+      "name": "pre_deployment_checks",
+      "enabled": false,
+      "checks": [
+        "verify_ssl_certificates",
+        "check_nginx_config",
+        "validate_dns_records",
+        "test_upstream_services"
+      ],
+      "fail_on_error": true
+    },
+    {
+      "name": "backup_current_state",
+      "enabled": false,
+      "depends_on": ["pre_deployment_checks"],
+      "backup_targets": [
+        "/var/www/artifactvirtual",
+        "/etc/nginx/sites-available/artifactvirtual.conf",
+        "/var/log/nginx/artifactvirtual-*.log"
+      ],
+      "backup_location": "/backups/website",
+      "retention_days": 30
+    },
+    {
+      "name": "deploy_website",
+      "enabled": false,
+      "depends_on": ["backup_current_state"],
+      "deployment_strategy": "blue-green",
+      "source": "git_repository",
+      "branch": "main",
+      "build_command": "npm run build",
+      "target_directory": "/var/www/artifactvirtual",
+      "deployment_user": "www-data",
+      "rollback_on_failure": true
+    },
+    {
+      "name": "update_nginx_config",
+      "enabled": false,
+      "depends_on": ["deploy_website"],
+      "config_file": "/etc/nginx/sites-available/artifactvirtual.conf",
+      "validate_before_reload": true,
+      "reload_nginx": true
+    },
+    {
+      "name": "health_check",
+      "enabled": false,
+      "depends_on": ["update_nginx_config"],
+      "endpoints": [
+        "https://artifactvirtual.com/health",
+        "https://www.artifactvirtual.com/health",
+        "https://artifactvirtual.com/api/status"
+      ],
+      "expected_status": 200,
+      "timeout_seconds": 10,
+      "retry_count": 3
+    },
+    {
+      "name": "performance_validation",
+      "enabled": false,
+      "depends_on": ["health_check"],
+      "metrics": {
+        "page_load_time": {
+          "threshold_ms": 2000,
+          "fail_on_exceed": false
+        },
+        "api_response_time": {
+          "threshold_ms": 500,
+          "fail_on_exceed": false
+        },
+        "ssl_score": {
+          "minimum": "A",
+          "fail_on_below": true
+        }
+      }
+    },
+    {
+      "name": "smoke_tests",
+      "enabled": false,
+      "depends_on": ["health_check"],
+      "tests": [
+        "verify_homepage_loads",
+        "verify_api_endpoints",
+        "verify_static_assets",
+        "verify_security_headers",
+        "verify_ssl_configuration"
+      ]
+    }
+  ],
+  "rollback": {
+    "enabled": true,
+    "automatic": true,
+    "triggers": [
+      "health_check_failure",
+      "smoke_test_failure",
+      "ssl_verification_failure"
+    ],
+    "rollback_steps": [
+      "restore_previous_deployment",
+      "reload_nginx",
+      "verify_rollback_health"
+    ]
+  },
+  "notifications": {
+    "enabled": false,
+    "on_deployment": true,
+    "on_failure": true,
+    "on_rollback": true,
+    "channels": ["slack", "email", "pagerduty"],
+    "recipients": [
+      "devops-team@artifactvirtual.com",
+      "infrastructure@artifactvirtual.com"
+    ]
+  },
+  "monitoring": {
+    "enabled": false,
+    "post_deployment_duration_hours": 1,
+    "metrics_to_track": [
+      "error_rate",
+      "response_time",
+      "traffic_volume",
+      "ssl_errors",
+      "5xx_errors"
+    ],
+    "alert_thresholds": {
+      "error_rate_percent": 1,
+      "response_time_ms": 3000,
+      "5xx_count": 10
+    }
+  },
+  "compliance": {
+    "change_management": true,
+    "approval_required": false,
+    "audit_log": true,
+    "security_scan": true
+  }
+}

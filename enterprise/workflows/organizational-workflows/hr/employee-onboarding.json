@@ -1,0 +1,92 @@
+{
+  "enabled": false,
+  "name": "Employee Onboarding Workflow",
+  "description": "Automated employee onboarding process",
+  "department": "hr",
+  "type": "organizational-workflow",
+  "triggers": [
+    "new_hire_accepted_offer"
+  ],
+  "workflow_steps": [
+    {
+      "step": 1,
+      "name": "pre_onboarding",
+      "enabled": false,
+      "start_days_before": 14,
+      "tasks": [
+        "send_welcome_email",
+        "collect_documents",
+        "setup_accounts",
+        "order_equipment"
+      ]
+    },
+    {
+      "step": 2,
+      "name": "first_day_setup",
+      "enabled": false,
+      "day": 1,
+      "tasks": [
+        "facility_access",
+        "it_equipment_handover",
+        "office_tour",
+        "team_introduction",
+        "policy_review"
+      ]
+    },
+    {
+      "step": 3,
+      "name": "first_week_orientation",
+      "enabled": false,
+      "days": [1, 2, 3, 4, 5],
+      "tasks": [
+        "company_overview",
+        "department_training",
+        "systems_training",
+        "compliance_training",
+        "buddy_assignment"
+      ]
+    },
+    {
+      "step": 4,
+      "name": "30_day_check_in",
+      "enabled": false,
+      "day": 30,
+      "tasks": [
+        "manager_feedback",
+        "employee_feedback",
+        "performance_goals_setting",
+        "training_needs_assessment"
+      ]
+    },
+    {
+      "step": 5,
+      "name": "90_day_review",
+      "enabled": false,
+      "day": 90,
+      "tasks": [
+        "formal_performance_review",
+        "career_development_discussion",
+        "benefit_enrollment_confirmation",
+        "onboarding_completion_certificate"
+      ]
+    }
+  ],
+  "departments_involved": [
+    "hr",
+    "it-infrastructure",
+    "legal-compliance",
+    "finance",
+    "hiring_department"
+  ],
+  "notifications": {
+    "enabled": false,
+    "notify_stakeholders": true,
+    "channels": ["email", "in-app"]
+  },
+  "automation": {
+    "account_creation": false,
+    "access_provisioning": false,
+    "document_generation": false,
+    "reminder_emails": false
+  }
+}

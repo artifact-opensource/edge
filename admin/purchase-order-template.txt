@@ -1,0 +1,326 @@
+================================================================================
+                   ARTIFACT VIRTUAL (SMC-Private) Limited
+                          PURCHASE ORDER
+================================================================================
+Template Code: FIN-PO-008                                     Version: 1.0
+Date of Issue: February 2026
+================================================================================
+
+COMPANY INFORMATION:
+
+ARTIFACT VIRTUAL (SMC-Private) Limited
+Registered Office: [COMPANY_ADDRESS]
+Phone: [PHONE_NUMBER]
+Email: [EMAIL_ADDRESS]
+
+NTN (National Tax Number): [NTN_NUMBER]
+STRN (Sales Tax Reg. No.): [STRN_NUMBER]
+
+================================================================================
+PURCHASE ORDER DETAILS:
+================================================================================
+
+PURCHASE ORDER NUMBER: [PO-YYYY-XXXX]
+PO DATE: [DATE]
+PO TYPE: [ ] Standard  [ ] Blanket  [ ] Planned  [ ] Contract
+
+REQUISITION NUMBER: [REQ_NUMBER]
+REQUISITION DATE: [REQ_DATE]
+REQUESTED BY: [REQUESTER_NAME] | [DEPARTMENT]
+
+DELIVERY REQUIRED BY: [REQUIRED_DATE]
+PAYMENT TERMS: [TERMS]
+SHIPPING TERMS: [INCOTERMS]
+
+================================================================================
+VENDOR/SUPPLIER INFORMATION:
+================================================================================
+
+Vendor Name: [VENDOR_NAME]
+Vendor Code: [VENDOR_CODE]
+Contact Person: [CONTACT_NAME]
+Address: [VENDOR_ADDRESS]
+
+
+City: [CITY], Country: [COUNTRY]
+
+Phone: [PHONE_NUMBER]
+Email: [EMAIL]
+NTN: [VENDOR_NTN]
+STRN: [VENDOR_STRN]
+
+================================================================================
+DELIVERY INFORMATION:
+================================================================================
+
+SHIP TO:
+ARTIFACT VIRTUAL (SMC-Private) Limited
+[DELIVERY_LOCATION_NAME]
+[DELIVERY_ADDRESS]
+
+
+Contact Person: [RECEIVING_CONTACT]
+Phone: [PHONE]
+Email: [EMAIL]
+
+Delivery Instructions: [SPECIAL_DELIVERY_INSTRUCTIONS]
+
+Delivery Window: [DATE_RANGE] between [TIME_START] to [TIME_END]
+
+================================================================================
+BILL TO:
+================================================================================
+
+ARTIFACT VIRTUAL (SMC-Private) Limited
+[BILLING_ADDRESS]
+
+
+Accounts Payable Contact: [AP_CONTACT]
+Phone: [PHONE]
+Email: [AP_EMAIL]
+
+================================================================================
+ITEMS ORDERED:
+================================================================================
+
+Line | Item Code | Description | Specifications | Qty | Unit | Price | Amount
+-----|-----------|-------------|----------------|-----|------|-------|--------
+1.   | [CODE]    | [ITEM_1]    | [SPECS]        | [#] | [UN] | [PKR] | [PKR]
+2.   | [CODE]    | [ITEM_2]    | [SPECS]        | [#] | [UN] | [PKR] | [PKR]
+3.   | [CODE]    | [ITEM_3]    | [SPECS]        | [#] | [UN] | [PKR] | [PKR]
+4.   | [CODE]    | [ITEM_4]    | [SPECS]        | [#] | [UN] | [PKR] | [PKR]
+5.   | [CODE]    | [ITEM_5]    | [SPECS]        | [#] | [UN] | [PKR] | [PKR]
+[ADD_MORE_LINES_AS_NEEDED]
+
+================================================================================
+PRICING SUMMARY:
+================================================================================
+
+                                                        Amount (PKR)
+Subtotal (Before Tax):                                 [SUBTOTAL]
+
+Discount ([%]%):                                        - [DISCOUNT]
+
+                                                        ________________
+Net Amount:                                             [NET_AMOUNT]
+
+Sales Tax @ [%]% (GST):                                 [GST_AMOUNT]
+
+Freight/Shipping Charges:                               [FREIGHT]
+Handling Charges:                                       [HANDLING]
+Insurance:                                              [INSURANCE]
+Other Charges:                                          [OTHER]
+
+                                                        ================
+TOTAL PURCHASE ORDER VALUE:                    PKR      [TOTAL_AMOUNT]
+                                                        ================
+
+Amount in Words: [AMOUNT_IN_WORDS] Only
+
+Budget Code: [BUDGET_CODE]
+Cost Center: [COST_CENTER]
+GL Account: [GL_ACCOUNT]
+
+================================================================================
+PAYMENT TERMS:
+================================================================================
+
+Payment Method: [ ] Bank Transfer  [ ] Cheque  [ ] LC  [ ] Cash on Delivery
+
+Payment Schedule:
+[ ] Net [DAYS] days from delivery
+[ ] Advance: [%]% - Balance on delivery
+[ ] Milestone-based: [SPECIFY_MILESTONES]
+[ ] Other: [SPECIFY]
+
+Withholding Tax: [%]% will be deducted as per Income Tax Ordinance, 2001
+
+Credit Period: [DAYS] days
+Early Payment Discount: [%]% if paid within [DAYS] days
+
+================================================================================
+DELIVERY TERMS:
+================================================================================
+
+Delivery Method: [ ] Vendor Delivery  [ ] Courier  [ ] Pickup  [ ] Other
+
+Incoterms: [ ] FOB  [ ] CIF  [ ] EXW  [ ] DAP  [ ] DDP  [ ] Other: [SPECIFY]
+
+Packaging Requirements: [PACKAGING_SPECIFICATIONS]
+
+Partial Delivery: [ ] Allowed  [ ] Not Allowed
+
+Late Delivery Penalty: [%]% per day, maximum [%]% of order value
+
+================================================================================
+QUALITY AND INSPECTION:
+================================================================================
+
+Quality Standards Required:
+[ ] ISO 9001  [ ] ISO [OTHER]  [ ] Industry Standard: [SPECIFY]
+[ ] As per sample: [SAMPLE_REFERENCE]
+[ ] As per specifications: [SPECIFICATION_DOCUMENT]
+
+Inspection: [ ] Required before shipment  [ ] On delivery  [ ] Not Required
+
+Acceptance Criteria: [CRITERIA]
+
+Warranty Period: [WARRANTY_PERIOD]
+Warranty Terms: [WARRANTY_TERMS]
+
+Return Policy: Defective items returnable within [DAYS] days
+
+================================================================================
+TERMS AND CONDITIONS:
+================================================================================
+
+1. GENERAL:
+   This Purchase Order constitutes a binding contract. Acceptance of this PO 
+   confirms agreement to all terms and conditions stated herein.
+
+2. CONFIRMATION:
+   Vendor must acknowledge receipt and acceptance within [HOURS/DAYS] of PO date.
+
+3. DELIVERY:
+   - Strict adherence to delivery schedule is mandatory.
+   - Late delivery subject to penalties as specified above.
+   - Vendor must notify immediately of any potential delays.
+
+4. QUALITY ASSURANCE:
+   - All items must meet specified quality standards.
+   - Items not meeting specifications will be rejected.
+   - Replacement of rejected items at vendor's cost.
+
+5. INVOICING:
+   - Invoice only after successful delivery and acceptance.
+   - Invoice must reference this PO number.
+   - Tax invoice with NTN and STRN mandatory.
+
+6. PRICE:
+   - Prices are fixed and not subject to change.
+   - Any price variation requires prior written approval.
+
+7. PACKAGING AND MARKING:
+   - Proper packaging to prevent damage during transit.
+   - Clear marking with PO number on all packages.
+
+8. INTELLECTUAL PROPERTY:
+   - Vendor warrants no IP infringement.
+   - Vendor indemnifies buyer against IP claims.
+
+9. CONFIDENTIALITY:
+   - All information related to this PO is confidential.
+   - Non-disclosure of buyer's proprietary information.
+
+10. INSURANCE:
+    Vendor responsible for insurance until delivery and acceptance.
+
+11. FORCE MAJEURE:
+    Neither party liable for delays due to force majeure events.
+
+12. DISPUTE RESOLUTION:
+    Disputes subject to [CITY], Pakistan jurisdiction only.
+
+13. AMENDMENTS:
+    Any changes require written approval through amendment PO.
+
+14. CANCELLATION:
+    Buyer reserves right to cancel with [DAYS] days notice.
+
+15. COMPLIANCE:
+    Vendor must comply with all applicable Pakistan laws and regulations.
+
+================================================================================
+SPECIAL INSTRUCTIONS:
+================================================================================
+
+[ADDITIONAL_INSTRUCTIONS_OR_REQUIREMENTS_SPECIFIC_TO_THIS_ORDER]
+
+================================================================================
+APPROVALS:
+================================================================================
+
+REQUESTED BY:
+
+_________________________                    Date: __________________
+[REQUESTER_NAME]
+[DESIGNATION] - [DEPARTMENT]
+
+
+APPROVED BY (Budget Holder):
+
+_________________________                    Date: __________________
+[BUDGET_HOLDER_NAME]
+[DESIGNATION]
+
+
+APPROVED BY (Procurement):
+
+_________________________                    Date: __________________
+[PROCUREMENT_MANAGER_NAME]
+Procurement Manager
+
+
+AUTHORIZED BY:
+
+_________________________                    Date: __________________
+[AUTHORIZED_SIGNATORY_NAME]
+[DESIGNATION]
+
+Company Seal: [AFFIX_SEAL]
+
+================================================================================
+VENDOR ACKNOWLEDGMENT:
+================================================================================
+
+I/We acknowledge receipt of this Purchase Order and accept all terms and 
+conditions stated herein. We confirm our ability to fulfill this order as 
+specified.
+
+Expected Delivery Date: [DATE]
+Alternate/Substitute Items: [ ] Yes  [ ] No - Details: [DETAILS]
+
+
+_________________________                    Date: __________________
+Vendor Authorized Signature
+[NAME] - [DESIGNATION]
+
+Company Seal: [AFFIX_SEAL]
+
+Acknowledgment must be returned within [HOURS/DAYS] to: [EMAIL]
+
+================================================================================
+RECEIVING SECTION (For Office Use Only):
+================================================================================
+
+Goods Received Date: [DATE]
+Received By: [NAME]
+Quantity Received: [QUANTITY]
+Condition: [ ] Acceptable  [ ] Damaged  [ ] Incomplete
+GRN Number: [GRN_NUMBER]
+
+Inspection Status: [ ] Passed  [ ] Failed  [ ] Pending
+Inspector Name: [NAME]
+Remarks: [REMARKS]
+
+Signature: _________________        Date: __________________
+
+================================================================================
+                      CONFIDENTIAL - COPY PROTECTED
+           Page 1 of 1 | Template: FIN-PO-008 | Version 1.0 | Feb 2026
+================================================================================
+
+SOURCES & REFERENCES:
+- Pakistan Contract Act, 1872
+- Sale of Goods Act, 1930
+- Income Tax Ordinance, 2001
+- Sales Tax Act, 1990
+- INCOTERMS 2020
+- ISO 9001:2015 - Quality Management
+- PPRA Rules (Public Procurement Regulatory Authority)
+- Generally Accepted Procurement Practices
+================================================================================
+
+DISTRIBUTION: Original - Vendor | Copy 1 - Accounts | Copy 2 - Stores/Receiving
+             Copy 3 - Requisitioner | Copy 4 - Procurement File
+================================================================================

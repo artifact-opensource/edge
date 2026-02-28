@@ -1,0 +1,105 @@
+ARTIFACT VIRTUAL - MARKETING OPERATIONS DASHBOARD,Version 2.0.0,Date: 2026-02-11,,,,,,,
+,,,,,,,,,
+SHEET 1: FINANCIAL MODEL,,,,,,,,,
+,,,,,,,,,
+Period,Local Revenue (USD),Virtual Revenue (USD),Cloud Revenue (USD),Total Revenue,COGS,Gross Profit,Gross Margin %,Operating Expenses,EBITDA,EBITDA Margin %
+Year 1 - Q1,50000,0,0,0,0,0,0,0,0,0
+Year 1 - Q2,150000,0,0,0,0,0,0,0,0,0
+Year 1 - Q3,300000,0,0,0,0,0,0,0,0,0
+Year 1 - Q4,400000,0,0,0,0,0,0,0,0,0
+Year 1 Total,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,
+Year 2 - Q1,450000,150000,0,0,0,0,0,0,0,0
+Year 2 - Q2,500000,200000,0,0,0,0,0,0,0,0
+Year 2 - Q3,550000,250000,0,0,0,0,0,0,0,0
+Year 2 - Q4,650000,300000,0,0,0,0,0,0,0,0
+Year 2 Total,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,
+,,,,,,,,,,
+SHEET 2: CAMPAIGN TRACKER,,,,,,,,,
+,,,,,,,,,
+Campaign Name,Type,Channel,Budget Allocated,Budget Spent,Start Date,End Date,Status,Leads Generated,Conversions,CPL,CPA,ROI %
+[Enter Campaign],Product Launch,Paid Search,10000,0,2026-02-15,2026-05-15,Planned,0,0,0,0,0
+[Enter Campaign],Demand Gen,Content Marketing,5000,0,2026-02-01,2026-12-31,Planned,0,0,0,0,0
+[Enter Campaign],Brand Awareness,Social Media,8000,0,2026-03-01,2026-06-01,Planned,0,0,0,0,0
+,,,,,,,,,,,,
+TOTALS,,,0,0,,,,0,0,0,0,0
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+SHEET 3: LEAD PIPELINE,,,,,,,,,
+,,,,,,,,,,,,
+Lead ID,Company,Contact Name,Title,Source,Date,Lead Score,Status,Stage,Deal Value,Probability %,Weighted Value,Assigned To,Next Action
+L001,[Company Name],[Contact],CTO,Website,2026-02-11,85,Qualified,SQL,50000,60,0,Sales Rep 1,Schedule demo
+L002,[Company Name],[Contact],VP Eng,Referral,2026-02-01,75,Contacted,MQL,30000,40,0,Sales Rep 2,Send case study
+L003,[Company Name],[Contact],Director,Event,2026-01-30,90,Qualified,Opportunity,100000,75,0,Sales Rep 1,Proposal sent
+,,,,,,,,,,,,,
+TOTALS,,,,,,0,,,0,0,0,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+SHEET 4: CUSTOMER METRICS,,,,,,,,,,
+,,,,,,,,,,,,,
+Customer ID,Company,Segment,Acq Date,Acq Channel,MRR,ARR,CAC,LTV,LTV:CAC,Churn Risk,Health Score
+C001,[Customer 1],Enterprise,2026-01-15,Direct Sales,15000,180000,5000,525000,0,Low,95
+C002,[Customer 2],Mid-market,2026-01-20,Partner,8000,96000,3000,280000,0,Low,90
+C003,[Customer 3],SMB,2026-02-01,Website,2500,30000,1500,87500,0,Medium,75
+,,,,,,,,,,,
+TOTALS,,,,,0,0,0,0,0,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+SHEET 5: CHANNEL PERFORMANCE,,,,,,,,,,
+,,,,,,,,,,,,,
+Channel,Type,Impressions,Clicks,CTR %,Leads,Conv Rate %,Spend,CPL,Revenue Attr,ROI %,ROAS
+Google Ads,Paid Search,50000,2500,0,100,0,5000,0,150000,0,0
+LinkedIn,Paid Social,30000,900,0,45,0,3000,0,67500,0,0
+Content SEO,Organic,100000,5000,0,200,0,2000,0,300000,0,0
+Email,Owned,25000,1250,0,60,0,500,0,90000,0,0
+,,,,,,,,,,,
+TOTALS,,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+SHEET 6: CONTENT CALENDAR,,,,,,,,,,
+,,,,,,,,,,,,,
+Content Piece,Type,Format,Target Audience,Channel,Planned Date,Status,Owner,Views,Engagement,Leads Generated,Conv Rate %
+[Title],Blog Post,Article,Enterprise CTO,Website,2026-02-05,Planned,Content Team,0,0,0,0
+[Title],Whitepaper,PDF,Mid-market,Email + Social,2026-02-10,Planned,Content Team,0,0,0,0
+[Title],Case Study,PDF,All Segments,Website,2026-02-15,Planned,Marketing,0,0,0,0
+[Title],Webinar,Video,Developers,Zoom,2026-02-20,Planned,Product Marketing,0,0,0,0
+,,,,,,,,,,,
+TOTALS,,,,,,,,0,0,0,0
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+SHEET 7: BUDGET TRACKER,,,,,,,,,,
+,,,,,,,,,,,,,
+Category,Subcategory,Monthly Budget,Q1 Budget,Q1 Actual,Q1 Variance,Q1 Variance %,Annual Budget,Annual Forecast,Notes
+Digital Ads,Google Ads,5000,15000,0,0,0,60000,0,
+Digital Ads,LinkedIn,3000,9000,0,0,0,36000,0,
+Content,Blog/SEO,2000,6000,0,0,0,24000,0,
+Content,Video,3000,9000,0,0,0,36000,0,
+Events,Conferences,5000,15000,0,0,0,60000,0,
+Tools,Software,1000,3000,0,0,0,12000,0,
+,,,,,,,,,
+TOTALS,,0,0,0,0,0,0,0,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+SHEET 8: KPI DASHBOARD,,,,,,,,,,
+,,,,,,,,,,,,,
+Metric,Current Month,Last Month,Change,Change %,Q1 Total,Target,Progress %,Status
+Website Visitors,0,0,0,0,0,10000,0,On Track
+New Leads,0,0,0,0,0,500,0,On Track
+MQLs,0,0,0,0,0,150,0,On Track
+SQLs,0,0,0,0,0,50,0,On Track
+Opportunities,0,0,0,0,0,20,0,On Track
+Customers Won,0,0,0,0,0,5,0,On Track
+MRR,0,0,0,0,0,75000,0,On Track
+CAC,0,0,0,0,0,5000,0,On Track
+LTV:CAC Ratio,0,0,0,0,0,70,0,On Track
+,,,,,,,,,
+,,,,,,,,,,,,,
+INSTRUCTIONS:,,,,,,,,,
+1. Enter data in cells with light background,,,,,,,,,
+2. Formulas auto-calculate (cells starting with =),,,,,,,,,
+3. Update dates and values regularly,,,,,,,,,
+4. Use filters to analyze data,,,,,,,,,
+5. Create pivot tables for deeper insights,,,,,,,,,
+,,,,,,,,,,,,,
+For full documentation see: MARKETING_OPS_DASHBOARD.md,,,,,,,,,

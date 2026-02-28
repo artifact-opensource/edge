@@ -1,0 +1,28 @@
+name: NPM Audit
+
+on:
+  push:
+    paths:
+      - 'tools/visualizer-server/**'
+  workflow_dispatch: {}
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install
+        working-directory: tools/visualizer-server
+        run: npm ci
+      - name: Run npm audit
+        working-directory: tools/visualizer-server
+        run: npm audit --json > audit-report.json || true
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-report
+          path: tools/visualizer-server/audit-report.json

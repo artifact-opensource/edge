@@ -1,0 +1,282 @@
+================================================================================
+                   ARTIFACT VIRTUAL (SMC-Private) Limited
+                          VENDOR CONTRACT AGREEMENT
+================================================================================
+Template Code: LGL-VND-004                                    Version: 1.0
+Date of Issue: February 2026
+================================================================================
+
+VENDOR CONTRACT AGREEMENT
+
+This Vendor Contract Agreement ("Agreement") is made on [DATE] ("Effective Date")
+
+BETWEEN:
+
+ARTIFACT VIRTUAL (SMC-Private) Limited, a company registered under Companies Act 
+2017, having its registered office at [COMPANY_ADDRESS], NTN: [NTN_NUMBER]
+(hereinafter referred to as "Buyer" or "Company")
+
+AND:
+
+[VENDOR_NAME], [TYPE_OF_ENTITY] having its office at [VENDOR_ADDRESS]
+NTN: [VENDOR_NTN] | STRN: [STRN_NUMBER]
+(hereinafter referred to as "Vendor" or "Supplier")
+
+WHEREAS the Buyer wishes to purchase goods/services from the Vendor, and the 
+Vendor agrees to supply the same under the terms and conditions herein.
+
+================================================================================
+1. PRODUCTS/SERVICES
+================================================================================
+
+1.1 Description:
+The Vendor shall supply the following products/services:
+[DETAILED_DESCRIPTION_OF_GOODS_SERVICES]
+
+1.2 Specifications:
+Products/Services shall conform to specifications: [SPECIFICATIONS_REFERENCE]
+
+1.3 Quality Standards:
+[QUALITY_STANDARDS_CERTIFICATIONS_REQUIRED]
+
+1.4 Samples: [ ] Required  [ ] Not Required
+If required, submission deadline: [DATE]
+
+================================================================================
+2. PRICING AND PAYMENT TERMS
+================================================================================
+
+2.1 Contract Value: PKR [AMOUNT] (Excluding/Including taxes)
+
+2.2 Unit Pricing:
+[ITEM_DESCRIPTION]          [UNIT_PRICE]          [QUANTITY]
+
+2.3 Price Validity: Prices fixed for [PERIOD] unless renegotiated
+
+2.4 Taxes: [GST/WHT] applicable as per Pakistan tax laws
+
+2.5 Payment Terms:
+    - Payment Schedule: [ADVANCE/MILESTONE/DELIVERY/NET_30/60/90]
+    - Mode of Payment: [BANK_TRANSFER/CHEQUE/LC]
+    - Bank Details: [VENDOR_BANK_DETAILS]
+
+2.6 Advance Payment: [PERCENTAGE]% if applicable
+
+2.7 Invoice Requirements:
+    - Tax Invoice with NTN and STRN
+    - Purchase Order reference mandatory
+    - Delivery receipts attached
+
+================================================================================
+3. DELIVERY TERMS
+================================================================================
+
+3.1 Delivery Schedule:
+[DELIVERY_DATES_AND_MILESTONES]
+
+3.2 Delivery Location: [DELIVERY_ADDRESS]
+
+3.3 Delivery Method: [FOB/CIF/EXW/DDP] - [INCOTERMS_SPECIFICATION]
+
+3.4 Packaging: Vendor responsible for proper packaging and labeling
+
+3.5 Risk of Loss: Risk transfers upon [SPECIFY_POINT]
+
+3.6 Delivery Failure: Liquidated damages of [PERCENTAGE]% per day delay, 
+maximum [PERCENTAGE]% of contract value
+
+================================================================================
+4. INSPECTION AND ACCEPTANCE
+================================================================================
+
+4.1 Inspection Period: [DAYS] days from delivery
+
+4.2 Acceptance Criteria: [SPECIFY_ACCEPTANCE_CRITERIA]
+
+4.3 Rejection Rights: Buyer may reject non-conforming goods/services
+
+4.4 Replacement: Vendor shall replace rejected items within [DAYS] days
+
+4.5 Testing: [TESTING_REQUIREMENTS_IF_APPLICABLE]
+
+================================================================================
+5. WARRANTY AND SUPPORT
+================================================================================
+
+5.1 Warranty Period: [WARRANTY_PERIOD] from date of acceptance
+
+5.2 Warranty Coverage:
+    - Free from defects in material and workmanship
+    - Fitness for intended purpose
+    - Compliance with specifications
+
+5.3 Warranty Service: [ON-SITE/RETURN_TO_BASE]
+
+5.4 Technical Support: [SUPPORT_TERMS]
+
+5.5 Spare Parts: Available for [PERIOD] at reasonable prices
+
+================================================================================
+6. TERM AND RENEWAL
+================================================================================
+
+6.1 Contract Period: [START_DATE] to [END_DATE]
+
+6.2 Renewal: [ ] Automatic  [ ] By Mutual Agreement  [ ] Not Renewable
+
+6.3 Notice Period: [DAYS] days for non-renewal
+
+================================================================================
+7. COMPLIANCE AND REGULATORY REQUIREMENTS
+================================================================================
+
+7.1 Vendor shall comply with:
+    - Pakistan Quality Control Authority standards
+    - Pakistan Environmental Protection Act
+    - Labour laws and occupational safety regulations
+    - Anti-corruption and bribery laws
+    - Data protection regulations
+
+7.2 Certifications: [REQUIRED_CERTIFICATIONS]
+
+7.3 Insurance: Vendor shall maintain adequate insurance coverage
+
+================================================================================
+8. CONFIDENTIALITY AND DATA PROTECTION
+================================================================================
+
+8.1 Both Parties shall maintain confidentiality of proprietary information
+
+8.2 Duration: [YEARS] years beyond contract termination
+
+8.3 Data Protection: Compliance with applicable data protection laws
+
+================================================================================
+9. INTELLECTUAL PROPERTY
+================================================================================
+
+9.1 Vendor warrants non-infringement of third-party IP rights
+
+9.2 IP Ownership: [SPECIFY_IP_OWNERSHIP_TERMS]
+
+9.3 Licensed Use: [LICENSE_TERMS_IF_APPLICABLE]
+
+================================================================================
+10. INDEMNIFICATION
+================================================================================
+
+10.1 Vendor indemnifies Buyer against claims arising from:
+     - Product defects or service failures
+     - IP infringement
+     - Breach of warranties
+     - Negligence or willful misconduct
+
+10.2 Insurance Limits: Minimum coverage of [AMOUNT]
+
+================================================================================
+11. LIABILITY AND LIMITATIONS
+================================================================================
+
+11.1 Liability Cap: [AMOUNT] or contract value, whichever is higher
+
+11.2 Consequential Damages: Excluded except for gross negligence or fraud
+
+11.3 Force Majeure: Excuses performance for events beyond reasonable control
+
+================================================================================
+12. TERMINATION
+================================================================================
+
+12.1 Termination for Cause:
+     - Material breach not cured within [DAYS] days
+     - Insolvency or bankruptcy
+     - Repeated delivery failures
+
+12.2 Termination for Convenience: [DAYS] days written notice
+
+12.3 Effect of Termination:
+     - Payment for accepted deliveries
+     - Return of materials and property
+     - Survival of confidentiality and IP clauses
+
+================================================================================
+13. DISPUTE RESOLUTION
+================================================================================
+
+13.1 Negotiation: Good faith negotiations for [DAYS] days
+
+13.2 Mediation: If unresolved, mediation through [MEDIATOR/BODY]
+
+13.3 Arbitration: As per Pakistan Arbitration Act, 1940
+
+13.4 Governing Law: Laws of Pakistan
+
+13.5 Jurisdiction: Courts of [CITY], Pakistan
+
+================================================================================
+14. GENERAL PROVISIONS
+================================================================================
+
+14.1 Entire Agreement: Supersedes all prior agreements
+
+14.2 Amendments: Must be in writing and signed by both Parties
+
+14.3 Assignment: Not permitted without prior written consent
+
+14.4 Notices: Sent to addresses specified above via registered mail or email
+
+14.5 Severability: Invalid provisions do not affect remaining terms
+
+14.6 Waiver: No waiver unless in writing
+
+14.7 Relationship: Vendor is independent contractor
+
+================================================================================
+SPECIAL CONDITIONS
+================================================================================
+
+[ADDITIONAL_TERMS_AND_CONDITIONS_SPECIFIC_TO_THIS_CONTRACT]
+
+================================================================================
+AUTHORIZED SIGNATURES
+================================================================================
+
+BUYER: ARTIFACT VIRTUAL (SMC-Private) Limited
+
+_________________________                    Date: __________________
+[AUTHORIZED_SIGNATORY_NAME]
+[DESIGNATION]
+
+Company Seal: [AFFIX_SEAL]
+
+
+VENDOR: [VENDOR_NAME]
+
+_________________________                    Date: __________________
+[AUTHORIZED_SIGNATORY_NAME]
+[DESIGNATION]
+
+Company Seal: [AFFIX_SEAL]
+
+
+WITNESS 1:                                   WITNESS 2:
+Name: [NAME]                                 Name: [NAME]
+CNIC: [CNIC]                                 CNIC: [CNIC]
+Signature: _____________                     Signature: _____________
+
+================================================================================
+                      CONFIDENTIAL - COPY PROTECTED
+           Page 1 of 1 | Template: LGL-VND-004 | Version 1.0 | Feb 2026
+================================================================================
+
+SOURCES & REFERENCES:
+- Pakistan Contract Act, 1872
+- Sale of Goods Act, 1930
+- Companies Act, 2017 (Pakistan)
+- Sales Tax Act, 1990
+- Income Tax Ordinance, 2001
+- Pakistan Standards and Quality Control Authority (PSQCA) Guidelines
+- ISO 9001:2015 - Quality Management
+- INCOTERMS 2020
+- PPRA Rules (Public Procurement Regulatory Authority)
+================================================================================

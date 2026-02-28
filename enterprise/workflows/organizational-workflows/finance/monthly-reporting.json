@@ -1,0 +1,77 @@
+{
+  "enabled": false,
+  "name": "Monthly Financial Reporting",
+  "description": "Automated monthly financial report generation and distribution",
+  "department": "finance",
+  "type": "organizational-workflow",
+  "schedule": "0 9 1 * *",
+  "timezone": "Asia/Karachi",
+  "tasks": [
+    {
+      "name": "data_collection",
+      "enabled": false,
+      "sources": [
+        "accounting_system",
+        "payroll_system",
+        "expense_management",
+        "invoicing_system"
+      ],
+      "data_period": "previous_month"
+    },
+    {
+      "name": "report_generation",
+      "enabled": false,
+      "depends_on": ["data_collection"],
+      "reports": [
+        "income_statement",
+        "balance_sheet",
+        "cash_flow_statement",
+        "budget_variance",
+        "department_spending"
+      ],
+      "formats": ["pdf", "excel", "html"]
+    },
+    {
+      "name": "analysis_and_insights",
+      "enabled": false,
+      "depends_on": ["report_generation"],
+      "analyses": [
+        "trend_analysis",
+        "variance_analysis",
+        "forecasting",
+        "kpi_tracking"
+      ]
+    },
+    {
+      "name": "review_and_approval",
+      "enabled": false,
+      "depends_on": ["analysis_and_insights"],
+      "approvers": [
+        "finance_manager",
+        "cfo"
+      ],
+      "sla_hours": 48
+    },
+    {
+      "name": "distribution",
+      "enabled": false,
+      "depends_on": ["review_and_approval"],
+      "recipients": {
+        "executive_team": ["full_report"],
+        "board_of_directors": ["executive_summary", "key_metrics"],
+        "department_heads": ["department_report"],
+        "finance_team": ["detailed_report"]
+      }
+    }
+  ],
+  "notifications": {
+    "enabled": false,
+    "notify_on": ["completion", "approval_required", "anomaly_detected"],
+    "channels": ["email", "slack"]
+  },
+  "compliance": {
+    "retention_years": 7,
+    "encryption": true,
+    "access_control": "role-based"
+  }
+}

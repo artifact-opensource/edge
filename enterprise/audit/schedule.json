@@ -1,0 +1,87 @@
+{
+  "auditSchedule": {
+    "version": "1.0.0",
+    "organization": "Artifact Virtual (SMC-Private) Limited",
+    "generatedAt": "2026-02-02T13:45:00.000Z"
+  },
+  "scheduledAudits": [
+    {
+      "id": "AUD-2026-001",
+      "type": "internal",
+      "scope": "Critical Controls (P0/P1)",
+      "scheduledDate": "2026-03-02",
+      "frequency": "monthly",
+      "owner": "CTO",
+      "status": "scheduled",
+      "controls": ["I-01", "IR-01", "BCDR-01", "D-02", "I-04"]
+    },
+    {
+      "id": "AUD-2026-002",
+      "type": "internal",
+      "scope": "Standard Controls (P2)",
+      "scheduledDate": "2026-05-02",
+      "frequency": "quarterly",
+      "owner": "General Counsel",
+      "status": "scheduled",
+      "controls": ["G-03", "G-04", "A-04", "N-04", "C-05", "CHG-03", "OPS-03", "TP-03", "AC-01", "AC-02"]
+    },
+    {
+      "id": "AUD-2026-003",
+      "type": "internal",
+      "scope": "Full Compliance Review",
+      "scheduledDate": "2026-08-01",
+      "frequency": "semi-annual",
+      "owner": "General Counsel",
+      "status": "planned",
+      "controls": "all"
+    },
+    {
+      "id": "AUD-2027-001",
+      "type": "external",
+      "scope": "SOC 2 Type II Readiness Assessment",
+      "scheduledDate": "2027-02-01",
+      "frequency": "annual",
+      "owner": "General Counsel",
+      "status": "planned",
+      "vendor": "TBD",
+      "controls": "SOC2"
+    },
+    {
+      "id": "AUD-2027-002",
+      "type": "external",
+      "scope": "Penetration Testing",
+      "scheduledDate": "2026-06-01",
+      "frequency": "annual",
+      "owner": "CTO",
+      "status": "planned",
+      "vendor": "TBD",
+      "controls": ["T-04"]
+    }
+  ],
+  "reviewCadence": {
+    "P0_controls": "monthly",
+    "P1_controls": "monthly",
+    "P2_controls": "quarterly",
+    "P3_controls": "semi-annually",
+    "full_audit": "annually",
+    "risk_register": "monthly",
+    "compliance_matrix": "quarterly"
+  },
+  "nextActions": [
+    {
+      "action": "Complete P0 control implementation",
+      "dueDate": "2026-03-01",
+      "owner": "CTO"
+    },
+    {
+      "action": "Engage SOC 2 auditor",
+      "dueDate": "2026-12-01",
+      "owner": "General Counsel"
+    },
+    {
+      "action": "Conduct penetration testing",
+      "dueDate": "2026-06-01",
+      "owner": "CTO"
+    }
+  ]
+}

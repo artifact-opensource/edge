@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARTIFACT VIRTUAL ENTERPRISE</title>
+    <meta name="description" content="Artifact Virtual is a multi-division enterprise: AVRD (R&D), AVML (Machine Layer), and Operations, powered by proprietary ERP operating system.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030303;
+            --surface: #0a0a0a;
+            --mercury: #e0e0e0;
+            --spectral-1: #00f2ff;
+            --spectral-2: #7000ff;
+            --spectral-3: #ff0055;
+            --text: #ffffff;
+            --text-dim: rgba(255,255,255,0.6);
+            --border: rgba(255,255,255,0.1);
+            --glass: rgba(255,255,255,0.03);
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        #cursor {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease-out;
+        }
+
+        #cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--mercury);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.2s ease-out, width 0.3s, height 0.3s;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>');
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .spectral-orb {
+            position: fixed;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, var(--spectral-2) 0%, transparent 70%);
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
+            top: -20%;
+            right: -10%;
+            animation: drift 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes drift {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(-10%, 10%) scale(1.1); }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--mercury);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .btn-login {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-tag {
+            font-family: var(--mono);
+            color: var(--spectral-1);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: 6vw;
+            line-height: 1.05;
+            font-weight: 800;
+            margin-bottom: 1.6rem;
+            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.4) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
+        }
+
+        .hero p {
+            max-width: 720px;
+            font-size: 1.15rem;
+            color: var(--text-dim);
+            margin-bottom: 2.4rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1.2rem 2.5rem;
+            border-radius: 0px;
+            font-family: var(--mono);
+            font-weight: 500;
+            text-decoration: none;
+            position: relative;
+            transition: 0.3s;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .btn-primary:hover {
+            background: var(--spectral-1);
+        }
+
+        .btn-secondary {
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--glass);
+        }
+
+        .stats-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--glass);
+        }
+
+        .stat-item {
+            padding: 3rem;
+            text-align: center;
+            border-right: 1px solid var(--border);
+        }
+
+        .stat-item:last-child { border-right: none; }
+
+        .stat-val {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-family: var(--mono);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-dim);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+        }
+
+        .wings-container {
+            padding: 8rem 0;
+            display: flex;
+            justify-content: space-around;
+            background: radial-gradient(circle at center, #111 0%, transparent 70%);
+        }
+
+        .wing-node {
+            text-align: center;
+            opacity: 0.6;
+            transition: 0.5s;
+        }
+
+        .wing-node:hover {
+            opacity: 1;
+            transform: translateY(-10px);
+        }
+
+        .wing-id {
+            font-family: var(--mono);
+            font-size: 3rem;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to bottom, #fff, #444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .wing-name {
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            color: var(--spectral-1);
+        }
+
+        .section-header {
+            padding: 10rem 10% 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 4rem;
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            background: var(--border);
+            padding: 1px;
+        }
+
+        .product-card {
+            background: var(--bg);
+            padding: 4rem;
+            position: relative;
+            transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            background: #0d0d0d;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px;
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            border: 1px solid var(--spectral-1);
+            color: var(--spectral-1);
+            margin-bottom: 2rem;
+            border-radius: 20px;
+        }
+
+        .status-pill.coming { border-color: var(--spectral-2); color: var(--spectral-2); }
+        .status-pill.dev { border-color: var(--spectral-3); color: var(--spectral-3); }
+
+        .status-pill svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .product-card h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .product-card p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 450px;
+        }
+
+        .product-features {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .product-features li {
+            margin-bottom: 0.8rem;
+            color: var(--text);
+            font-family: var(--mono);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-features li::before {
+            content: "→";
+            color: var(--spectral-1);
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .services-section {
+            background: #000;
+            padding: 8rem 10%;
+        }
+
+        .service-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+            transition: 0.3s;
+        }
+
+        .service-row:hover {
+            padding-left: 2rem;
+            border-bottom-color: var(--mercury);
+        }
+
+        .service-meta {
+            width: 30%;
+        }
+
+        .service-location {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: var(--spectral-1);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .service-location svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .service-desc {
+            width: 40%;
+            color: var(--text-dim);
+        }
+
+        .service-pricing {
+            width: 20%;
+            text-align: right;
+            font-family: var(--mono);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2.5rem;
+            padding: 8rem 10%;
+        }
+
+        .feature-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .feature-item p {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        .pricing-section {
+            padding: 10rem 10%;
+            text-align: center;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 5rem;
+        }
+
+        .price-card {
+            background: var(--glass);
+            padding: 4rem 2rem;
+            border: 1px solid var(--border);
+            transition: 0.4s;
+            position: relative;
+        }
+
+        .price-card.popular {
+            border-color: var(--spectral-1);
+            background: linear-gradient(180deg, rgba(0,242,255,0.05) 0%, transparent 100%);
+        }
+
+        .price-card:hover {
+            transform: translateY(-20px);
+            border-color: var(--mercury);
+        }
+
+        .price-card h5 {
+            font-family: var(--mono);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .price-amount {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+        }
+
+        .price-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 3rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .price-features li {
+            margin-bottom: 1rem;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .price-features li::after {
+            content: "";
+            position: absolute;
+            left: 0; top: 8px;
+            width: 6px; height: 6px;
+            background: var(--spectral-1);
+        }
+
+        footer {
+            padding: 10rem 10% 4rem;
+            background: #000;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 8rem;
+        }
+
+        .footer-logo-area p {
+            color: var(--text-dim);
+            margin-top: 1.5rem;
+            max-width: 300px;
+        }
+
+        .footer-links h6 {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            color: var(--text);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links ul li a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--spectral-1);
+        }
+
+        .footer-bottom {
+            padding-top: 4rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            font-family: var(--mono);
+        }
+
+        @media (max-width: 1024px) {
+            .product-grid, .pricing-cards, .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .hero h1 { font-size: 15vw; }
+            .service-row { flex-direction: column; gap: 1.5rem; }
+            .service-meta, .service-desc, .service-pricing { width: 100%; text-align: left; }
+            .nav-links { display: none; }
+            nav { padding: 1rem 2rem; }
+            .stats-strip { grid-template-columns: 1fr; }
+            .wings-container { flex-direction: column; gap: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+    <div class="noise"></div>
+    <div class="spectral-orb"></div>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 19.74h20L12 2zm0 4.47l6.5 11.27H5.5L12 6.47z"/></svg>
+            Artifact Virtual
+        </a>
+        <div class="nav-links">
+            <a href="avrd.html">AVRD</a>
+            <a href="avml.html">AVML</a>
+            <a href="#services">Services</a>
+            <a href="roadmap.html">Roadmap</a>
+        </div>
+        <div class="nav-actions">
+            <a href="mailto:info@artifactvirtual.com" class="btn-login">CONTACT</a>
+            <a href="mailto:info@artifactvirtual.com" class="btn btn-secondary" style="padding: 0.6rem 1.5rem; font-size: 0.7rem;">GET STARTED</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <span class="hero-tag">Inc.</span>
+            <h1>RESEARCH IN MOTION<br><span style="color: var(--spectral-1);"></span></h1>
+            <p>Artifact Virtual is a multi-division research and development enterprise.<BR> We build internal systems, conduct applied research, and selectively offer consulting services.</p>
+            <div class="hero-cta">
+                <a href="#products" class="btn btn-primary">Our Technology</a>
+                <a href="#services" class="btn btn-secondary">Services</a>
+            </div>
+        </section>
+
+        <section class="stats-strip">
+            <div class="stat-item">
+                <span class="stat-val">3</span>
+                <span class="stat-label">Research Divisions</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-val">9</span>
+                <span class="stat-label">Departments</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-val">3</span>
+                <span class="stat-label">Active Projects</span>
+            </div>
+        </section>
+
+        <section class="wings-container">
+            <a href="avrd.html" class="wing-node" style="text-decoration: none;">
+                <span class="wing-id">AVRD</span>
+                <span class="wing-name">RESEARCH &amp; DEVELOPMENT</span>
+            </a>
+            <a href="avml.html" class="wing-node" style="opacity: 1; text-decoration: none;">
+                <span class="wing-id" style="background: linear-gradient(to bottom, #00f2ff, #7000ff); -webkit-background-clip: text;">AVML</span>
+                <span class="wing-name">MACHINE LEARNING</span>
+            </a>
+            <div class="wing-node">
+                <span class="wing-id">AVQC</span>
+                <span class="wing-name">QUANTUM COMPUTING</span>
+            </div>
+        </section>
+
+        <section id="products">
+            <div class="section-header">
+                <h2>Technology</h2>
+                <p style="color: var(--text-dim); max-width: 600px;">Proprietary systems built for enterprise operations, research, and intelligence.</p>
+            </div>
+
+            <div class="product-grid">
+                <div class="product-card">
+                    <span class="status-pill">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                        OPERATIONAL
+                    </span>
+                    <h3>ARTIFACT ERP</h3>
+                    <p>Enterprise operating system powering all Artifact Virtual operations. CRM, HRM, Finance, Development, Analytics, and GRC compliance in one unified platform.</p>
+                    <ul class="product-features">
+                        <li>Full-stack TypeScript</li>
+                        <li>Self-hosted architecture</li>
+                        <li>9 integrated modules</li>
+                    </ul>
+                    <div class="product-price">Internal System</div>
+                </div>
+
+                <div class="product-card">
+                    <span class="status-pill coming">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        R&D 2027
+                    </span>
+                    <h3>HEKTOR</h3>
+                    <p>Spectral and perceptually-aware vector similarity search database. Next-generation embedding technology for ML applications.</p>
+                    <ul class="product-features">
+                        <li>Color-accurate vectors</li>
+                        <li>Sub-3ms latency target</li>
+                        <li>Quantum-resistant design</li>
+                    </ul>
+                    <div class="product-price">18-Month Development</div>
+                </div>
+
+                <div class="product-card">
+                    <span class="status-pill">
+                        <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        DEPLOYED
+                    </span>
+                    <h3>CTHULU</h3>
+                    <p>MQL5/MetaTrader 5 algorithmic trading infrastructure. Live on GCP with automated execution and risk management.</p>
+                    <ul class="product-features">
+                        <li>GCP VM deployment</li>
+                        <li>Multi-asset execution</li>
+                        <li>Real-time monitoring</li>
+                    </ul>
+                    <div class="product-price">Active Trading</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services-section">
+            <div class="section-header" style="padding: 0 0 4rem;">
+                <h2>Services</h2>
+                <p style="color: var(--text-dim);">Consulting and infrastructure services—capacity limited, engagement-based.</p>
+            </div>
+
+            <div class="service-row">
+                <div class="service-meta">
+                    <div class="service-location">
+                        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        PAKISTAN
+                    </div>
+                    <div class="service-title">Infrastructure Consulting</div>
+                </div>
+                <div class="service-desc">Data center planning, HPC infrastructure design, and ML deployment architecture for regional enterprises.</div>
+                <div class="service-pricing">Engagement-Based</div>
+            </div>
+
+            <div class="service-row">
+                <div class="service-meta">
+                    <div class="service-location">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        US / EU
+                    </div>
+                    <div class="service-title">ML/AI Architecture</div>
+                </div>
+                <div class="service-desc">Technical consulting for ML infrastructure, MLOps pipelines, and AI system design. Limited availability.</div>
+                <div class="service-pricing">By Inquiry</div>
+            </div>
+
+            <div class="service-row">
+                <div class="service-meta">
+                    <div class="service-location">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        VIRTUAL
+                    </div>
+                    <div class="service-title">Fractional CTO</div>
+                </div>
+                <div class="service-desc">Part-time technical leadership for startups and scale-ups. Strategy, architecture, and team building.</div>
+                <div class="service-pricing">By Inquiry</div>
+            </div>
+        </section>
+
+        <section id="features">
+            <div class="section-header">
+                <h2>Research Focus</h2>
+                <p style="color: var(--text-dim);">Core areas of investigation and development across our divisions.</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>Open Source</h4>
+                    <p>Contributing to the ecosystem through AVOS—our open source division releasing public frameworks and tools.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Machine Learning</h4>
+                    <p>Applied ML research in vector databases, trading systems, and enterprise automation through AVML.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Quantum Computing</h4>
+                    <p>Early-stage research into quantum-resistant cryptography and quantum algorithm applications.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Enterprise Systems</h4>
+                    <p>Building internal tooling that powers our operations—ERP, project management, and workflow automation.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Trading Infrastructure</h4>
+                    <p>Algorithmic trading systems with real-time execution, risk management, and market intelligence.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>GRC &amp; Compliance</h4>
+                    <p>Governance, risk, and compliance frameworks targeting SOC 2 Type II and ISO 27001 certification.</p>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 10rem 10%; text-align: center; background: linear-gradient(to bottom, transparent, var(--surface));">
+            <h2 style="font-size: 4vw; margin-bottom: 1rem;">Interested in collaboration?</h2>
+            <p style="color: var(--text-dim); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">We selectively engage with organizations aligned with our research mission. Reach out to discuss potential partnerships.</p>
+            <a href="mailto:info@artifactvirtual.com" class="btn btn-primary">Get in Touch</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-logo-area">
+                <a href="index.html" class="logo">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 19.74h20L12 2zm0 4.47l6.5 11.27H5.5L12 6.47z"/></svg>
+                    Artifact Virtual
+                </a>
+                <p>Research and development enterprise focused on open source, machine learning, and quantum computing.</p>
+            </div>
+            <div class="footer-links">
+                <h6>Technology</h6>
+                <ul>
+                    <li><a href="#products">ARTIFACT ERP</a></li>
+                    <li><a href="#products">HEKTOR</a></li>
+                    <li><a href="#products">CTHULU</a></li>
+                    <li><a href="roadmap.html">Roadmap</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h6>Divisions</h6>
+                <ul>
+                    <li><a href="avrd.html">AVRD</a></li>
+                    <li><a href="avml.html">AVML</a></li>
+                    <li><a href="#">AVQC (Coming)</a></li>
+                    <li><a href="#services">Operations</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h6>Legal</h6>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="#">Security</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h6>Connect</h6>
+                <ul>
+                    <li><a href="mailto:info@artifactvirtual.com">Contact</a></li>
+                    <li><a href="https://github.com/Artifact-Virtual">GitHub</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 ARTIFACT VIRTUAL (SMC-PRIVATE) LIMITED. ISLAMABAD, PAKISTAN.</span>
+            <span>RESEARCH · DEVELOPMENT · OPERATIONS</span>
+        </div>
+    </footer>
+
+    <svg style="display: none;">
+        <defs>
+            <filter id="mercury-filter">
+                <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" />
+            </filter>
+        </defs>
+    </svg>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate3d(${e.clientX - 10}px, ${e.clientY - 10}px, 0)`;
+            setTimeout(() => {
+                follower.style.transform = `translate3d(${e.clientX - 20}px, ${e.clientY - 20}px, 0)`;
+            }, 50);
+        });
+
+        const interactables = document.querySelectorAll('a, .btn, .product-card');
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                follower.style.width = '80px';
+                follower.style.height = '80px';
+                follower.style.borderColor = 'var(--spectral-1)';
+                follower.style.backgroundColor = 'rgba(0, 242, 255, 0.1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                follower.style.width = '40px';
+                follower.style.height = '40px';
+                follower.style.borderColor = 'var(--mercury)';
+                follower.style.backgroundColor = 'transparent';
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const spectralOrb = document.querySelector('.spectral-orb');
+            spectralOrb.style.transform = `translate3d(0, ${scrolled * 0.3}px, 0)`;
+            const heroH1 = document.querySelector('.hero h1');
+            heroH1.style.transform = `translate3d(0, ${scrolled * 0.1}px, 0)`;
+        });
+
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.product-card, .service-row, .feature-item, .price-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(40px)';
+            el.style.transition = 'all 0.8s cubic-bezier(0.2, 1, 0.3, 1)';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

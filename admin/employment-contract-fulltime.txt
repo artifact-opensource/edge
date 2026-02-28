@@ -1,0 +1,186 @@
+================================================================================
+                            ARTIFACT VIRTUAL
+                      (SMC-Private) Limited
+================================================================================
+
+                         EMPLOYMENT CONTRACT
+                          (Full-Time Position)
+
+================================================================================
+
+Contract Reference: [AV/HR/EMP/YYYY/###]
+Date: [DD Month YYYY]
+
+THIS EMPLOYMENT AGREEMENT ("Agreement") is entered into on [Date] between:
+
+EMPLOYER:
+Artifact Virtual (SMC-Private) Limited
+Registered Office: [Complete Address]
+NTN: [Tax Number]
+(Hereinafter referred to as "the Company")
+
+AND
+
+EMPLOYEE:
+Name: [Full Legal Name]
+Father's Name: [Father's Name]
+CNIC: [XXXXX-XXXXXXX-X]
+Address: [Complete Residential Address]
+(Hereinafter referred to as "the Employee")
+
+================================================================================
+
+1. POSITION AND DUTIES
+
+1.1 The Employee is appointed to the position of [Job Title] in the 
+    [Department Name] department, reporting to [Manager Title].
+
+1.2 The Employee shall perform duties including but not limited to:
+    - [Duty 1]
+    - [Duty 2]
+    - [Duty 3]
+    - Such other duties as reasonably assigned
+
+1.3 Place of work: [Office Location, City]
+
+================================================================================
+
+2. COMMENCEMENT AND DURATION
+
+2.1 Employment commences on: [Start Date]
+2.2 Probation Period: [3/6] months from start date
+2.3 This is a [permanent/fixed-term] position
+2.4 Notice Period: [30/60/90] days by either party after probation
+
+================================================================================
+
+3. COMPENSATION AND BENEFITS
+
+3.1 Basic Salary: PKR [Amount] per month (Gross)
+3.2 Payment Schedule: Monthly, on or before [Date] of each month
+3.3 Annual Increments: Subject to performance review
+3.4 Benefits:
+    - Health Insurance: [Details]
+    - Provident Fund: [Percentage]%
+    - Annual Leave: [Number] days per year
+    - Sick Leave: [Number] days per year
+    - [Other Benefits]
+
+================================================================================
+
+4. WORKING HOURS
+
+4.1 Standard Hours: [9:00 AM - 6:00 PM / Flexible Hours]
+4.2 Working Days: Monday to Friday
+4.3 Weekly Hours: 40 hours
+4.4 Overtime: As per company policy and labor laws
+
+================================================================================
+
+5. CONFIDENTIALITY
+
+5.1 The Employee shall not disclose any confidential information, trade 
+    secrets, business strategies, client data, or proprietary information 
+    of the Company during or after employment.
+
+5.2 This obligation continues indefinitely after termination.
+
+5.3 Breach of confidentiality may result in immediate termination and 
+    legal action.
+
+================================================================================
+
+6. INTELLECTUAL PROPERTY
+
+6.1 All work products, inventions, designs, code, documents, and materials 
+    created during employment shall be the exclusive property of the Company.
+
+6.2 The Employee assigns all rights, title, and interest to the Company.
+
+================================================================================
+
+7. TERMINATION
+
+7.1 Either party may terminate with [30/60/90] days written notice
+7.2 Company may terminate immediately for:
+    - Gross misconduct
+    - Breach of confidentiality
+    - Criminal activity
+    - Continued poor performance
+    
+7.3 Upon termination, Employee shall:
+    - Return all company property
+    - Complete handover procedures
+    - Settle all financial obligations
+
+================================================================================
+
+8. NON-COMPETE (if applicable)
+
+8.1 For [6/12] months after termination, Employee shall not:
+    - Work for direct competitors
+    - Solicit company clients
+    - Hire company employees
+
+8.2 Geographic restriction: [Pakistan/Region]
+
+================================================================================
+
+9. CODE OF CONDUCT
+
+9.1 Employee shall adhere to all company policies
+9.2 Professional behavior expected at all times
+9.3 Compliance with all applicable laws and regulations
+
+================================================================================
+
+10. GOVERNING LAW
+
+10.1 This Agreement is governed by the laws of Pakistan
+10.2 Disputes subject to jurisdiction of Islamabad courts
+10.3 Both parties attempt amicable resolution first
+
+================================================================================
+
+11. ENTIRE AGREEMENT
+
+This Agreement constitutes the entire understanding between parties and 
+supersedes all prior agreements, whether written or oral.
+
+================================================================================
+
+SIGNATURES:
+
+FOR THE COMPANY:
+
+_______________________________          Date: _______________
+[Name]
+[Title - CEO/HR Director]
+Artifact Virtual (SMC-Private) Limited
+
+Company Seal: [SEAL]
+
+
+EMPLOYEE:
+
+_______________________________          Date: _______________
+[Employee Name]
+CNIC: [XXXXX-XXXXXXX-X]
+
+Witness:
+
+_______________________________          Date: _______________
+[Witness Name]
+[Witness Title]
+
+================================================================================
+Artifact Virtual (SMC-Private) Limited | Registered Office: Islamabad, Pakistan
+CONFIDENTIAL DOCUMENT - COPY PROTECTED
+================================================================================
+
+Document Control:
+Version: 1.0 | Template Code: HR-EMP-001 | Last Updated: February 2026
+Page 1 of 3
+
+Sources: Pakistan Employment Law, ISO 9001 HR Standards, ILO Guidelines
+================================================================================

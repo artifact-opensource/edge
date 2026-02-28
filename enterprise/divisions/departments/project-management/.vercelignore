@@ -1,0 +1,10 @@
+node_modules
+.angular
+.git
+*.md
+!README.md
+src
+tsconfig.*
+angular.json
+.editorconfig
+.gitignore

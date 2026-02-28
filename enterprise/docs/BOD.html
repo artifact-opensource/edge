@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AV | Board Strategic Roadmap 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #020617; 
+            color: #f8fafc;
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(30, 58, 138, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(79, 70, 229, 0.1) 0%, transparent 50%);
+        }
+
+        .header-hidden {
+            transform: translateY(-100%);
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .kanban-column {
+            background: rgba(30, 41, 59, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            min-height: calc(100vh - 300px);
+        }
+
+        .kanban-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kanban-card:hover {
+            transform: translateY(-4px);
+            background: rgba(51, 65, 85, 0.8);
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+
+        .card-vetoed { border-color: #ef4444 !important; background: rgba(127, 29, 29, 0.3) !important; }
+        .card-ratified { border-color: #10b981 !important; background: rgba(6, 78, 59, 0.3) !important; }
+
+        .progress-line {
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .dot-done { background: #10b981; box-shadow: 0 0 10px #10b981; }
+        .dot-active { background: #6366f1; box-shadow: 0 0 10px #6366f1; animation: pulse 2s infinite; }
+        .dot-pending { background: #64748b; }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-blur {
+            backdrop-filter: blur(25px);
+            background: rgba(2, 6, 23, 0.85);
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+
+        .vote-btn {
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .vote-btn.active {
+            background: #6366f1;
+            border-color: #818cf8;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+        }
+        .veto-btn.active {
+            background: #ef4444;
+            border-color: #f87171;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+    </style>
+</head>
+<body class="min-h-screen overflow-x-hidden pt-32 lg:pt-24">
+
+    <!-- Fixed Board Header -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 p-6 lg:px-12 border-b border-white/5 bg-slate-950/80 z-50 backdrop-blur-xl transition-transform duration-300 ease-out">
+        <div class="max-w-[1600px] mx-auto flex flex-col lg:flex-row justify-between items-center gap-6">
+            <div class="text-center lg:text-left">
+                <h1 class="text-3xl font-black tracking-tighter uppercase leading-none mb-1">Artifact Virtual</h1>
+                <p class="text-[11px] font-bold text-indigo-400 tracking-[0.4em] uppercase">Board of Directors</p>
+            </div>
+
+            <div class="flex flex-col items-center lg:items-end gap-2">
+                <div class="flex items-center gap-8">
+                    <div class="text-center lg:text-right">
+                        <p class="text-[9px] font-bold text-slate-500 uppercase mb-1 tracking-widest">Aggregate Progress</p>
+                        <p class="text-xl font-black text-indigo-400">35.0%</p>
+                    </div>
+                    <div class="w-32 lg:w-56 h-1.5 bg-slate-800 rounded-full overflow-hidden mt-1">
+                        <div class="h-full progress-line" style="width: 35%"></div>
+                    </div>
+                </div>
+                <p class="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Strategic Roadmap 2026 Ref: BoD-0402</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="p-6 lg:p-12 max-w-[1600px] mx-auto">
+        <!-- Summary Cards -->
+        <section class="mb-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass-panel p-6 rounded-2xl flex items-center gap-5 border-l-2 border-indigo-500">
+                <div class="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <div>
+                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Scale Target</h3>
+                    <p class="text-lg font-bold">$56.5M ARR <span class="text-[10px] text-slate-500 font-normal">by 2030</span></p>
+                </div>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl flex items-center gap-5 border-l-2 border-emerald-500">
+                <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                    <i class="fas fa-check-double"></i>
+                </div>
+                <div>
+                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Foundations</h3>
+                    <p class="text-lg font-bold text-emerald-400">Validated <span class="text-[10px] text-slate-500 font-normal ml-1">Phase 0-1</span></p>
+                </div>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl flex items-center gap-5 border-l-2 border-violet-500">
+                <div class="w-10 h-10 rounded-lg bg-violet-500/10 flex items-center justify-center text-violet-400">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <div>
+                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Operational Units</h3>
+                    <p class="text-lg font-bold">9 Divisions <span class="text-[10px] text-slate-500 font-normal ml-1">Active</span></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kanban Board -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <div class="flex flex-col gap-6">
+                <div class="flex items-center justify-between px-2">
+                    <div class="flex items-center gap-2">
+                        <span class="status-dot dot-done"></span>
+                        <h2 class="text-xs font-black uppercase tracking-widest text-slate-500">Finalized</h2>
+                    </div>
+                    <span id="count-done" class="text-[10px] font-bold bg-slate-800/50 px-2 py-0.5 rounded text-slate-400 tracking-tighter">0</span>
+                </div>
+                <div id="col-done" class="kanban-column rounded-3xl p-4 space-y-4"></div>
+            </div>
+
+            <div class="flex flex-col gap-6">
+                <div class="flex items-center justify-between px-2">
+                    <div class="flex items-center gap-2">
+                        <span class="status-dot dot-active"></span>
+                        <h2 class="text-xs font-black uppercase tracking-widest text-indigo-400">Active Execution</h2>
+                    </div>
+                    <span id="count-active" class="text-[10px] font-bold bg-indigo-900/30 px-2 py-0.5 rounded text-indigo-400 tracking-tighter">0</span>
+                </div>
+                <div id="col-active" class="kanban-column rounded-3xl p-4 space-y-4"></div>
+            </div>
+
+            <div class="flex flex-col gap-6">
+                <div class="flex items-center justify-between px-2">
+                    <div class="flex items-center gap-2">
+                        <span class="status-dot dot-pending"></span>
+                        <h2 class="text-sm font-black uppercase tracking-widest text-slate-500">Backlog</h2>
+                    </div>
+                    <span id="count-pending" class="text-[10px] font-bold bg-slate-800/50 px-2 py-0.5 rounded text-slate-400 tracking-tighter">0</span>
+                </div>
+                <div id="col-pending" class="kanban-column rounded-3xl p-4 space-y-4"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Consensus Engine Modal -->
+    <div id="modal" class="modal-blur fixed inset-0 z-[60] flex items-center justify-center p-6 hidden">
+        <div class="bg-slate-900 border border-white/10 rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden">
+            <div class="p-8 border-b border-white/5 flex justify-between items-start bg-slate-950/30">
+                <div>
+                    <div id="modal-tag" class="text-[10px] font-black uppercase tracking-widest px-2 py-1 bg-indigo-600/20 text-indigo-400 inline-block rounded mb-4">Phase</div>
+                    <h2 id="modal-title" class="text-2xl font-bold tracking-tight mb-1">Strategy Detail</h2>
+                    <p id="modal-status-text" class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Status: Awaiting Consensus</p>
+                </div>
+                <button onclick="closeModal()" class="w-10 h-10 rounded-full hover:bg-white/5 flex items-center justify-center transition">
+                    <i class="fas fa-times text-slate-400"></i>
+                </button>
+            </div>
+            
+            <div class="max-h-[60vh] overflow-y-auto p-8 space-y-8">
+                <!-- Consensus Engine UI -->
+                <div class="p-6 bg-indigo-500/5 rounded-2xl border border-indigo-500/10">
+                    <h5 class="text-[10px] font-black uppercase text-indigo-400 tracking-[0.2em] mb-4">Consensus Engine</h5>
+                    <div class="flex flex-wrap items-center gap-6">
+                        <div class="flex items-center gap-3">
+                            <button onclick="castVote(1)" id="vote-btn-1" class="vote-btn w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white"><i class="fas fa-user-check"></i></button>
+                            <button onclick="castVote(2)" id="vote-btn-2" class="vote-btn w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white"><i class="fas fa-user-check"></i></button>
+                            <button onclick="castVote(3)" id="vote-btn-3" class="vote-btn w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white"><i class="fas fa-user-check"></i></button>
+                            <span class="text-xs font-bold text-slate-500 ml-2">QUORUM: <span id="vote-count" class="text-indigo-400">0</span>/3</span>
+                        </div>
+                        <div class="h-8 w-px bg-white/10 mx-2"></div>
+                        <div class="flex items-center gap-3">
+                            <button onclick="triggerVeto()" id="veto-btn" class="veto-btn w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white"><i class="fas fa-hand-paper"></i></button>
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Director Veto</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h5 class="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-2">Objective Context</h5>
+                    <p id="modal-desc" class="text-lg text-slate-300 font-medium leading-relaxed"></p>
+                </div>
+
+                <div id="modal-points" class="space-y-3">
+                    <h5 class="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-2">Milestone Deliverables</h5>
+                    <!-- Points -->
+                </div>
+            </div>
+            
+            <div class="p-6 bg-slate-950/50 flex justify-end gap-3">
+                <button onclick="closeModal()" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-black uppercase tracking-widest transition shadow-lg shadow-indigo-600/20">Sync & Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const roadmapData = {
+            done: [
+                { id: "v1", phase: "Phase 0-1", title: "Business Concept Validation", desc: "Identification of Pakistan tech sector opportunities and validation with potential customers.", points: ["Market opportunity identified", "Three-tier model defined (Local/Virtual/Cloud)", "Value proposition created"] },
+                { id: "v2", phase: "Phase 0-1", title: "Legal Entity Establishment", desc: "Corporate registration and initial legal infrastructure.", points: ["Registered business entity", "Licensing obtained", "Initial banking systems"] },
+                { id: "v3", phase: "Phase 0-1", title: "5-Year Financial Projection", desc: "Board-approved growth model mapping revenue trajectory.", points: ["$900K to $56.5M path mapped", "Approved by BoD", "Unit economics established"] },
+                { id: "v4", phase: "Phase 0-1", title: "Organizational Architecture", desc: "Deployment of 9 specialized departments and governance.", points: ["Dept functions defined", "Governance framework built", "Role responsibilities set"] },
+                { id: "v5", phase: "Phase 0-1", title: "Technology Stack Selection", desc: "Fastify, React 18, PostgreSQL, Prisma, and Docker ratified.", points: ["Backend architecture set", "Frontend standards set", "Infrastructure approach decided"] },
+                { id: "v6", phase: "Phase 0-1", title: "GRC Framework", desc: "Governance, Risk, and Compliance systems institute.", points: ["75% completion of core framework", "Security standards defined", "Tracking mechanisms established"] },
+                { id: "v7", phase: "Phase 2", title: "Repository Architecture", desc: "Full CI/CD foundations and version control systems.", points: ["GitHub organization setup", "Branching strategy deployed", "Security scanning (CodeQL) initialized"] },
+                { id: "v8", phase: "Phase 2", title: "9-Division Deployment", desc: "Operations dashboards and tracking systems active for all depts.", points: ["Marketing, Finance, IT, legal dashboards live", "AVML & AVRD R&D pipelines operational", "HR recruitment framework ready"] },
+                { id: "v9", phase: "Phase 2", title: "Brand Identity Establishment", desc: "Visual standards and corporate web presence finalized.", points: ["Brand guidelines complete", "Visual hierarchy set", "Docs/web presence compliant"] }
+            ],
+            active: [
+                { id: "a1", phase: "Phase 2", title: "Backend Core Development", desc: "System schema and API endpoint generation.", points: ["Fastify framework implementation", "Authentication system (JWT)", "48 API endpoints development"] },
+                { id: "a2", phase: "Phase 2", title: "Frontend UI Foundations", desc: "React 18 implementation and component library.", points: ["Routing and navigation", "State management", "Component library architecture"] },
+                { id: "a3", phase: "Phase 2", title: "Test Coverage Expansion", desc: "Developing suite for platform reliability.", points: ["Current coverage: 30%", "Target coverage: 80%+", "Automated vulnerability management"] },
+                { id: "a4", phase: "Phase 3", title: "Studio ERP Platform", desc: "Internal enterprise resource planning development.", points: ["Project management module", "Document system activation", "Analytics dashboard"] },
+                { id: "a5", phase: "Phase 3", title: "Customer Portal Deployment", desc: "Customer interface for service interaction.", points: ["User registration flows", "Onboarding architecture", "Billing portal foundations"] },
+                { id: "a6", phase: "Phase 3", title: "Service Management System", desc: "Automation of provisioning and allocation.", points: ["Resource allocation logic", "SLA monitoring system", "Automated service delivery"] },
+                { id: "a7", phase: "Phase 3", title: "DevOps Pipeline Integration", desc: "Full automation of production environments.", points: ["Docker containerization", "Environment standardization", "Production monitoring setup"] }
+            ],
+            pending: [
+                { id: "p1", phase: "Phase 4", title: "Pakistan Market Launch", desc: "Local market entry with pilot programs.", points: ["Beta program (5-10 customers)", "National marketing campaign", "Active sales pipeline established"] },
+                { id: "p2", phase: "Phase 4", title: "First Revenue Capture", desc: "Initial enterprise customer onboarding.", points: ["5 paying enterprise accounts", "$50K-100K MRR target", "Revenue validation"] },
+                { id: "p3", phase: "Phase 5", title: "US Market Entry", desc: "Virtual expansion targeting US corporations.", points: ["5-10 US customer acquisitions", "Remote delivery tools", "Global communication channels"] },
+                { id: "p4", phase: "Phase 5", title: "EU Market Entry", desc: "Virtual expansion targeting EU corporations.", points: ["5-10 EU customer acquisitions", "GDPR compliance lock", "Localization strategy"] },
+                { id: "p5", phase: "Phase 5", title: "Team Expansion", desc: "Scaling personnel to meet virtual demand.", points: ["Target: 15-20 personnel", "Customer success manager hire", "Delivery team expansion"] },
+                { id: "p6", phase: "Phase 6", title: "Multi-tenant SaaS Architecture", desc: "Transformation to cloud-first provisioning.", points: ["SaaS architecture deployment", "Self-service provisioning", "Usage tracking automation"] },
+                { id: "p7", phase: "Phase 6", title: "Cloud Beta Program", desc: "Cloud-specific customer validation.", points: ["20-30 beta customers", "99.9% uptime SLA capability", "SOC 2 Type I prep"] },
+                { id: "p8", phase: "Phase 7", title: "Global Expansion Release", desc: "General availability for international markets.", points: ["APAC market expansion", "Middle East market entry", "100+ accounts target"] },
+                { id: "p9", phase: "Phase 7", title: "Scale Achievement MRR", desc: "Significant financial milestone acquisition.", points: ["$1M+ MRR milestone", "$12M+ ARR", "50-75 employees"] },
+                { id: "p10", phase: "Phase 8", title: "Global Scale Dominance", desc: "Established industry leadership status.", points: ["SOC 2 Type II certification", "300+ accounts", "$50M+ ARR achievement", "Exit optionality evaluation"] }
+            ]
+        };
+
+        // Consensus State Management
+        let boardVotes = JSON.parse(localStorage.getItem('av_board_consensus')) || {};
+        let activeItemId = null;
+
+        function saveBoardState() {
+            localStorage.setItem('av_board_consensus', JSON.stringify(boardVotes));
+        }
+
+        function renderColumn(colId, list) {
+            const container = document.getElementById(colId);
+            container.innerHTML = ''; // Clear for re-render
+            list.forEach(item => {
+                const itemState = boardVotes[item.id] || { votes: [], veto: false };
+                const isRatified = itemState.votes.length === 3 && !itemState.veto;
+                const isVetoed = itemState.veto;
+
+                const card = document.createElement('div');
+                card.id = `card-${item.id}`;
+                card.className = `kanban-card p-5 rounded-2xl shadow-sm ${isVetoed ? 'card-vetoed' : isRatified ? 'card-ratified' : ''}`;
+                
+                let consensusHtml = `<div class="flex gap-1">`;
+                for(let i=1; i<=3; i++) {
+                    consensusHtml += `<span class="w-1.5 h-1.5 rounded-full ${itemState.votes.includes(i) ? 'bg-indigo-400' : 'bg-slate-700'}"></span>`;
+                }
+                consensusHtml += `</div>`;
+                if(isVetoed) consensusHtml = `<span class="text-[8px] font-black text-red-500 uppercase tracking-widest"><i class="fas fa-hand-paper mr-1"></i> Vetoed</span>`;
+                else if(isRatified) consensusHtml = `<span class="text-[8px] font-black text-emerald-500 uppercase tracking-widest"><i class="fas fa-check-double mr-1"></i> Ratified</span>`;
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-[9px] font-black uppercase text-indigo-400 tracking-widest">${item.phase}</span>
+                        ${consensusHtml}
+                    </div>
+                    <h4 class="text-sm font-bold text-slate-200 mb-1 leading-tight">${item.title}</h4>
+                    <p class="text-[10px] text-slate-500 line-clamp-2">${item.desc}</p>
+                `;
+                card.onclick = () => openModal(item);
+                container.appendChild(card);
+            });
+        }
+
+        function openModal(item) {
+            activeItemId = item.id;
+            const itemState = boardVotes[activeItemId] || { votes: [], veto: false };
+            
+            document.getElementById('modal-tag').innerText = item.phase;
+            document.getElementById('modal-title').innerText = item.title;
+            document.getElementById('modal-desc').innerText = item.desc;
+            
+            // Render Points
+            const pointsHtml = item.points.map(p => `
+                <div class="flex items-start gap-4 bg-white/5 p-4 rounded-xl border border-white/5">
+                    <i class="fas fa-check-circle text-indigo-500 mt-1 text-xs"></i>
+                    <p class="text-xs font-semibold text-slate-300 leading-snug">${p}</p>
+                </div>
+            `).join('');
+            document.getElementById('modal-points').innerHTML = `<h5 class="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-3">Milestone Deliverables</h5>${pointsHtml}`;
+
+            updateConsensusUI();
+            document.getElementById('modal').classList.remove('hidden');
+        }
+
+        function updateConsensusUI() {
+            const itemState = boardVotes[activeItemId] || { votes: [], veto: false };
+            const countEl = document.getElementById('vote-count');
+            const statusEl = document.getElementById('modal-status-text');
+
+            countEl.innerText = itemState.votes.length;
+            
+            // Buttons
+            for(let i=1; i<=3; i++) {
+                const btn = document.getElementById(`vote-btn-${i}`);
+                if(itemState.votes.includes(i)) btn.classList.add('active');
+                else btn.classList.remove('active');
+            }
+
+            const vetoBtn = document.getElementById('veto-btn');
+            if(itemState.veto) vetoBtn.classList.add('active');
+            else vetoBtn.classList.remove('active');
+
+            // Status Text
+            if(itemState.veto) {
+                statusEl.innerText = "Status: Blocked by Veto";
+                statusEl.className = "text-[10px] font-bold uppercase tracking-widest text-red-500";
+            } else if(itemState.votes.length === 3) {
+                statusEl.innerText = "Status: Ratified by Consensus";
+                statusEl.className = "text-[10px] font-bold uppercase tracking-widest text-emerald-500";
+            } else {
+                statusEl.innerText = "Status: Awaiting Quorum";
+                statusEl.className = "text-[10px] font-bold uppercase tracking-widest text-slate-500";
+            }
+        }
+
+        function castVote(voteId) {
+            if(!boardVotes[activeItemId]) boardVotes[activeItemId] = { votes: [], veto: false };
+            
+            const index = boardVotes[activeItemId].votes.indexOf(voteId);
+            if(index > -1) boardVotes[activeItemId].votes.splice(index, 1);
+            else boardVotes[activeItemId].votes.push(voteId);
+            
+            saveBoardState();
+            updateConsensusUI();
+            refreshColumns();
+        }
+
+        function triggerVeto() {
+            if(!boardVotes[activeItemId]) boardVotes[activeItemId] = { votes: [], veto: false };
+            boardVotes[activeItemId].veto = !boardVotes[activeItemId].veto;
+            
+            saveBoardState();
+            updateConsensusUI();
+            refreshColumns();
+        }
+
+        function refreshColumns() {
+            renderColumn('col-done', roadmapData.done);
+            renderColumn('col-active', roadmapData.active);
+            renderColumn('col-pending', roadmapData.pending);
+            
+            document.getElementById('count-done').innerText = roadmapData.done.length;
+            document.getElementById('count-active').innerText = roadmapData.active.length;
+            document.getElementById('count-pending').innerText = roadmapData.pending.length;
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+
+        window.onload = () => {
+            refreshColumns();
+
+            let lastScrollY = window.scrollY;
+            const header = document.getElementById('main-header');
+
+            window.addEventListener('scroll', () => {
+                const currentScrollY = window.scrollY;
+                if (currentScrollY > lastScrollY && currentScrollY > 80) {
+                    header.classList.add('header-hidden');
+                } else {
+                    header.classList.remove('header-hidden');
+                }
+                lastScrollY = currentScrollY;
+            }, { passive: true });
+        };
+    </script>
+</body>
+</html>

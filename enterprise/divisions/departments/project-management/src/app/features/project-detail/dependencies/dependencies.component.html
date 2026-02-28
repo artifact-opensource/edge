@@ -1,0 +1,83 @@
+<div class="dependencies-container">
+  <header class="dependencies-header">
+    <h1>Task Dependencies</h1>
+    <p class="subtitle">Project: {{ projectId | uppercase }}</p>
+  </header>
+
+  <div class="dependencies-content" *ngIf="tasks.length > 0">
+    <div class="task-dependency-card" *ngFor="let task of tasks">
+      <div class="task-header">
+        <h2 class="task-name">{{ task.name }}</h2>
+        <div class="task-badges">
+          <span class="priority-badge" [ngClass]="getPriorityClass(task.priority)">
+            {{ task.priority }}
+          </span>
+          <span class="status-badge" [ngClass]="getStatusClass(task.status)">
+            {{ task.status }}
+          </span>
+        </div>
+      </div>
+
+      <p class="task-description" *ngIf="task.description">{{ task.description }}</p>
+
+      <div class="dependencies-section">
+        <!-- Dependencies (Blocks this task) -->
+        <div class="dependency-group" *ngIf="getDependencyTasks(task).length > 0">
+          <h3 class="group-title">⬅️ Depends On ({{ getDependencyTasks(task).length }})</h3>
+          <p class="group-description">These tasks must complete before this task can start</p>
+          <div class="dependency-list">
+            <div class="dependency-item" *ngFor="let dep of getDependencyTasks(task)">
+              <div class="dependency-info">
+                <h4>{{ dep.name }}</h4>
+                <div class="dependency-meta">
+                  <span class="status-badge" [ngClass]="getStatusClass(dep.status)">
+                    {{ dep.status }}
+                  </span>
+                  <span class="progress">{{ dep.progress }}% complete</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dependents (Blocked by this task) -->
+        <div class="dependency-group" *ngIf="getDependentTasks(task).length > 0">
+          <h3 class="group-title">➡️ Blocks ({{ getDependentTasks(task).length }})</h3>
+          <p class="group-description">These tasks are waiting for this task to complete</p>
+          <div class="dependency-list">
+            <div class="dependency-item" *ngFor="let dep of getDependentTasks(task)">
+              <div class="dependency-info">
+                <h4>{{ dep.name }}</h4>
+                <div class="dependency-meta">
+                  <span class="status-badge" [ngClass]="getStatusClass(dep.status)">
+                    {{ dep.status }}
+                  </span>
+                  <span class="priority-badge" [ngClass]="getPriorityClass(dep.priority)">
+                    {{ dep.priority }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="no-dependencies" *ngIf="getDependencyTasks(task).length === 0 && getDependentTasks(task).length === 0">
+          <p>✓ This task has no dependencies</p>
+        </div>
+      </div>
+
+      <div class="blocker-warning" *ngIf="task.blockedBy && task.blockedBy.length > 0">
+        <span class="warning-icon">🚫</span>
+        <div>
+          <strong>Blocked:</strong> {{ task.blockedBy.join(', ') }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-tasks" *ngIf="tasks.length === 0">
+    <div class="no-tasks-icon">🔗</div>
+    <h2>No Tasks</h2>
+    <p>No tasks found for this project.</p>
+  </div>
+</div>

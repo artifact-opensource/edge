@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Protocol | Artifact Virtual</title>
+    <meta name="description" content="Artifact Virtual Privacy Policy - How we collect, use, and protect your data.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --basalt-deep: #080809;
+            --basalt-surface: #121215;
+            --basalt-elevated: #1a1a1f;
+            --basalt-edge: #2a2a30;
+            --accent-cyan: #00ffd5;
+            --text-primary: #e0e0e0;
+            --text-secondary: #8c8c94;
+            --machined-line: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--basalt-deep);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.8;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(to bottom, var(--basalt-deep), transparent);
+            backdrop-filter: blur(8px);
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: "";
+            width: 12px;
+            height: 12px;
+            background: var(--accent-cyan);
+            display: inline-block;
+            box-shadow: 0 0 15px var(--accent-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+        }
+
+        .page-header {
+            margin-bottom: 4rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--basalt-edge);
+        }
+
+        .pre-title {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        .update-date {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        h2 {
+            color: var(--text-primary);
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--machined-line);
+        }
+
+        h3 {
+            color: var(--accent-cyan);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            color: var(--text-secondary);
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        footer {
+            padding: 4rem 4rem 2rem;
+            background: var(--basalt-deep);
+            border-top: 1px solid var(--basalt-edge);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: #444;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem 2rem; }
+            .nav-links { display: none; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">ARTIFACT VIRTUAL</a>
+        <ul class="nav-links">
+            <li><a href="index.html#solutions">Solutions</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="terms-of-service.html">Terms</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <span class="pre-title">// LEGAL_DOC_001</span>
+            <h1>Privacy Protocol</h1>
+            <p class="update-date">LAST_UPDATED: 2026-02-01</p>
+        </div>
+
+        <h2>1. Introduction</h2>
+        <p>Artifact Virtual (SMC-Private) Limited ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our services.</p>
+
+        <h2>2. Information We Collect</h2>
+
+        <h3>2.1 Information You Provide</h3>
+        <ul>
+            <li>Account registration information (name, email, contact details)</li>
+            <li>Business information and credentials</li>
+            <li>Payment and billing information</li>
+            <li>Communications and support requests</li>
+        </ul>
+
+        <h3>2.2 Automatically Collected Information</h3>
+        <ul>
+            <li>Usage data and service logs</li>
+            <li>Device and browser information</li>
+            <li>IP addresses and location data</li>
+            <li>Performance and diagnostic data</li>
+        </ul>
+
+        <h2>3. How We Use Your Information</h2>
+        <ul>
+            <li>To provide and maintain our services</li>
+            <li>To process transactions and billing</li>
+            <li>To communicate with you about services</li>
+            <li>To improve and optimize our services</li>
+            <li>To ensure security and prevent fraud</li>
+            <li>To comply with legal obligations</li>
+        </ul>
+
+        <h2>4. Data Security</h2>
+        <p>We implement industry-standard security measures to protect your information:</p>
+        <ul>
+            <li>Encryption in transit and at rest</li>
+            <li>Access controls and authentication</li>
+            <li>Regular security audits and monitoring</li>
+            <li>Secure data centers with physical security</li>
+            <li>Incident response procedures</li>
+        </ul>
+
+        <h2>5. Data Retention</h2>
+        <p>We retain your information for as long as necessary to:</p>
+        <ul>
+            <li>Provide our services</li>
+            <li>Comply with legal obligations</li>
+            <li>Resolve disputes</li>
+            <li>Enforce our agreements</li>
+        </ul>
+
+        <h2>6. Your Rights</h2>
+        <p>You have the right to:</p>
+        <ul>
+            <li>Access your personal information</li>
+            <li>Correct inaccurate information</li>
+            <li>Request deletion of your information</li>
+            <li>Object to processing of your information</li>
+            <li>Export your data</li>
+            <li>Withdraw consent</li>
+        </ul>
+
+        <h2>7. International Data Transfers</h2>
+        <p>Your information may be transferred to and processed in countries other than your country of residence. We ensure appropriate safeguards are in place for such transfers.</p>
+
+        <h2>8. Third-Party Services</h2>
+        <p>We may use third-party service providers to assist in delivering our services. These providers are contractually obligated to protect your information and use it only for specified purposes.</p>
+
+        <h2>9. Cookies and Tracking</h2>
+        <p>We use cookies and similar technologies to enhance your experience, analyze usage, and personalize content. You can control cookie preferences through your browser settings.</p>
+
+        <h2>10. Children's Privacy</h2>
+        <p>Our services are not directed to individuals under the age of 18. We do not knowingly collect information from children.</p>
+
+        <h2>11. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. We will notify you of material changes by email or through our services.</p>
+
+        <h2>12. Contact Us</h2>
+        <p>If you have questions about this Privacy Policy, please contact us:</p>
+        <ul>
+            <li>Email: privacy@artifactvirtual.com</li>
+            <li>Address: Artifact Virtual (SMC-Private) Limited, Asia</li>
+        </ul>
+
+        <h2>13. Compliance</h2>
+        <p>We comply with applicable data protection laws, including:</p>
+        <ul>
+            <li>General Data Protection Regulation (GDPR)</li>
+            <li>Asian data protection regulations</li>
+            <li>Industry-specific compliance requirements</li>
+        </ul>
+    </div>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2026 ARTIFACT VIRTUAL. ALL RIGHTS RESERVED.</p>
+            <p>DOCUMENT_VERSION: 1.0.0</p>
+        </div>
+    </footer>
+</body>
+</html>

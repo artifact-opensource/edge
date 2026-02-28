@@ -1,0 +1,82 @@
+{
+  "enabled": false,
+  "name": "Infrastructure Deployment Pipeline",
+  "description": "Automated infrastructure deployment for operations",
+  "department": "operations",
+  "type": "github-action",
+  "triggers": [
+    "push",
+    "workflow_dispatch"
+  ],
+  "branches": ["main", "staging"],
+  "jobs": {
+    "validate": {
+      "enabled": false,
+      "runs_on": "ubuntu-latest",
+      "steps": [
+        "checkout",
+        "validate-terraform",
+        "validate-ansible",
+        "security-scan"
+      ]
+    },
+    "plan": {
+      "enabled": false,
+      "runs_on": "ubuntu-latest",
+      "needs": ["validate"],
+      "steps": [
+        "terraform-plan",
+        "cost-estimation",
+        "change-summary"
+      ]
+    },
+    "approval": {
+      "enabled": false,
+      "type": "manual",
+      "required_approvers": ["operations-lead", "cto"],
+      "timeout_hours": 24
+    },
+    "deploy_local": {
+      "enabled": false,
+      "runs_on": "self-hosted-pakistan",
+      "needs": ["approval"],
+      "region": "pakistan",
+      "steps": [
+        "terraform-apply",
+        "ansible-configure",
+        "health-check"
+      ]
+    },
+    "deploy_virtual": {
+      "enabled": false,
+      "runs_on": "ubuntu-latest",
+      "needs": ["approval"],
+      "regions": ["us-east", "eu-west"],
+      "steps": [
+        "terraform-apply",
+        "cloud-configure",
+        "health-check"
+      ]
+    },
+    "deploy_cloud": {
+      "enabled": false,
+      "runs_on": "ubuntu-latest",
+      "needs": ["approval"],
+      "regions": ["global"],
+      "steps": [
+        "kubernetes-deploy",
+        "service-mesh-config",
+        "health-check"
+      ]
+    }
+  },
+  "rollback": {
+    "enabled": false,
+    "automatic": false,
+    "conditions": ["health_check_failed", "error_rate_high"]
+  },
+  "notifications": {
+    "enabled": false,
+    "channels": ["slack", "email"]
+  }
+}

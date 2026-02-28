@@ -1,0 +1,92 @@
+<div class="my-tasks-container">
+  <header class="page-header">
+    <h1>My Tasks</h1>
+    <p class="subtitle">Consolidated view of all your project tasks, prioritized and organized</p>
+  </header>
+
+  <div class="tasks-list" *ngIf="tasks$ | async as tasks">
+    <div class="task-count">
+      <span class="count">{{ tasks.length }}</span>
+      <span class="label">tasks requiring attention</span>
+    </div>
+
+    <div class="task-item" *ngFor="let task of tasks" [class.overdue]="isOverdue(task.dueDate)">
+      <div class="task-priority" [ngClass]="getPriorityClass(task.priority)">
+        <span class="priority-indicator"></span>
+      </div>
+
+      <div class="task-content">
+        <div class="task-header">
+          <h3 class="task-name">{{ task.name }}</h3>
+          <span class="task-project">{{ task.projectId | uppercase }}</span>
+        </div>
+
+        <p class="task-description" *ngIf="task.description">
+          {{ task.description }}
+        </p>
+
+        <div class="task-meta">
+          <span class="task-status" [ngClass]="getStatusClass(task.status)">
+            {{ task.status }}
+          </span>
+
+          <span class="task-priority-label" [ngClass]="getPriorityClass(task.priority)">
+            {{ task.priority }}
+          </span>
+
+          <span class="task-due" [class.overdue]="isOverdue(task.dueDate)">
+            📅 {{ formatDate(task.dueDate) }}
+          </span>
+
+          <span class="task-assignee" *ngIf="task.assignedTo">
+            👤 {{ task.assignedTo }}
+          </span>
+
+          <span class="task-progress" *ngIf="task.progress > 0">
+            {{ task.progress }}%
+          </span>
+        </div>
+
+        <div class="task-dependencies" *ngIf="task.dependencies && task.dependencies.length > 0">
+          <span class="dependency-icon">🔗</span>
+          <span class="dependency-text">
+            Depends on {{ task.dependencies.length }} task{{ task.dependencies.length > 1 ? 's' : '' }}
+          </span>
+        </div>
+
+        <div class="task-blocked" *ngIf="task.blockedBy && task.blockedBy.length > 0">
+          <span class="blocked-icon">🚫</span>
+          <span class="blocked-text">{{ task.blockedBy.join(', ') }}</span>
+        </div>
+
+        <div class="task-tags" *ngIf="task.tags && task.tags.length > 0">
+          <span class="tag" *ngFor="let tag of task.tags">{{ tag }}</span>
+        </div>
+      </div>
+
+      <div class="task-actions">
+        <button 
+          class="action-btn complete-btn" 
+          *ngIf="task.status !== 'Complete' && task.status !== 'Blocked'"
+          (click)="markComplete(task.id)"
+          title="Mark as complete">
+          ✓
+        </button>
+
+        <button 
+          class="action-btn start-btn" 
+          *ngIf="task.status === 'Planned'"
+          (click)="markInProgress(task.id)"
+          title="Start task">
+          ▶
+        </button>
+      </div>
+    </div>
+
+    <div class="no-tasks" *ngIf="tasks.length === 0">
+      <div class="no-tasks-icon">✨</div>
+      <h2>All caught up!</h2>
+      <p>No pending tasks at the moment.</p>
+    </div>
+  </div>
+</div>
