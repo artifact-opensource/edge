@@ -1,280 +1,190 @@
-# ENTERPRISE REPOSITORY
+# Artifact Edge v3
 
-**Artifact Virtual (SMC-Private) Limited** — SECP Registration: 0325693
+A distributed edge computing framework for multi-node task orchestration with guaranteed single execution, event persistence, and eventual consistency.
 
-> This is the authoritative enterprise repository. For a comprehensive business overview, see [`ARTIFACT-VIRTUAL.md`](ARTIFACT-VIRTUAL.md).
+## Overview
 
-**Classification:** Confidential — Private Repository
-**Last Auto-Update:** 2026-02-11 15:33 UTC
+Artifact Edge v3 enables reliable task execution across a network of edge nodes. Tasks (called "intents") are submitted to any node, but only the designated owner node executes them, ensuring no duplicate execution. The system uses distributed consensus via consistent hashing, event sourcing for durability, and gossip protocols for synchronization.
 
----
+### Key Features
 
-## Repository Structure
+- **Single Execution Guarantee**: Each task executes exactly once across the network
+- **Distributed Ownership**: Consistent hashing assigns task ownership without central coordination
+- **Event Sourcing**: All operations are stored as immutable events in SQLite
+- **Eventual Consistency**: Gossip protocol synchronizes events across all nodes
+- **Fault Tolerance**: Network partitions and node failures don't break task guarantees
+- **Extensible Agents**: Pluggable task handlers for custom operations
+- **REST API**: Simple HTTP interface for task submission and monitoring
+
+## Architecture
 
 ```
-enterprise/
-├── admin/
-│   ├── launch/
-│   ├── BOD_ROADMAP.md (21KB)
-│   ├── CEO_EXECUTION_PLAN.md (31KB)
-│   ├── DECRYPTING_FILES.md (2KB)
-│   ├── employment-contract-fulltime.txt (6KB)
-│   ├── invoice-template.txt (8KB)
-│   ├── LAUNCH-POST-DISCORD.md (8KB)
-│   ├── LAUNCH-POST-FACEBOOK.md (13KB)
-│   ├── LAUNCH-POST-LINKEDIN.md (4KB)
-│   ├── LAUNCH-POST-NOTION.md (39KB)
-│   ├── LAUNCH-POST-TWITTER.md (4KB)
-│   ├── leave-application-form.txt (4KB)
-│   ├── letterhead-template.txt (2KB)
-│   ├── memo-template.txt (11KB)
-│   ├── nda-template.txt (7KB)
-│   ├── offer-letter-template.txt (4KB)
-│   ├── purchase-order-template.txt (11KB)
-│   ├── README.md (4KB)
-│   ├── ROADMAP_USAGE.md (5KB)
-│   ├── ROADMAP_VALIDATION.md (7KB)
-│   ├── service-agreement-template.txt (8KB)
-│   ├── termination-letter.txt (3KB)
-│   └── vendor-contract-template.txt (10KB)
-├── changelog/
-│   └── CHANGELOG.md (920B)
-├── copilot/
-│   ├── milestones/
-│   ├── context.json (58KB)
-│   ├── COPILOT.md (14KB)
-│   ├── SKILLS.md (29KB)
-│   └── TOOLS.md (20KB)
-├── database/
-│   ├── data/
-│   ├── schemas/
-│   ├── utils/
-│   ├── DATABASE-QUICK-REF.md (4KB)
-│   ├── generate_knowledge_graph.py (16KB)
-│   ├── KNOWLEDGE-GRAPH.md (7KB)
-│   ├── RAG-USAGE-GUIDE.md (20KB)
-│   ├── README.md (14KB)
-│   └── update_databases.py (12KB)
-├── docs/
-│   ├── investor-profile/
-│   ├── csv-manifest.json (6KB)
-│   ├── csv-visualizer.html (14KB)
-│   ├── enterprise-dashboard.html (10KB)
-│   ├── index.html (18KB)
-│   ├── infrastructure.html (36KB)
-│   ├── knowledge_graph.html (26KB)
-│   ├── privacy-policy.html (13KB)
-│   ├── roadmap.html (30KB)
-│   ├── sla.html (18KB)
-│   ├── stakeholder-portal.html (49KB)
-│   └── terms-of-service.html (15KB)
-├── enterprise/
-│   ├── audit/
-│   ├── divisions/
-│   ├── docs/
-│   ├── infrastructure/
-│   ├── projects/
-│   ├── stakeholders/
-│   ├── workflows/
-│   ├── 00_ERP_MAP.md (23KB)
-│   ├── 01_OPS_CHECKLIST.md (8KB)
-│   ├── 02_CONTROLS.md (52KB)
-│   ├── 03_INFRA_MAP.md (23KB)
-│   ├── artifact-project.json (33KB)
-│   ├── BOD.md (7KB)
-│   └── ENTERPRISE.md (9KB)
-├── notion/
-│   ├── scripts/
-│   ├── tests/
-│   ├── AV-LIVE-SCHEMA.md (18KB)
-│   ├── BUILD-SCRIPT.md (5KB)
-│   ├── COMMUNITY-HUB-SCHEMA.md (17KB)
-│   ├── INTEGRATION-FIXED.md (7KB)
-│   ├── PORTAL-ARCHITECTURE.md (34KB)
-│   ├── portal-manifest.json (936B)
-│   ├── QUICK-REFERENCE.md (2KB)
-│   ├── README.md (14KB)
-│   ├── requirements.txt (793B)
-│   └── STAKEHOLDER-HUB-SCHEMA.md (42KB)
-├── obsidian/
-│   ├── ceo-weekly-sop.md (24KB)
-│   ├── CEO_CALENDAR.csv (297KB)
-│   ├── manual.md (43KB)
-│   ├── notes.md (4KB)
-│   ├── objective.md (8KB)
-│   ├── PROJECT-SYNC-AUTOMATION.md (13KB)
-│   ├── README.md (10KB)
-│   ├── sop.md (6KB)
-│   └── todo.md (5KB)
-├── reports/
-│   ├── security-run-21747984646/
-│   ├── CI_SECURITY_SUMMARY.md (2KB)
-│   ├── csv-validation-report.md (93KB)
-│   ├── security-scan-20260206074150.md (66B)
-│   └── security-scan-20260206103939.md (66B)
-├── scripts/
-│   ├── shield/
-│   ├── consolidate_calendars.py (3KB)
-│   ├── copyright-tool.js (14KB)
-│   ├── create_repo_backup.py (851B)
-│   ├── encrypt_toggle.ps1 (518B)
-│   ├── encrypt_toggle.sh (309B)
-│   ├── evaluate_formulas.py (3KB)
-│   ├── fetch.ps1 (5KB)
-│   ├── fetch.sh (4KB)
-│   ├── generate_csv_manifest.py (1KB)
-│   ├── healthcheck.py (9KB)
-│   ├── README.md (6KB)
-│   ├── run-copyright-tool.ps1 (3KB)
-│   ├── run-copyright-tool.sh (3KB)
-│   ├── security_scan.py (2KB)
-│   ├── test-copyright-tool.js (10KB)
-│   ├── update_engine.py (25KB)
-│   └── validate_csvs.py (6KB)
-├── tools/
-│   └── visualizer-server/
-├── website/
-│   ├── artifactvirtual.com/
-│   ├── av-comm-webapp/
-│   └── sh_portal/
-├── ARTIFACT-VIRTUAL.md (33KB)
-├── CODE_OF_CONDUCT.md (419B)
-├── COMMUNITY.md (2KB)
-├── CONTRIBUTING.md (2KB)
-├── LICENSE.md (9KB)
-├── POLICY.md (790B)
-├── README.md (11KB)
-├── SECURITY.md (529B)
-├── toggle_encrypt.py (4KB)
-├── update-enterprise.ps1 (1KB)
-├── update-enterprise.py (671B)
-└── update-enterprise.sh (1KB)
+┌─────────────────────────────────────────────────────────────┐
+│                    Edge Network Mesh                        │
+│  ┌──────────────────┐           ┌──────────────────┐       │
+│  │    Edge Node 1   │◄──Gossip──┤    Edge Node 2   │       │
+│  │  (Port 5001)     │  (sync)   │  (Port 5002)     │       │
+│  └────────┬─────────┘           └────────┬─────────┘       │
+│           │                               │                 │
+│      Vector Clock              Vector Clock                │
+│      Event Log                 Event Log                   │
+│      Runtime                   Runtime                     │
+│      Ownership Engine          Ownership Engine            │
+└─────────────────────────────────────────────────────────────┘
+           ▲                               ▲
+           │ REST API                      │
+           │ (Flask)                       │
+       [Client]                         [Client]
 ```
 
----
+### Core Components
 
-## Quick Navigation
+- **Edge Node** (`node/edge_node.py`): Main orchestrator receiving intents and managing execution
+- **Runtime** (`core/runtime.py`): Background task execution loop
+- **Event Log** (`core/event_log.py`): In-memory event tracking with persistence
+- **Ownership** (`core/ownership.py`): Distributed leadership using consistent hashing
+- **Vector Clock** (`core/vector_clock.py`): Causal ordering of events
+- **Mesh Network** (`mesh/network.py`): Peer-to-peer communication
+- **Gossip Protocol** (`mesh/gossip.py`): Event synchronization
+- **Intent Protocol** (`protocols/intent.py`): Task routing and execution
+- **REST API** (`api/control_api.py`): HTTP endpoints for clients
 
-| Area | Entry Point | Description |
-|------|------------|-------------|
-| **Business Overview** | [`ARTIFACT-VIRTUAL.md`](ARTIFACT-VIRTUAL.md) | Full company brief, org structure, strategy |
-| **CEO Dashboard** | [`docs/enterprise-dashboard.html`](docs/enterprise-dashboard.html) | Eagle-eye enterprise dashboard |
-| **Board Roadmap** | [`admin/BOD_ROADMAP.md`](admin/BOD_ROADMAP.md) | 8-phase strategic roadmap (BOD) |
-| **CEO Execution** | [`admin/CEO_EXECUTION_PLAN.md`](admin/CEO_EXECUTION_PLAN.md) | Tactical execution plan |
-| **Enterprise Map** | [`enterprise/00_ERP_MAP.md`](enterprise/00_ERP_MAP.md) | Enterprise overview dashboard |
-| **Stakeholders** | [`enterprise/stakeholders/README.md`](enterprise/stakeholders/README.md) | Investor & partner portal |
-| **Projects** | [`enterprise/projects/PROJECT-INDEX.md`](enterprise/projects/PROJECT-INDEX.md) | 18-project portfolio |
-| **Databases** | [`database/README.md`](database/README.md) | SQLite + FTS5 database + legacy JSON |
-| **CEO Workspace** | [`obsidian/README.md`](obsidian/README.md) | CEO operating system |
-| **CSV Visualizer** | [`docs/csv-visualizer.html`](docs/csv-visualizer.html) | Interactive CSV dashboard viewer |
-| **Update Script** | [`update-enterprise.sh`](update-enterprise.sh) | Single-command enterprise refresh |
-| **Changelog** | [`changelog/CHANGELOG.md`](changelog/CHANGELOG.md) | Monolithic enterprise changelog |
+## Installation
 
----
+### Prerequisites
 
-## Enterprise Update
+- Python 3.8+
+- pip
 
-Run the update script to refresh all enterprise data:
+### Setup
 
 ```bash
-# Preview changes (dry-run, default)
-./update-enterprise.sh
+# Clone the repository
+git clone <repository-url>
+cd artifact-edge-v3-1
 
-# Apply changes
-./update-enterprise.sh --apply
-
-# Skip database sync (faster)
-./update-enterprise.sh --apply --skip-db
+# Install dependencies
+pip install flask requests
 ```
 
-The update script:
-- Syncs all 4 JSON databases from repo files
-- Regenerates CSV manifest across all departments
-- Detects drift (broken links, stale references)
-- Auto-updates this README
-- Refreshes CEO workspace summary
-- Appends changes to changelog (semver, append-only)
+## Usage
 
----
+### Running a Multi-Node Simulation
 
-## CSV Dashboards
+Start a 2-node network to see distributed task execution:
 
-| Path | Department | Size |
-|------|-----------|------|
-| `enterprise/divisions/avml/AVML_DASHBOARD.csv` | avml | 7,197B |
-| `enterprise/divisions/avrd/AVRD_DASHBOARD.csv` | avrd | 7,239B |
-| `enterprise/divisions/avrm/AVRM_DASHBOARD.csv` | avrm | 12,386B |
-| `enterprise/divisions/departments/executive/EXECUTIVE_DASHBOARD.csv` | executive | 7,633B |
-| `enterprise/divisions/departments/executive/ceo/CEO_CALENDAR.csv` | executive | 304,198B |
-| `enterprise/divisions/departments/executive/ceo/CEO_DASHBOARD.csv` | executive | 4,472B |
-| `enterprise/divisions/departments/finance/FINANCE_DASHBOARD.csv` | finance | 6,538B |
-| `enterprise/divisions/departments/hr/HR_DASHBOARD.csv` | hr | 6,350B |
-| `enterprise/divisions/departments/it-infrastructure/IT_INFRASTRUCTURE_DASHBOARD.csv` | it-infrastructure | 7,663B |
-| `enterprise/divisions/departments/legal-compliance/LEGAL_COMPLIANCE_DASHBOARD.csv` | legal-compliance | 9,286B |
-| `enterprise/divisions/departments/marketing/MARKETING_OPS_DASHBOARD.csv` | marketing | 4,681B |
-| `enterprise/divisions/departments/operations/OPERATIONS_DASHBOARD.csv` | operations | 7,649B |
-| `obsidian/CEO_CALENDAR.csv` | ceo | 304,198B |
+```bash
+python simulation/multi_node.py
+```
 
----
+This launches two edge nodes on ports 5001 and 5002. Submit a task to either node - only the owner will execute it.
 
-## Drift Report
+### Starting Individual Nodes
 
-- notion/README.md → ../NOTION-UPDATE-README.md
-- notion/README.md → ./build_notion_portal.py
-- notion/README.md → ../NOTION-UPDATE-README.md
-- notion/README.md → ./MAINTENANCE.md
-- scripts/README.md → ./COPYRIGHT_TOOL_README.md
-- scripts/README.md → ./COPYRIGHT_TOOL_EXAMPLES.md
-- obsidian/PROJECT-SYNC-AUTOMATION.md → $repo_url
-- docs/investor-profile/01_BUSINESS-PROFILE.md → PRODUCTS-CATALOG.md
-- docs/investor-profile/01_BUSINESS-PROFILE.md → PROJECT-PORTFOLIO.md
-- docs/investor-profile/01_BUSINESS-PROFILE.md → SERVICES-CATALOG.md
-- docs/investor-profile/01_BUSINESS-PROFILE.md → FINANCIAL-PROJECTIONS.md
-- docs/investor-profile/01_BUSINESS-PROFILE.md → FUNDING-STRATEGY.md
-- docs/investor-profile/01_BUSINESS-PROFILE.md → REGULATORY-STRATEGY.md
-- docs/investor-profile/01_BUSINESS-PROFILE.md → BUSINESS-INTELLIGENCE.md
-- docs/investor-profile/00_INDEX.md → ../../../enterprise/divisions/departments/finance/funding/README.md
-- docs/investor-profile/00_INDEX.md → ../../../enterprise/divisions/departments/finance/funding/README.md
-- docs/investor-profile/00_INDEX.md → ../../../enterprise/divisions/departments/finance/funding/pitch-decks/
-- .github/workflows/README.md → ../../enterprise/stakeholders/portal/
-- notion/scripts/_archive/QUICK-REFERENCE-v1.md → ./PORTAL-ARCHITECTURE.md
-- notion/scripts/_archive/QUICK-REFERENCE-v1.md → ./BUILD-SCRIPT.md
+```bash
+# Start node 1
+python -c "from node.edge_node import EdgeNode; node = EdgeNode(node_id='node1', port=5001, peers=[('localhost', 5002)]); node.start()"
 
----
+# Start node 2
+python -c "from node.edge_node import EdgeNode; node = EdgeNode(node_id='node2', port=5002, peers=[('localhost', 5001)]); node.start()"
+```
 
-## Repository Statistics
+### Submitting Tasks
 
-| Metric | Count |
-|--------|-------|
-| Markdown files | 382 |
-| CSV dashboards | 13 |
-| JSON databases | 68 |
-| Python scripts | 46 |
+Use curl or any HTTP client to submit intents:
 
----
+```bash
+# Submit a move task
+curl -X POST http://localhost:5001/intent \
+  -H "Content-Type: application/json" \
+  -d '{"type": "move", "data": {"direction": "north", "distance": 10}}'
+```
 
-## Security
+### API Endpoints
 
-- **Shield256** encryption for confidential data (AES-256-GCM, `.enc` files)
-- Pre-commit hooks block commits with unencrypted sensitive files
-- Toggle: `python toggle_encrypt.py`
-- Documentation: [`scripts/shield/`](scripts/shield/)
+- `POST /intent` - Submit a new task intent
+  - Body: `{"type": "task_type", "data": {...}}`
+  - Returns: Task acceptance confirmation
 
----
+- `POST /sync` - Receive gossip synchronization events
+  - Body: List of events to sync
+  - Returns: Sync acknowledgment
 
-## Key Contacts
+## Task Types
 
-| Role | Email |
-|------|-------|
-| CEO | ceo@artifactvirtual.com |
-| Stakeholders | stakeholders@artifactvirtual.com |
-| Legal | legal@artifactvirtual.com |
-| Security | security@artifactvirtual.com |
+The framework supports extensible task agents. Built-in agents:
 
----
+- **Move Agent** (`agents/move_agent.py`): Handles movement intents
+  - Input: `{"type": "move", "data": {"direction": "north|south|east|west", "distance": number}}`
 
-**Confidentiality:** This repository is private and proprietary. Do not share contents with unauthorized parties.
+Add custom agents by implementing the agent interface and registering with the IntentHandler.
 
-**License:** [`LICENSE.md`](LICENSE.md) — Proprietary
+## Configuration
 
-*Auto-generated by `update-enterprise.sh` — do not edit manually.*
+Nodes are configured programmatically:
+
+```python
+node = EdgeNode(
+    node_id='unique_node_id',
+    port=5001,
+    peers=[('peer1_host', peer1_port), ('peer2_host', peer2_port)]
+)
+```
+
+## Development
+
+### Project Structure
+
+```
+artifact-edge-v3-1/
+├── agents/           # Task execution agents
+├── api/             # REST API endpoints
+├── core/            # Core runtime components
+├── docs/            # Documentation
+├── mesh/            # Networking and gossip
+├── node/            # Main edge node implementation
+├── protocols/       # Intent and event protocols
+├── simulation/      # Test simulations
+└── storage/         # Persistent storage backends
+```
+
+### Adding New Agents
+
+1. Create a new agent class in `agents/`
+2. Implement the `execute` method
+3. Register the agent in `protocols/intent.py`
+
+Example:
+
+```python
+class CustomAgent:
+    def execute(self, intent_data):
+        # Your task logic here
+        pass
+```
+
+### Testing
+
+Run the multi-node simulation to verify distributed behavior:
+
+```bash
+python simulation/multi_node.py
+```
+
+Expected output shows only the owner node executing tasks despite both receiving intents.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Support
+
+For questions or issues, please open a GitHub issue.
