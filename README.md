@@ -61,6 +61,50 @@ sequenceDiagram
   G->>Peers: sync(events)
 ```
 
+## Speciofication
+
+This section explains how Artifact Edge works, the responsibilities of each major component, and the key guarantees the system provides.
+
+- **Purpose:** Artifact Edge is a lightweight distributed execution fabric for edge nodes. Clients submit "intents" (tasks) to any node; the system ensures exactly-one execution of each intent across the network, durable event persistence, and eventual consistency.
+
+- **Major components and roles:**
+  - **EdgeNode (`node/edge_node.py`)**: Orchestrates local processing. Receives local intents via `receive_intent`, creates canonical events, persists them, assigns ownership, executes owned tasks, and broadcasts events to peers.
+  - **Runtime (`core/runtime.py`)**: Background task loop that executes registered task objects (agents).
+  - **EventLog (`core/event_log.py`)**: In-memory ordered list of events. Supports appending new local events and appending incoming canonical events (`append_event`) while preventing duplicates.
+  - **SQLiteStore (`storage/sqlite_store.py`)**: Durable persistence of events. Provides `save_event` and `has_event` to avoid re-processing the same event.
+  - **Ownership (`core/ownership.py`)**: Deterministic owner selection using consistent hashing of the task id. Ensures only the chosen owner executes a task.
+  - **VectorClock (`core/vector_clock.py`)**: Tracks causal information used for merging and basic ordering across nodes.
+  - **MeshNetwork (`mesh/network.py`)**: Lightweight peer-to-peer transport used for broadcasting canonical events; incoming messages are delivered to `EdgeNode.receive_event` (not re-interpreted as new intents).
+  - **Gossip (`mesh/gossip.py`)**: Periodically pushes local events to peers via HTTP `/sync` to achieve eventual consistency.
+  - **IntentHandler / Agents (`protocols/intent.py`, `agents/`)**: Maps an intent payload to a task object (e.g., `MoveTask`) that implements `execute()`.
+
+- **Event lifecycle / data flow:**
+  1. Client submits an intent (HTTP or programmatic) to a node.
+  2. Node creates a canonical event (unique `id`, `timestamp`, `payload`, `clock`) and appends it locally.
+  3. Node persists the event via `SQLiteStore.save_event`.
+  4. Node assigns ownership using `Ownership.assign_owner(task_id, peers)`.
+  5. If this node is the owner, it registers the task with the `Runtime` for execution; otherwise it broadcasts the canonical event to peers.
+  6. Peers receive canonical events and call `receive_event(event)`. Each peer checks `SQLiteStore.has_event(id)` and skips if already seen. If unseen, peer appends and persists the event and executes it if it is the owner.
+
+- **Guarantees and safety measures:**
+  - **Single execution (best-effort):** Deterministic ownership ensures ideally one node registers the task for execution. Durable IDs plus `save_event` with `INSERT OR IGNORE` and `has_event` prevents re-execution across gossip/broadcast loops.
+  - **Durability:** Events are persisted immediately to SQLite before ownership decisions are acted on.
+  - **Eventual consistency:** Gossip synchronizes events across nodes; clocks are merged to preserve causal information.
+
+- **Known limitations & failure modes:**
+  - The demo uses plain TCP sockets and unauthenticated HTTP for gossip; production deployments should use authenticated channels and TLS.
+  - Ownership is computed from the task id and peer list; rapid membership churn can cause temporary ownership changes.
+  - This implementation is a minimal demo—there is no leader election, partition healing logic beyond event sync, or strong consensus.
+
+- **Scaling and deployment notes:**
+  - The system is designed to scale by adding nodes; ownership spreads deterministically via hashing.
+  - For production, replace the simple `MeshNetwork` with a robust transport (TLS, connection pools), and use a resilient storage and replication layer if SQLite is insufficient.
+
+- **Demo and observability:**
+  - Use `scripts/demo.py` for a quick in-process demo. Each node writes a local `node-<id>.db` SQLite file (ignored by `.gitignore`).
+  - Logs printed to stdout show ownership decisions and agent execution. Inspect the SQLite DB to confirm persisted events.
+
+
 ### Core Components
 
 - **Edge Node** (`node/edge_node.py`): Main orchestrator receiving intents and managing execution
