@@ -1,0 +1,35 @@
+node-1.db
+node-2.db
+node-3.db
+# SQLite runtime DBs created by demo/script
+*.db
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# IDE/editor files
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Pytest cache
+.pytest_cache/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Byte-compiled / distribution
+build/
+dist/
+*.egg-info/

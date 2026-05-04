@@ -31,13 +31,15 @@ class EdgeNode:
     def receive_intent(self,intent):
         task_id=str(uuid.uuid4())
         event=create_event(intent)
-        event["id"]=task_id
+        # append to event log to get timestamp and an event object
+        e = self.event_log.append(event["type"], event["payload"])
+        e["id"] = task_id
 
         self.clock.tick()
-        event["clock"]=self.clock.get()
+        e["clock"] = self.clock.get()
 
-        self.event_log.append(event["type"],event["payload"])
-        self.store.save_event(event)
+        # persist the enriched event
+        self.store.save_event(e)
 
         owner=self.ownership.assign_owner(task_id,self.peers.get_peers())
 
@@ -48,4 +50,4 @@ class EdgeNode:
         else:
             print(f"[{self.node_id}] SKIP {task_id} owner={owner}")
 
-        self.mesh.broadcast(event)
+        self.mesh.broadcast(e)

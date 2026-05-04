@@ -17,24 +17,48 @@ Artifact Edge v3 enables reliable task execution across a network of edge nodes.
 - **REST API**: Simple HTTP interface for task submission and monitoring
 
 ## Architecture
+The following diagrams show the high-level architecture and the intent flow.
 
+```mermaid
+graph LR
+  Client[Client]
+  API[Flask API]
+  Node1[Edge Node 1\n(Port 5001)]
+  Node2[Edge Node 2\n(Port 5002)]
+  DB1[(SQLite DB)]
+  DB2[(SQLite DB)]
+  Runtime1[Runtime]
+  Runtime2[Runtime]
+
+  Client -->|POST /intent| API
+  API --> Node1
+  API --> Node2
+  Node1 ---|gossip sync| Node2
+  Node1 -->|persist| DB1
+  Node2 -->|persist| DB2
+  Node1 --> Runtime1
+  Node2 --> Runtime2
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    Edge Network Mesh                        │
-│  ┌──────────────────┐           ┌──────────────────┐       │
-│  │    Edge Node 1   │◄──Gossip──┤    Edge Node 2   │       │
-│  │  (Port 5001)     │  (sync)   │  (Port 5002)     │       │
-│  └────────┬─────────┘           └────────┬─────────┘       │
-│           │                               │                 │
-│      Vector Clock              Vector Clock                │
-│      Event Log                 Event Log                   │
-│      Runtime                   Runtime                     │
-│      Ownership Engine          Ownership Engine            │
-└─────────────────────────────────────────────────────────────┘
-           ▲                               ▲
-           │ REST API                      │
-           │ (Flask)                       │
-       [Client]                         [Client]
+
+```mermaid
+sequenceDiagram
+  participant C as Client
+  participant A as API
+  participant N as Edge Node
+  participant O as Ownership
+  participant R as Runtime
+  participant G as Gossip
+
+  C->>A: POST /intent
+  A->>N: receive_intent(intent)
+  N->>O: assign_owner(task_id)
+  alt owner == self
+    N->>R: register_task(task)
+    R->>N: execute task
+  else owner != self
+    N->>Peers: broadcast(event)
+  end
+  G->>Peers: sync(events)
 ```
 
 ### Core Components
@@ -69,35 +93,52 @@ pip install flask requests
 
 ## Usage
 
-### Running a Multi-Node Simulation
+### Demo (Investor-friendly)
 
-Start a 2-node network to see distributed task execution:
+We provide a small, reproducible demo that starts three in-process nodes, wires peers, sends intents, and prints a concise summary. This is ideal for a quick investor demo or local showcase.
+
+Run the demo:
 
 ```bash
-python simulation/multi_node.py
+python scripts/demo.py
 ```
 
-This launches two edge nodes on ports 5001 and 5002. Submit a task to either node - only the owner will execute it.
+What the demo does:
+- Starts three Edge Nodes (ports 5001, 5002, 5003)
+- Wires peers so broadcast/gossip works
+- Submits two `move` intents and waits for propagation
+- Prints each node's in-memory event log and SQLite event counts
 
-### Starting Individual Nodes
+Sample trimmed output (your run will show timestamps and generated IDs):
+
+```
+[demo] Sending intent to node-1
+[node-1] EXECUTING <task-id>
+[Agent] Moving toward Warehouse A
+--- node-1 event log (N) ---
+{... event entries ...}
+node-1 DB events: N
+```
+
+### Starting Individual Nodes (interactive)
+
+Note: `EdgeNode` instances are configured programmatically in this project. To start an individual node interactively, run a short Python snippet. The repository includes `scripts/demo.py` for an automated demo.
+
+Example (interactive):
 
 ```bash
-# Start node 1
-python -c "from node.edge_node import EdgeNode; node = EdgeNode(node_id='node1', port=5001, peers=[('localhost', 5002)]); node.start()"
-
-# Start node 2
-python -c "from node.edge_node import EdgeNode; node = EdgeNode(node_id='node2', port=5002, peers=[('localhost', 5001)]); node.start()"
+python -c "from node.edge_node import EdgeNode; n=EdgeNode('node-1',5001); n.mesh.start(); n.runtime.start();"
 ```
 
 ### Submitting Tasks
 
-Use curl or any HTTP client to submit intents:
+Use curl or any HTTP client to submit intents to the REST API (when `api/control_api.py` is running):
 
 ```bash
 # Submit a move task
-curl -X POST http://localhost:5001/intent \
+curl -X POST http://localhost:8000/intent \
   -H "Content-Type: application/json" \
-  -d '{"type": "move", "data": {"direction": "north", "distance": 10}}'
+  -d '{"type": "move", "target": "Warehouse A"}'
 ```
 
 ### API Endpoints
@@ -165,13 +206,14 @@ class CustomAgent:
 
 ### Testing
 
-Run the multi-node simulation to verify distributed behavior:
+Run the project's unit tests and demo checks:
 
 ```bash
-python simulation/multi_node.py
+pytest -q
+python scripts/demo.py
 ```
 
-Expected output shows only the owner node executing tasks despite both receiving intents.
+Expected behavior: intents are accepted, events are persisted to each node's SQLite DB, and only the ownership-determined node executes a given intent.
 
 ## Contributing
 
