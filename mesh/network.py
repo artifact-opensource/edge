@@ -13,8 +13,12 @@ class MeshNetwork:
         while True:
             c,_=s.accept()
             msg=json.loads(c.recv(4096).decode())
-            if msg["type"]=="INTENT_RECEIVED":
-                self.node.receive_intent(msg["payload"])
+            # Received messages are full event objects; hand them to node.receive_event
+            try:
+                self.node.receive_event(msg)
+            except Exception:
+                # Don't let a single bad remote message bring down the listener
+                pass
 
     def broadcast(self, event):
         for _,addr in self.node.peers.get_peers().items():

@@ -31,7 +31,7 @@ class EdgeNode:
     def receive_intent(self,intent):
         task_id=str(uuid.uuid4())
         event=create_event(intent)
-        # append to event log to get timestamp and an event object
+        # create a new local event and persist it
         e = self.event_log.append(event["type"], event["payload"])
         e["id"] = task_id
 
@@ -50,4 +50,36 @@ class EdgeNode:
         else:
             print(f"[{self.node_id}] SKIP {task_id} owner={owner}")
 
+        # Broadcast the canonical event object to peers
         self.mesh.broadcast(e)
+
+    def receive_event(self, event):
+        # Handle an incoming canonical event (from gossip/broadcast).
+        eid = event.get("id")
+        if not eid:
+            return
+
+        # If we already have the event persisted, skip processing
+        if self.store.has_event(eid):
+            return
+
+        # Append incoming event (preserves timestamp/id)
+        appended = self.event_log.append_event(event)
+        if appended is None:
+            return
+
+        # Persist
+        self.store.save_event(event)
+
+        # Merge vector clock if present
+        if "clock" in event:
+            self.clock.update(event["clock"])
+
+        owner = self.ownership.assign_owner(eid, self.peers.get_peers())
+        if owner == self.node_id:
+            print(f"[{self.node_id}] EXECUTING {eid}")
+            try:
+                task = self.intent_handler.process(event.get("payload"))
+                self.runtime.register_task(task)
+            except Exception:
+                pass

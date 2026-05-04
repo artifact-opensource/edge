@@ -15,5 +15,12 @@ class EventLog:
         self.events.append(e)
         return e
 
+    def append_event(self, event):
+        # Append an existing event object if we haven't seen it yet
+        if any(ev.get("id") == event.get("id") for ev in self.events):
+            return None
+        self.events.append(event)
+        return event
+
     def get_all(self):
         return self.events

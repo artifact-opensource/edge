@@ -11,3 +11,7 @@ class SQLiteStore:
         self.conn.execute("INSERT OR IGNORE INTO events VALUES (?, ?, ?, ?)",
             (e["id"], e["type"], json.dumps(e["payload"]), e["timestamp"]))
         self.conn.commit()
+
+    def has_event(self, event_id):
+        cur = self.conn.execute("SELECT 1 FROM events WHERE id=?", (event_id,))
+        return cur.fetchone() is not None
