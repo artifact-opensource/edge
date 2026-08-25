@@ -1,14 +1,19 @@
 
 import time
 from threading import Thread
+from threading import Lock
 
 class Runtime:
     def __init__(self):
         self.tasks = []
         self.running = False
+        self.lock = Lock()
+        self.executed_count = 0
+        self.failed_count = 0
 
     def register_task(self, task):
-        self.tasks.append(task)
+        with self.lock:
+            self.tasks.append(task)
 
     def start(self):
         self.running = True
@@ -16,6 +21,14 @@ class Runtime:
 
     def loop(self):
         while self.running:
-            for task in list(self.tasks):
-                task.execute()
+            task = None
+            with self.lock:
+                if self.tasks:
+                    task = self.tasks.pop(0)
+            if task is not None:
+                try:
+                    task.execute()
+                    self.executed_count += 1
+                except Exception:
+                    self.failed_count += 1
             time.sleep(0.1)

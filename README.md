@@ -249,15 +249,30 @@ class CustomAgent:
 ```
 
 ### Testing
-
+ 
 Run the project's unit tests and demo checks:
 
 ```bash
 pytest -q
 python scripts/demo.py
+python simulation/stress_swarm.py --nodes 5 --intents 500
 ```
 
 Expected behavior: intents are accepted, events are persisted to each node's SQLite DB, and only the ownership-determined node executes a given intent.
+
+### Swarm and stress validation
+
+- `simulation/swarm_framework.py` provides a configurable in-repo swarm harness.
+- `tests/test_swarm.py` validates single execution and eventual consistency under partition/heal.
+- `simulation/stress_swarm.py` runs adversarial scenarios (duplicates, drops, delay, partition/heal) and prints pass/fail metrics.
+
+### Inter-node communication profiles
+
+- `lan` profile: local socket transport for low-latency networks.
+- `lora` profile: ESP32-S3 + LoRa bridge profile with bounded frame fragmentation.
+- Deep-space requirements and operational guidance are documented in:
+  - `/home/runner/work/edge/edge/docs/communications_spec.md`
+  - `/home/runner/work/edge/edge/docs/acceptance_criteria.md`
 
 ## Contributing
 

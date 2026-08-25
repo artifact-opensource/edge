@@ -10,9 +10,12 @@ class Gossip:
 
     def loop(self):
         while True:
+            events = self.node.event_log.get_all()
             for _,addr in self.node.peers.get_peers().items():
                 try:
                     requests.post(f"http://{addr[0]}:{addr[1]}/sync",
-                        json={"events": self.node.event_log.get_all()})
-                except: pass
+                        json={"events": events},
+                        timeout=1.5)
+                except Exception:
+                    pass
             time.sleep(self.interval)

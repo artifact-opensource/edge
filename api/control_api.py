@@ -12,9 +12,15 @@ def intent():
 
 @app.route("/sync",methods=["POST"])
 def sync():
-    for e in request.json["events"]:
-        node.store.save_event(e)
+    payload = request.json or {}
+    for e in payload.get("events", []):
+        node.receive_event(e)
     return {"synced":True}
+
+
+@app.route("/health", methods=["GET"])
+def health():
+    return node.health()
 
 if __name__=="__main__":
     node.start()

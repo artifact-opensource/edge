@@ -12,36 +12,37 @@ from protocols.event import create_event
 import uuid
 
 class EdgeNode:
-    def __init__(self, node_id, port):
-        self.node_id=node_id
-        self.runtime=Runtime()
-        self.event_log=EventLog()
-        self.store=SQLiteStore(f"{node_id}.db")
-        self.peers=PeerManager()
-        self.mesh=MeshNetwork(self,port)
-        self.intent_handler=IntentHandler(self)
-        self.ownership=Ownership(node_id)
-        self.clock=VectorClock(node_id)
+    def __init__(self, node_id, port, host="localhost", store_name=None, transport_profile="lan", transport_options=None):
+        self.node_id = node_id
+        self.runtime = Runtime()
+        self.event_log = EventLog()
+        self.store = SQLiteStore(store_name or f"{node_id}.db")
+        self.peers = PeerManager()
+        self.mesh = MeshNetwork(
+            self,
+            port,
+            host=host,
+            transport_profile=transport_profile,
+            transport_options=transport_options,
+        )
+        self.intent_handler = IntentHandler(self)
+        self.ownership = Ownership(node_id)
+        self.clock = VectorClock(node_id)
+        self.gossip = Gossip(self)
 
     def start(self):
         self.mesh.start()
-        Gossip(self).start()
+        self.gossip.start()
         self.runtime.start()
 
     def receive_intent(self,intent):
-        task_id=str(uuid.uuid4())
-        event=create_event(intent)
-        # create a new local event and persist it
-        e = self.event_log.append(event["type"], event["payload"])
-        e["id"] = task_id
-
+        task_id = str(uuid.uuid4())
         self.clock.tick()
-        e["clock"] = self.clock.get()
+        e = create_event(intent, event_id=task_id, clock=self.clock.get())
+        self.event_log.append_event(e)
 
-        # persist the enriched event
         self.store.save_event(e)
-
-        owner=self.ownership.assign_owner(task_id,self.peers.get_peers())
+        owner = self.ownership.assign_owner(task_id, self.peers.get_peers())
 
         if owner==self.node_id:
             print(f"[{self.node_id}] EXECUTING {task_id}")
@@ -54,24 +55,19 @@ class EdgeNode:
         self.mesh.broadcast(e)
 
     def receive_event(self, event):
-        # Handle an incoming canonical event (from gossip/broadcast).
         eid = event.get("id")
         if not eid:
             return
 
-        # If we already have the event persisted, skip processing
         if self.store.has_event(eid):
             return
 
-        # Append incoming event (preserves timestamp/id)
         appended = self.event_log.append_event(event)
         if appended is None:
             return
 
-        # Persist
-        self.store.save_event(event)
+        self.store.save_event(appended)
 
-        # Merge vector clock if present
         if "clock" in event:
             self.clock.update(event["clock"])
 
@@ -83,3 +79,14 @@ class EdgeNode:
                 self.runtime.register_task(task)
             except Exception:
                 pass
+
+    def health(self):
+        return {
+            "node_id": self.node_id,
+            "peers": len(self.peers.get_peers()),
+            "events_in_memory": len(self.event_log.get_all()),
+            "runtime_queue": len(self.runtime.tasks),
+            "runtime_executed": self.runtime.executed_count,
+            "runtime_failed": self.runtime.failed_count,
+            "transport_profile": self.mesh.transport_profile,
+        }
