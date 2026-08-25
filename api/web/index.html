@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edge Setup + Control</title>
+  <link rel="stylesheet" href="/web/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Artifact Edge</h1>
+    <p id="connState">Loading connectivity…</p>
+  </header>
+
+  <main class="grid">
+    <section class="card">
+      <h2>Wi-Fi + Backend Setup</h2>
+      <form id="configForm">
+        <label>SSID <input name="ssid" required /></label>
+        <label>Password <input name="password" type="password" /></label>
+        <label>Backend URL <input name="backend" type="url" required /></label>
+        <label>LLM Provider
+          <select name="provider">
+            <option value="openai">OpenAI-compatible</option>
+            <option value="anthropic">Anthropic-compatible</option>
+          </select>
+        </label>
+        <label>LLM Base URL <input name="llm_base_url" type="url" required /></label>
+        <label>Credentials Ref <input name="credentials_ref" placeholder="secret://llm-key" /></label>
+        <button type="submit">Save Config</button>
+      </form>
+      <p class="hint">USB setup: connect device and open setup URL from Bootstrap panel.</p>
+    </section>
+
+    <section class="card">
+      <h2>Bootstrap + Status</h2>
+      <pre id="bootstrap"></pre>
+      <pre id="health"></pre>
+      <button id="refreshStatus">Refresh Status</button>
+      <button id="connectWifi">Apply Wi-Fi Credentials</button>
+      <button id="recoverAp">Recovery AP Mode</button>
+    </section>
+
+    <section class="card wide">
+      <h2>Command + Control</h2>
+      <form id="commandForm">
+        <label>Move Target <input name="target" required /></label>
+        <button type="submit">Send Command</button>
+      </form>
+      <pre id="commandResult"></pre>
+    </section>
+  </main>
+
+  <script src="/web/app.js"></script>
+</body>
+</html>

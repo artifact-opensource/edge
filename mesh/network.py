@@ -1,30 +1,27 @@
 
-import socket, threading, json
+from mesh.transports import LocalSocketTransport, LoRaTransport
 
 class MeshNetwork:
-    def __init__(self, node, port):
-        self.node=node; self.port=port
+    def __init__(self, node, port, host="localhost", transport_profile="lan", transport_options=None):
+        self.node = node
+        self.port = port
+        self.host = host
+        self.transport_profile = transport_profile
+        self.transport_options = transport_options or {}
+        self.transport = self._build_transport()
+
+    def _build_transport(self):
+        if self.transport_profile == "lora":
+            mtu = self.transport_options.get("mtu", 180)
+            return LoRaTransport(receiver=self.node.receive_event, mtu=mtu)
+        return LocalSocketTransport(self.host, self.port, receiver=self.node.receive_event)
 
     def start(self):
-        threading.Thread(target=self.listen, daemon=True).start()
-
-    def listen(self):
-        s=socket.socket(); s.bind(("localhost",self.port)); s.listen(5)
-        while True:
-            c,_=s.accept()
-            msg=json.loads(c.recv(4096).decode())
-            # Received messages are full event objects; hand them to node.receive_event
-            try:
-                self.node.receive_event(msg)
-            except Exception:
-                # Don't let a single bad remote message bring down the listener
-                pass
+        self.transport.start()
 
     def broadcast(self, event):
-        for _,addr in self.node.peers.get_peers().items():
+        for _, addr in self.node.peers.get_peers().items():
             try:
-                s=socket.socket()
-                s.connect(addr)
-                s.send(json.dumps(event).encode())
-                s.close()
-            except: pass
+                self.transport.send(addr, event)
+            except Exception:
+                pass

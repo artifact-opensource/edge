@@ -1,0 +1,74 @@
+import json
+import socket
+import struct
+import time
+from threading import Lock
+
+from mesh.transports.base import Transport
+
+
+class LoRaTransport(Transport):
+    """
+    ESP32-S3 LoRa transport path.
+    This implementation provides deterministic framing, fragmentation, and retry-ready
+    send semantics for constrained links while still using UDP locally for testing.
+    """
+
+    MAX_FRAME = 180
+
+    def __init__(self, receiver, mtu=180, fragment_ttl_s=30):
+        self.receiver = receiver
+        self.mtu = min(mtu, self.MAX_FRAME)
+        self.fragment_ttl_s = fragment_ttl_s
+        self._fragments = {}
+        self._fragments_lock = Lock()
+
+    def start(self):
+        # Hardware receive loop is platform-specific and expected to be provided by the
+        # ESP32-S3 bridge process. Incoming frames can be passed to ingest_frame().
+        return None
+
+    def encode_frames(self, payload):
+        blob = json.dumps(payload, separators=(",", ":")).encode()
+        total = max(1, (len(blob) + self.mtu - 1) // self.mtu)
+        frames = []
+        for idx in range(total):
+            chunk = blob[idx * self.mtu : (idx + 1) * self.mtu]
+            # frame: [seq(2 bytes)][total(2 bytes)][payload]
+            header = struct.pack("!HH", idx, total)
+            frames.append(header + chunk)
+        return frames
+
+    def send(self, addr, payload):
+        # Addr is expected as (host, port) of a bridge process that talks to LoRa radio.
+        frames = self.encode_frames(payload)
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        try:
+            for frame in frames:
+                sock.sendto(frame, addr)
+        finally:
+            sock.close()
+
+    def ingest_frame(self, frame, stream_key="default"):
+        seq, total = struct.unpack("!HH", frame[:4])
+        payload = frame[4:]
+        now = time.time()
+        with self._fragments_lock:
+            stale = [k for k, b in self._fragments.items() if now - b.get("updated_at", now) > self.fragment_ttl_s]
+            for key in stale:
+                del self._fragments[key]
+
+            bucket = self._fragments.get(stream_key)
+            if bucket is None or bucket.get("total") != total:
+                bucket = {"total": total, "parts": {}, "updated_at": now}
+                self._fragments[stream_key] = bucket
+            bucket["updated_at"] = now
+            bucket["parts"][seq] = payload
+            if len(bucket["parts"]) < bucket["total"]:
+                return None
+
+            ordered = b"".join(bucket["parts"][idx] for idx in range(bucket["total"]))
+            del self._fragments[stream_key]
+        message = json.loads(ordered.decode())
+        self.receiver(message)
+        return message
