@@ -1,6 +1,7 @@
 import json
 import socket
 import struct
+from threading import Lock
 
 from mesh.transports.base import Transport
 
@@ -18,6 +19,7 @@ class LoRaTransport(Transport):
         self.receiver = receiver
         self.mtu = min(mtu, self.MAX_FRAME)
         self._fragments = {}
+        self._fragments_lock = Lock()
 
     def start(self):
         # Hardware receive loop is platform-specific and expected to be provided by the
@@ -48,13 +50,17 @@ class LoRaTransport(Transport):
     def ingest_frame(self, frame, stream_key="default"):
         seq, total = struct.unpack("!HH", frame[:4])
         payload = frame[4:]
-        bucket = self._fragments.setdefault(stream_key, {"total": total, "parts": {}})
-        bucket["parts"][seq] = payload
-        if len(bucket["parts"]) < bucket["total"]:
-            return None
+        with self._fragments_lock:
+            bucket = self._fragments.get(stream_key)
+            if bucket is None or bucket.get("total") != total:
+                bucket = {"total": total, "parts": {}}
+                self._fragments[stream_key] = bucket
+            bucket["parts"][seq] = payload
+            if len(bucket["parts"]) < bucket["total"]:
+                return None
 
-        ordered = b"".join(bucket["parts"][idx] for idx in range(bucket["total"]))
+            ordered = b"".join(bucket["parts"][idx] for idx in range(bucket["total"]))
+            del self._fragments[stream_key]
         message = json.loads(ordered.decode())
-        del self._fragments[stream_key]
         self.receiver(message)
         return message

@@ -109,7 +109,7 @@ class SwarmHarness:
 
     def metrics(self):
         total_events_mem = sum(len(n.event_log.get_all()) for n in self.nodes)
-        total_exec = sum(n.runtime.executed_count for n in self.nodes)
+        total_exec = sum(n.runtime.stats()["executed"] for n in self.nodes)
         unique_ids = set()
         for node in self.nodes:
             for event in node.event_log.get_all():
