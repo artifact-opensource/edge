@@ -17,10 +17,11 @@ class LoRaTransport(Transport):
     def __init__(self, receiver, mtu=180):
         self.receiver = receiver
         self.mtu = min(mtu, self.MAX_FRAME)
+        self._fragments = {}
 
     def start(self):
         # Hardware receive loop is platform-specific and expected to be provided by the
-        # ESP32-S3 bridge process; we keep this noop in core runtime.
+        # ESP32-S3 bridge process. Incoming frames can be passed to ingest_frame().
         return None
 
     def encode_frames(self, payload):
@@ -43,3 +44,17 @@ class LoRaTransport(Transport):
                 sock.sendto(frame, addr)
         finally:
             sock.close()
+
+    def ingest_frame(self, frame, stream_key="default"):
+        seq, total = struct.unpack("!HH", frame[:4])
+        payload = frame[4:]
+        bucket = self._fragments.setdefault(stream_key, {"total": total, "parts": {}})
+        bucket["parts"][seq] = payload
+        if len(bucket["parts"]) < bucket["total"]:
+            return None
+
+        ordered = b"".join(bucket["parts"][idx] for idx in range(bucket["total"]))
+        message = json.loads(ordered.decode())
+        del self._fragments[stream_key]
+        self.receiver(message)
+        return message

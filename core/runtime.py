@@ -2,10 +2,11 @@
 import time
 from threading import Thread
 from threading import Lock
+from collections import deque
 
 class Runtime:
     def __init__(self):
-        self.tasks = []
+        self.tasks = deque()
         self.running = False
         self.lock = Lock()
         self.executed_count = 0
@@ -31,7 +32,7 @@ class Runtime:
                 if not self.running:
                     break
                 if self.tasks:
-                    task = self.tasks.pop(0)
+                    task = self.tasks.popleft()
             if task is not None:
                 try:
                     task.execute()

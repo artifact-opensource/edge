@@ -62,7 +62,7 @@ class SwarmHarness:
             target.receive_event(dict(event))
             return
         delay = self._uniform(0, self.max_delay_s)
-        timer = threading.Timer(delay, lambda: target.receive_event(dict(event)))
+        timer = threading.Timer(delay, lambda e=event: target.receive_event(dict(e)))
         timer.daemon = True
         with self.timer_lock:
             self.pending_timers.append(timer)
@@ -87,7 +87,8 @@ class SwarmHarness:
             runtime_queues = [n.runtime.stats()["queue"] for n in self.nodes]
             if pending == 0 and all(q == 0 for q in runtime_queues):
                 stable_count += 1
-                if stable_count >= 2:
+                if stable_count >= 3:
+                    time.sleep(0.03)
                     return
             else:
                 stable_count = 0
