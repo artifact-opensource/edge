@@ -3,6 +3,7 @@ import time
 
 
 def create_event(intent, event_id=None, clock=None, event_type="INTENT_RECEIVED"):
+    """Create a canonical event envelope for local or replicated intent processing."""
     event = {
         "type": event_type,
         "payload": intent,

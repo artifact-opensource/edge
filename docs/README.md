@@ -9,5 +9,5 @@ Expected:
 Only one node executes task.
 
 Additional specs:
-- docs/acceptance_criteria.md
-- docs/communications_spec.md
+- acceptance_criteria.md
+- communications_spec.md

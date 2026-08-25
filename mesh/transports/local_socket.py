@@ -43,6 +43,6 @@ class LocalSocketTransport(Transport):
         s = socket.socket()
         try:
             s.connect(addr)
-            s.send(json.dumps(payload).encode())
+            s.sendall(json.dumps(payload).encode())
         finally:
             s.close()

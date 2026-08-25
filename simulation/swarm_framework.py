@@ -70,13 +70,18 @@ class SwarmHarness:
 
     def wait_for_settle(self, seconds=1.0):
         deadline = time.time() + seconds
+        stable_count = 0
         while time.time() < deadline:
             with self.timer_lock:
                 self.pending_timers = [t for t in self.pending_timers if t.is_alive()]
                 pending = len(self.pending_timers)
             runtime_queues = [n.runtime.stats()["queue"] for n in self.nodes]
             if pending == 0 and all(q == 0 for q in runtime_queues):
-                return
+                stable_count += 1
+                if stable_count >= 2:
+                    return
+            else:
+                stable_count = 0
             time.sleep(0.02)
 
     def sync_round(self):
@@ -108,4 +113,4 @@ class SwarmHarness:
 
     def stop(self):
         for node in self.nodes:
-            node.runtime.running = False
+            node.runtime.stop()

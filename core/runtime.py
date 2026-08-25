@@ -16,13 +16,20 @@ class Runtime:
             self.tasks.append(task)
 
     def start(self):
-        self.running = True
+        with self.lock:
+            self.running = True
         Thread(target=self.loop, daemon=True).start()
 
+    def stop(self):
+        with self.lock:
+            self.running = False
+
     def loop(self):
-        while self.running:
+        while True:
             task = None
             with self.lock:
+                if not self.running:
+                    break
                 if self.tasks:
                     task = self.tasks.pop(0)
             if task is not None:
