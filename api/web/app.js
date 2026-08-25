@@ -58,7 +58,7 @@ document.getElementById("commandForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const target = e.target.target.value;
   const payload = {
-    id: `cmd-${Date.now()}`,
+    id: (window.crypto && window.crypto.randomUUID) ? window.crypto.randomUUID() : `cmd-${Date.now()}-${Math.random()}`,
     action: "intent",
     payload: { type: "move", target },
   };

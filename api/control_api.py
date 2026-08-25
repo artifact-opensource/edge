@@ -1,4 +1,5 @@
 import os
+from threading import Lock
 
 from flask import Flask, request, send_from_directory
 
@@ -8,6 +9,24 @@ from node.edge_node import EdgeNode
 app = Flask(__name__, static_folder="web", static_url_path="/web")
 node = EdgeNode("node-1", 5001)
 WRITE_SESSION_TOKEN = os.environ.get("EDGE_SESSION_TOKEN", "edge-local-dev")
+_node_start_lock = Lock()
+_node_started = False
+
+
+def _ensure_node_started():
+    global _node_started
+    if _node_started:
+        return
+    with _node_start_lock:
+        if _node_started:
+            return
+        node.start()
+        _node_started = True
+
+
+@app.before_request
+def _startup_hook():
+    _ensure_node_started()
 
 
 def _authorized_write():
@@ -100,5 +119,5 @@ def command():
 
 
 if __name__ == "__main__":
-    node.start()
+    _ensure_node_started()
     app.run(port=8000)

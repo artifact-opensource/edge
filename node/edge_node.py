@@ -150,7 +150,7 @@ class EdgeNode:
         }
 
     def can_skip_write_auth(self):
-        return self.connectivity.state in {
+        return self.connectivity.state_value() in {
             ConnectivityState.AP_ONBOARDING,
             ConnectivityState.RECOVERY_AP,
         }
