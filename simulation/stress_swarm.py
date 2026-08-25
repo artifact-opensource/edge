@@ -1,5 +1,9 @@
 import argparse
+import os
+import sys
 import time
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from simulation.swarm_framework import SwarmHarness
 
@@ -13,6 +17,7 @@ def main():
     parser.add_argument("--max-delay", type=float, default=0.05)
     parser.add_argument("--partition-after", type=int, default=100)
     parser.add_argument("--heal-after", type=int, default=300)
+    parser.add_argument("--sync-rounds", type=int, default=10)
     args = parser.parse_args()
 
     harness = SwarmHarness(
@@ -30,7 +35,10 @@ def main():
                 harness.heal("node-1", "node-2")
             harness.submit(i % args.nodes, f"stress-target-{i}")
 
-        harness.wait_for_settle(seconds=2.0)
+        harness.drop_rate = 0.0
+        for _ in range(args.sync_rounds):
+            harness.sync_round()
+        harness.wait_for_settle(seconds=3.0)
         metrics = harness.metrics()
         duration = time.time() - started
         print("=== stress report ===")
