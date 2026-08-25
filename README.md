@@ -174,6 +174,42 @@ Example (interactive):
 python -c "from node.edge_node import EdgeNode; n=EdgeNode('node-1',5001); n.mesh.start(); n.runtime.start();"
 ```
 
+### Single-node local web profile (PC/Mac + mobile)
+
+Run one local node with built-in web UI and API:
+
+```bash
+python api/control_api.py
+```
+
+Then open:
+- `http://localhost:8000/` on desktop (PC/Mac) or phone/tablet browser.
+- `http://localhost:8000/setup` for setup-first flow.
+
+For authenticated write operations outside AP onboarding/recovery modes, set:
+
+```bash
+export EDGE_SESSION_TOKEN=edge-local-dev
+```
+
+and pass it as `X-EDGE-SESSION` header (the bundled UI sends this token automatically).
+
+### ESP32-S3 onboarding profile (AP + USB bootstrap)
+
+- First boot / recovery: device remains in AP onboarding state and exposes setup URL from `/bootstrap/usb`.
+- USB after flashing: plug the device in, open setup URL, configure SSID/password, backend endpoint, and LLM provider settings.
+- Deterministic state progression:
+  - `ap_onboarding` -> `sta_connecting` (after saving Wi-Fi credentials)
+  - `sta_connecting` -> `backend_ready` (after STA join/back-end reachability)
+  - Any link loss can move node into `recovery_ap`
+
+Troubleshooting:
+- Wrong SSID/password: send `recover_ap` connectivity event or restart in recovery mode, then re-enter credentials.
+- Unreachable backend or LLM base URL: verify `/health` + `/connectivity`, then update `/config`.
+- LLM URL validation:
+  - OpenAI-compatible requires a URL path containing `/v1`.
+  - Anthropic-compatible requires an Anthropic host domain.
+
 ### Submitting Tasks
 
 Use curl or any HTTP client to submit intents to the REST API (when `api/control_api.py` is running):
