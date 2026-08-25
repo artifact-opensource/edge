@@ -35,7 +35,7 @@ def main():
                 harness.heal("node-1", "node-2")
             harness.submit(i % args.nodes, f"stress-target-{i}")
 
-        harness.drop_rate = 0.0
+        harness.set_drop_rate(0.0)
         for _ in range(args.sync_rounds):
             harness.sync_round()
         harness.wait_for_settle(seconds=3.0)

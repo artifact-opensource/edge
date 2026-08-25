@@ -15,7 +15,16 @@ class SwarmHarness:
         self.partitions = set()
         self.timer_lock = threading.Lock()
         self.pending_timers = []
+        self.rng_lock = threading.Lock()
         self._build_nodes(node_count)
+
+    def _rand(self):
+        with self.rng_lock:
+            return self.rng.random()
+
+    def _uniform(self, low, high):
+        with self.rng_lock:
+            return self.rng.uniform(low, high)
 
     def _build_nodes(self, node_count):
         for i in range(node_count):
@@ -40,10 +49,10 @@ class SwarmHarness:
                 link = tuple(sorted((source_node.node_id, target.node_id)))
                 if link in self.partitions:
                     continue
-                if self.rng.random() < self.drop_rate:
+                if self._rand() < self.drop_rate:
                     continue
                 self._deliver(target, event)
-                if self.rng.random() < self.duplicate_rate:
+                if self._rand() < self.duplicate_rate:
                     self._deliver(target, event)
 
         return _broadcast
@@ -52,7 +61,7 @@ class SwarmHarness:
         if self.max_delay_s <= 0:
             target.receive_event(dict(event))
             return
-        delay = self.rng.uniform(0, self.max_delay_s)
+        delay = self._uniform(0, self.max_delay_s)
         timer = threading.Timer(delay, lambda: target.receive_event(dict(event)))
         timer.daemon = True
         with self.timer_lock:
@@ -93,7 +102,7 @@ class SwarmHarness:
                 if link in self.partitions:
                     continue
                 for event in source.event_log.get_all():
-                    if self.rng.random() < self.drop_rate:
+                    if self._rand() < self.drop_rate:
                         continue
                     self._deliver(target, event)
 
@@ -114,3 +123,6 @@ class SwarmHarness:
     def stop(self):
         for node in self.nodes:
             node.runtime.stop()
+
+    def set_drop_rate(self, drop_rate):
+        self.drop_rate = drop_rate

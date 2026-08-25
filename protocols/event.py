@@ -2,12 +2,12 @@
 import time
 
 
-def create_event(intent, event_id=None, clock=None, event_type="INTENT_RECEIVED"):
+def create_event(intent, event_id=None, clock=None, event_type="INTENT_RECEIVED", timestamp=None):
     """Create a canonical event envelope for local or replicated intent processing."""
     event = {
         "type": event_type,
         "payload": intent,
-        "timestamp": time.time(),
+        "timestamp": time.time() if timestamp is None else timestamp,
     }
     if event_id is not None:
         event["id"] = event_id

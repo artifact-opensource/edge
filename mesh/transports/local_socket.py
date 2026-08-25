@@ -15,29 +15,32 @@ class LocalSocketTransport(Transport):
         threading.Thread(target=self.listen, daemon=True).start()
 
     def listen(self):
-        s = socket.socket()
-        s.bind((self.host, self.port))
-        s.listen(5)
-        while True:
-            c, _ = s.accept()
-            try:
-                chunks = []
-                while True:
-                    data = c.recv(8192)
-                    if not data:
-                        break
-                    chunks.append(data)
-                if not chunks:
-                    continue
-                msg = json.loads(b"".join(chunks).decode())
-                self.receiver(msg)
-            except Exception:
-                pass
-            finally:
+        with socket.socket() as s:
+            s.bind((self.host, self.port))
+            s.listen(5)
+            while True:
                 try:
-                    c.close()
+                    c, _ = s.accept()
+                except OSError:
+                    break
+                try:
+                    chunks = []
+                    while True:
+                        data = c.recv(8192)
+                        if not data:
+                            break
+                        chunks.append(data)
+                    if not chunks:
+                        continue
+                    msg = json.loads(b"".join(chunks).decode())
+                    self.receiver(msg)
                 except Exception:
                     pass
+                finally:
+                    try:
+                        c.close()
+                    except Exception:
+                        pass
 
     def send(self, addr, payload):
         s = socket.socket()
