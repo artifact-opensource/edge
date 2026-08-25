@@ -271,8 +271,8 @@ Expected behavior: intents are accepted, events are persisted to each node's SQL
 - `lan` profile: local socket transport for low-latency networks.
 - `lora` profile: ESP32-S3 + LoRa bridge profile with bounded frame fragmentation.
 - Deep-space requirements and operational guidance are documented in:
-  - `/home/runner/work/edge/edge/docs/communications_spec.md`
-  - `/home/runner/work/edge/edge/docs/acceptance_criteria.md`
+  - `docs/communications_spec.md`
+  - `docs/acceptance_criteria.md`
 
 ## Contributing
 

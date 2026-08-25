@@ -28,7 +28,17 @@ class Runtime:
             if task is not None:
                 try:
                     task.execute()
-                    self.executed_count += 1
+                    with self.lock:
+                        self.executed_count += 1
                 except Exception:
-                    self.failed_count += 1
+                    with self.lock:
+                        self.failed_count += 1
             time.sleep(0.01)
+
+    def stats(self):
+        with self.lock:
+            return {
+                "queue": len(self.tasks),
+                "executed": self.executed_count,
+                "failed": self.failed_count,
+            }

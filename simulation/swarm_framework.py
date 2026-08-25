@@ -13,6 +13,8 @@ class SwarmHarness:
         self.max_delay_s = max_delay_s
         self.nodes = []
         self.partitions = set()
+        self.timer_lock = threading.Lock()
+        self.pending_timers = []
         self._build_nodes(node_count)
 
     def _build_nodes(self, node_count):
@@ -53,6 +55,8 @@ class SwarmHarness:
         delay = self.rng.uniform(0, self.max_delay_s)
         timer = threading.Timer(delay, lambda: target.receive_event(dict(event)))
         timer.daemon = True
+        with self.timer_lock:
+            self.pending_timers.append(timer)
         timer.start()
 
     def partition(self, node_a, node_b):
@@ -65,7 +69,15 @@ class SwarmHarness:
         self.nodes[node_index].receive_intent({"type": "move", "target": target})
 
     def wait_for_settle(self, seconds=1.0):
-        time.sleep(seconds)
+        deadline = time.time() + seconds
+        while time.time() < deadline:
+            with self.timer_lock:
+                self.pending_timers = [t for t in self.pending_timers if t.is_alive()]
+                pending = len(self.pending_timers)
+            runtime_queues = [n.runtime.stats()["queue"] for n in self.nodes]
+            if pending == 0 and all(q == 0 for q in runtime_queues):
+                return
+            time.sleep(0.02)
 
     def sync_round(self):
         for source in self.nodes:

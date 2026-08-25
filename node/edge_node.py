@@ -81,12 +81,13 @@ class EdgeNode:
                 pass
 
     def health(self):
+        runtime_stats = self.runtime.stats()
         return {
             "node_id": self.node_id,
             "peers": len(self.peers.get_peers()),
             "events_in_memory": len(self.event_log.get_all()),
-            "runtime_queue": len(self.runtime.tasks),
-            "runtime_executed": self.runtime.executed_count,
-            "runtime_failed": self.runtime.failed_count,
+            "runtime_queue": runtime_stats["queue"],
+            "runtime_executed": runtime_stats["executed"],
+            "runtime_failed": runtime_stats["failed"],
             "transport_profile": self.mesh.transport_profile,
         }

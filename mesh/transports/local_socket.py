@@ -21,7 +21,15 @@ class LocalSocketTransport(Transport):
         while True:
             c, _ = s.accept()
             try:
-                msg = json.loads(c.recv(8192).decode())
+                chunks = []
+                while True:
+                    data = c.recv(8192)
+                    if not data:
+                        break
+                    chunks.append(data)
+                if not chunks:
+                    continue
+                msg = json.loads(b"".join(chunks).decode())
                 self.receiver(msg)
             except Exception:
                 pass
