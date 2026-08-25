@@ -25,25 +25,30 @@ async function loadConfig() {
   const cfg = await req("/config");
   const form = document.getElementById("configForm");
   form.ssid.value = cfg.wifi.ssid || "";
-  form.password.value = cfg.wifi.password || "";
+  form.password.value = "";
   form.backend.value = cfg.backend.endpoint || "";
   form.provider.value = cfg.llm.provider || "openai";
   form.llm_base_url.value = cfg.llm.base_url || "";
-  form.credentials_ref.value = cfg.llm.credentials_ref || "";
+  form.credentials_ref.value = "";
 }
 
 document.getElementById("configForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const f = e.target;
   const payload = {
-    wifi: { ssid: f.ssid.value, password: f.password.value },
+    wifi: { ssid: f.ssid.value },
     backend: { endpoint: f.backend.value },
     llm: {
       provider: f.provider.value,
       base_url: f.llm_base_url.value,
-      credentials_ref: f.credentials_ref.value,
     },
   };
+  if (f.password.value) {
+    payload.wifi.password = f.password.value;
+  }
+  if (f.credentials_ref.value) {
+    payload.llm.credentials_ref = f.credentials_ref.value;
+  }
   const res = await req("/config", { method: "PUT", body: JSON.stringify(payload) });
   if (res.ok) {
     await req("/connectivity/event", { method: "POST", body: JSON.stringify({ event: "wifi_credentials_saved" }) });

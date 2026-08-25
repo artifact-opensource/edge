@@ -1,6 +1,7 @@
 import json
 import socket
 import struct
+import time
 from threading import Lock
 
 from mesh.transports.base import Transport
@@ -15,9 +16,10 @@ class LoRaTransport(Transport):
 
     MAX_FRAME = 180
 
-    def __init__(self, receiver, mtu=180):
+    def __init__(self, receiver, mtu=180, fragment_ttl_s=30):
         self.receiver = receiver
         self.mtu = min(mtu, self.MAX_FRAME)
+        self.fragment_ttl_s = fragment_ttl_s
         self._fragments = {}
         self._fragments_lock = Lock()
 
@@ -50,11 +52,17 @@ class LoRaTransport(Transport):
     def ingest_frame(self, frame, stream_key="default"):
         seq, total = struct.unpack("!HH", frame[:4])
         payload = frame[4:]
+        now = time.time()
         with self._fragments_lock:
+            stale = [k for k, b in self._fragments.items() if now - b.get("updated_at", now) > self.fragment_ttl_s]
+            for key in stale:
+                del self._fragments[key]
+
             bucket = self._fragments.get(stream_key)
             if bucket is None or bucket.get("total") != total:
-                bucket = {"total": total, "parts": {}}
+                bucket = {"total": total, "parts": {}, "updated_at": now}
                 self._fragments[stream_key] = bucket
+            bucket["updated_at"] = now
             bucket["parts"][seq] = payload
             if len(bucket["parts"]) < bucket["total"]:
                 return None

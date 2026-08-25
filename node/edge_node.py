@@ -92,7 +92,7 @@ class EdgeNode:
                 pass
 
     def get_config(self):
-        return self.device_config.data
+        return self.device_config.public_data()
 
     def update_config(self, patch):
         updated = self.device_config.update(patch)
@@ -123,15 +123,18 @@ class EdgeNode:
         command_id = command.get("id")
         if not command_id:
             raise ValueError("command.id is required")
-        if self.registry.is_duplicate_command(command_id):
-            return {"accepted": False, "duplicate": True}
 
         action = command.get("action")
-        if action == "intent":
-            payload = command.get("payload") or {}
-            self.receive_intent(payload)
-            return {"accepted": True, "duplicate": False}
-        raise ValueError("unknown command action")
+        if action != "intent":
+            raise ValueError("unknown command action")
+
+        if self.registry.has_command(command_id):
+            return {"accepted": False, "duplicate": True}
+
+        payload = command.get("payload") or {}
+        self.receive_intent(payload)
+        self.registry.register_command(command_id)
+        return {"accepted": True, "duplicate": False}
 
     def health(self):
         runtime_stats = self.runtime.stats()

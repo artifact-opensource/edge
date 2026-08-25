@@ -12,6 +12,9 @@ def test_device_config_persists_and_validates_openai_and_anthropic():
         }
     )
     assert updated["wifi"]["ssid"] == "lab-net"
+    public_cfg = n.get_config()
+    assert public_cfg["wifi"]["password"] == ""
+    assert public_cfg["wifi"]["password_set"] is True
 
     updated = n.update_config(
         {
@@ -19,6 +22,9 @@ def test_device_config_persists_and_validates_openai_and_anthropic():
         }
     )
     assert updated["llm"]["provider"] == "anthropic"
+    public_cfg = n.get_config()
+    assert public_cfg["llm"]["credentials_ref"] == ""
+    assert public_cfg["llm"]["credentials_ref_set"] is True
 
     try:
         n.update_config({"llm": {"provider": "openai", "base_url": "https://example.com/api"}})

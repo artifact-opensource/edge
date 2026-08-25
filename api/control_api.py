@@ -77,8 +77,8 @@ def config_put():
     try:
         updated = node.update_config(request.json or {})
         return {"ok": True, "config": updated}
-    except ValueError as exc:
-        return {"ok": False, "error": str(exc)}, 400
+    except ValueError:
+        return {"ok": False, "error": "invalid_config_payload"}, 400
 
 
 @app.route("/connectivity", methods=["GET"])
@@ -93,8 +93,8 @@ def connectivity_event():
     event = (request.json or {}).get("event")
     try:
         return {"ok": True, "status": node.handle_connectivity_event(event)}
-    except ValueError as exc:
-        return {"ok": False, "error": str(exc)}, 400
+    except ValueError:
+        return {"ok": False, "error": "invalid_connectivity_event"}, 400
 
 
 @app.route("/bootstrap/usb", methods=["GET"])
@@ -114,8 +114,8 @@ def command():
     try:
         result = node.receive_command(request.json or {})
         return {"ok": True, **result}
-    except ValueError as exc:
-        return {"ok": False, "error": str(exc)}, 400
+    except ValueError:
+        return {"ok": False, "error": "invalid_command_payload"}, 400
 
 
 if __name__ == "__main__":

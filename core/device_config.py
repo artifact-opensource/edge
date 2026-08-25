@@ -44,6 +44,14 @@ class DeviceConfig:
         self._data = candidate
         return self.data
 
+    def public_data(self):
+        cfg = self.data
+        cfg["wifi"]["password"] = ""
+        cfg["wifi"]["password_set"] = bool(self._data.get("wifi", {}).get("password"))
+        cfg["llm"]["credentials_ref"] = ""
+        cfg["llm"]["credentials_ref_set"] = bool(self._data.get("llm", {}).get("credentials_ref"))
+        return cfg
+
     def validate(self, payload):
         wifi = payload.get("wifi", {})
         ap = payload.get("ap", {})
