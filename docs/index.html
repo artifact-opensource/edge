@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artifact Edge v3 — Galvanized Telemetry Monolith</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-void: #07090c;
+    --bg-plate: #0d1117;
+    --bg-plate-sub: #131822;
+    --bg-plate-card: #18202c;
+    --steel-zinc: #232c3b;
+    --steel-border: #2d384a;
+    --steel-bright: #485870;
+    --steel-highlight: #7084a4;
+    
+    --phosphor-green: #00f0a8;
+    --phosphor-green-dim: rgba(0, 240, 168, 0.15);
+    --phosphor-green-glow: rgba(0, 240, 168, 0.4);
+    
+    --amber-core: #ffaa00;
+    --amber-dim: rgba(255, 170, 0, 0.15);
+    --amber-glow: rgba(255, 170, 0, 0.4);
+    
+    --cyan-edge: #00b8ff;
+    --cyan-dim: rgba(0, 184, 255, 0.15);
+    
+    --crimson-alert: #ff3355;
+    --titanium-white: #f0f4fc;
+    --slate-text: #94a3b8;
+    --slate-dark: #64748b;
+    
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-display: 'Chakra Petch', sans-serif;
+    --font-sans: 'Space Grotesk', sans-serif;
+    
+    --chamfer: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    --chamfer-sm: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+    --chamfer-inv: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--bg-void);
+    color: var(--titanium-white);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    overflow-x: hidden;
+    background-image: 
+      radial-gradient(circle at 50% 0%, rgba(0, 184, 255, 0.05) 0%, transparent 60%),
+      linear-gradient(rgba(13, 17, 23, 0.95), rgba(7, 9, 12, 0.98)),
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.3) 2px, rgba(0, 0, 0, 0.3) 4px);
+    background-attachment: fixed;
+  }
+
+  /* Zinc Galvanized Texture Noise Overlay */
+  .noise-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.035;
+  }
+
+  /* Structural Containers */
+  .monolith-wrapper {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 24px 20px 80px 20px;
+  }
+
+  /* Top Galvanized Chassis Header */
+  .chassis-header {
+    background: linear-gradient(180deg, var(--bg-plate-sub) 0%, var(--bg-plate) 100%);
+    border: 1px solid var(--steel-border);
+    border-bottom: 2px solid var(--steel-highlight);
+    padding: 16px 24px;
+    margin-bottom: 24px;
+    position: relative;
+    clip-path: var(--chamfer);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .brand-badge {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .emblem {
+    width: 48px;
+    height: 48px;
+    background: var(--bg-void);
+    border: 2px solid var(--steel-bright);
+    display: grid;
+    place-items: center;
+    position: relative;
+    box-shadow: inset 0 0 10px rgba(0,240,168,0.2);
+  }
+  .emblem::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--phosphor-green);
+    transform: rotate(45deg);
+    box-shadow: 0 0 8px var(--phosphor-green);
+  }
+
+  .brand-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--titanium-white);
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .brand-title span.sub {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--phosphor-green);
+    margin-top: 4px;
+  }
+
+  .telemetry-strip {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .gauge-pill {
+    background: var(--bg-void);
+    border: 1px solid var(--steel-border);
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    position: relative;
+  }
+  .gauge-pill .led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--phosphor-green);
+    box-shadow: 0 0 8px var(--phosphor-green);
+    animation: blink 2.5s infinite;
+  }
+  .gauge-pill .led.amber {
+    background: var(--amber-core);
+    box-shadow: 0 0 8px var(--amber-core);
+  }
+  .gauge-pill .lbl {
+    color: var(--slate-dark);
+    text-transform: uppercase;
+    font-size: 9px;
+  }
+  .gauge-pill .val {
+    color: var(--titanium-white);
+    font-weight: 700;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  /* Steel Tactical Buttons */
+  .btn-steel {
+    background: linear-gradient(180deg, var(--steel-zinc) 0%, var(--bg-plate-sub) 100%);
+    border: 1px solid var(--steel-bright);
+    color: var(--titanium-white);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 10px 18px;
+    cursor: pointer;
+    clip-path: var(--chamfer-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .btn-steel:hover {
+    background: linear-gradient(180deg, var(--steel-bright) 0%, var(--steel-zinc) 100%);
+    border-color: var(--phosphor-green);
+    color: var(--phosphor-green);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,240,168,0.2), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  .btn-steel:active {
+    transform: translateY(1px);
+  }
+
+  .btn-steel.accent-amber {
+    border-color: var(--amber-core);
+    color: var(--amber-core);
+  }
+  .btn-steel.accent-amber:hover {
+    background: var(--amber-dim);
+    box-shadow: 0 4px 12px var(--amber-glow);
+  }
+
+  /* Monolith Layout Grid */
+  .grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 410px;
+    gap: 24px;
+  }
+  @media (max-width: 1100px) {
+    .grid-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Telemetry Panels */
+  .panel-chassis {
+    background: var(--bg-plate);
+    border: 1px solid var(--steel-border);
+    position: relative;
+    margin-bottom: 24px;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.5);
+  }
+  .panel-chassis::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 6px; height: 100%;
+    background: var(--steel-zinc);
+    border-right: 1px solid var(--steel-border);
+  }
+  .panel-chassis.active-glow::before {
+    background: var(--phosphor-green);
+    box-shadow: 0 0 12px var(--phosphor-green);
+  }
+
+  .panel-header {
+    background: linear-gradient(90deg, var(--bg-plate-sub) 0%, var(--bg-plate) 100%);
+    padding: 12px 20px 12px 24px;
+    border-bottom: 1px solid var(--steel-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .panel-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--titanium-white);
+  }
+  .panel-title .code-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--cyan-edge);
+    background: var(--cyan-dim);
+    padding: 2px 6px;
+    border: 1px solid rgba(0, 184, 255, 0.3);
+  }
+
+  .panel-body {
+    padding: 24px;
+  }
+
+  /* Interactive Ring Topology Canvas & Vis */
+  .ring-visualizer-container {
+    background: var(--bg-void);
+    border: 1px solid var(--steel-border);
+    height: 380px;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+  }
+  .ring-visualizer-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 30%, var(--bg-void) 90%);
+    pointer-events: none;
+  }
+
+  svg.topology-svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  /* Swarm Node Status Dashboard */
+  .nodes-rack {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .node-card {
+    background: var(--bg-plate-sub);
+    border: 1px solid var(--steel-border);
+    padding: 16px;
+    position: relative;
+    transition: all 0.2s ease;
+    clip-path: var(--chamfer-sm);
+  }
+  .node-card:hover {
+    border-color: var(--steel-bright);
+    background: var(--bg-plate-card);
+  }
+  .node-card.is-owner {
+    border-color: var(--phosphor-green);
+    box-shadow: 0 0 16px var(--phosphor-green-dim);
+  }
+  .node-card.is-owner::after {
+    content: 'DESIGNATED OWNER';
+    position: absolute;
+    top: 6px; right: 8px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--phosphor-green);
+    background: var(--phosphor-green-dim);
+    padding: 2px 6px;
+    border: 1px solid var(--phosphor-green);
+    letter-spacing: 0.1em;
+  }
+
+  .node-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .node-id {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.05em;
+    color: var(--titanium-white);
+  }
+  .node-port {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--cyan-edge);
+  }
+  .node-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+  .metric-box {
+    background: var(--bg-void);
+    padding: 6px 10px;
+    border: 1px solid var(--steel-border);
+  }
+  .metric-box .label {
+    font-size: 9px;
+    color: var(--slate-dark);
+    text-transform: uppercase;
+  }
+  .metric-box .val {
+    color: var(--titanium-white);
+    font-weight: 600;
+  }
+
+  /* Interactive Intent Dispatch Console */
+  .control-rack {
+    background: var(--bg-plate);
+    border: 1px solid var(--steel-border);
+    padding: 20px;
+    margin-bottom: 24px;
+    clip-path: var(--chamfer-sm);
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--slate-text);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .form-input, .form-select {
+    width: 100%;
+    background: var(--bg-void);
+    border: 1px solid var(--steel-bright);
+    color: var(--titanium-white);
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus, .form-select:focus {
+    border-color: var(--phosphor-green);
+    box-shadow: 0 0 10px var(--phosphor-green-dim);
+  }
+
+  .quick-intent-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .btn-quick {
+    background: var(--bg-plate-sub);
+    border: 1px solid var(--steel-border);
+    color: var(--slate-text);
+    padding: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-quick:hover {
+    background: var(--steel-zinc);
+    color: var(--titanium-white);
+    border-color: var(--steel-highlight);
+  }
+
+  /* Live Pipeline Sequence Flow */
+  .sequence-flow-stepper {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin: 20px 0;
+    position: relative;
+  }
+  @media (max-width: 768px) {
+    .sequence-flow-stepper {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .step-node {
+    background: var(--bg-plate-sub);
+    border: 1px solid var(--steel-border);
+    padding: 10px;
+    font-family: var(--font-mono);
+    position: relative;
+    transition: all 0.3s;
+  }
+  .step-node.active {
+    border-color: var(--phosphor-green);
+    background: rgba(0, 240, 168, 0.08);
+  }
+  .step-node.active .step-num {
+    background: var(--phosphor-green);
+    color: var(--bg-void);
+  }
+  .step-num {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background: var(--steel-zinc);
+    color: var(--slate-text);
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 18px;
+    margin-bottom: 6px;
+  }
+  .step-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--titanium-white);
+    text-transform: uppercase;
+  }
+  .step-desc {
+    font-size: 9px;
+    color: var(--slate-dark);
+    line-height: 1.3;
+    margin-top: 4px;
+  }
+
+  /* Real-time Monolithic Terminal */
+  .terminal-box {
+    background: var(--bg-void);
+    border: 1px solid var(--steel-border);
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
+  }
+
+  .terminal-header {
+    background: var(--steel-zinc);
+    padding: 6px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--steel-border);
+  }
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--slate-text);
+    text-transform: uppercase;
+  }
+  .terminal-tools {
+    display: flex;
+    gap: 8px;
+  }
+  .btn-terminal-clear {
+    background: transparent;
+    border: none;
+    color: var(--slate-dark);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  .btn-terminal-clear:hover {
+    color: var(--titanium-white);
+  }
+
+  .terminal-stream {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  .log-line {
+    margin-bottom: 4px;
+    display: flex;
+    gap: 10px;
+    word-break: break-all;
+  }
+  .log-ts { color: var(--slate-dark); flex-shrink: 0; }
+  .log-tag { font-weight: 700; flex-shrink: 0; padding: 0 4px; border-radius: 2px; }
+  .tag-intent { color: var(--cyan-edge); background: var(--cyan-dim); }
+  .tag-exec { color: var(--phosphor-green); background: var(--phosphor-green-dim); }
+  .tag-gossip { color: var(--amber-core); background: var(--amber-dim); }
+  .tag-persist { color: #d8b4fe; background: rgba(216, 180, 254, 0.15); }
+  .tag-hash { color: #f472b6; background: rgba(244, 114, 182, 0.15); }
+  .log-msg { color: var(--titanium-white); }
+
+  /* Architecture & Components Matrix */
+  .components-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+
+  .spec-card {
+    background: var(--bg-plate-sub);
+    border: 1px solid var(--steel-border);
+    padding: 14px 18px;
+    position: relative;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .spec-card:hover {
+    border-color: var(--steel-highlight);
+    transform: translateY(-2px);
+  }
+  .spec-name {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--titanium-white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .spec-file {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--amber-core);
+    margin-top: 2px;
+    margin-bottom: 8px;
+  }
+  .spec-desc {
+    font-size: 11px;
+    color: var(--slate-text);
+    line-height: 1.4;
+  }
+
+  /* Hardware Profiles Segment */
+  .profile-tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--bg-void);
+    padding: 3px;
+    border: 1px solid var(--steel-border);
+    margin-bottom: 16px;
+  }
+  .tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--slate-text);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 8px 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    background: var(--steel-zinc);
+    color: var(--phosphor-green);
+    box-shadow: inset 0 -2px 0 var(--phosphor-green);
+  }
+
+  .state-progression-bar {
+    display: flex;
+    align-items: center;
+    background: var(--bg-void);
+    border: 1px solid var(--steel-border);
+    padding: 12px;
+    gap: 8px;
+    margin-top: 12px;
+    overflow-x: auto;
+  }
+  .state-pill {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 10px;
+    border: 1px solid var(--steel-border);
+    color: var(--slate-dark);
+    white-space: nowrap;
+  }
+  .state-pill.current {
+    border-color: var(--amber-core);
+    color: var(--amber-core);
+    background: var(--amber-dim);
+    box-shadow: 0 0 8px var(--amber-glow);
+  }
+  .state-arrow {
+    color: var(--steel-bright);
+    font-size: 12px;
+  }
+
+  /* Code Block Snippets */
+  .code-snippet-box {
+    background: var(--bg-void);
+    border: 1px solid var(--steel-border);
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    position: relative;
+    margin-top: 10px;
+  }
+  .btn-copy {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--steel-zinc);
+    border: 1px solid var(--steel-border);
+    color: var(--slate-text);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+  .btn-copy:hover {
+    color: var(--titanium-white);
+    border-color: var(--phosphor-green);
+  }
+
+  /* Industrial Rivets & Markings */
+  .rivet-seam {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 10px;
+    opacity: 0.3;
+  }
+  .rivet {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--steel-highlight);
+    box-shadow: inset 1px 1px 1px #fff, 0 1px 1px #000;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  @keyframes pulseRays {
+    0% { stroke-dashoffset: 40; opacity: 0.2; }
+    50% { opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0.2; }
+  }
+
+  .pulse-line {
+    stroke-dasharray: 6, 6;
+    animation: pulseRays 1.2s linear infinite;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-void);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--steel-zinc);
+    border: 1px solid var(--steel-border);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--steel-bright);
+  }
+</style>
+</head>
+<body>
+
+<!-- SVG Texture Filter -->
+<svg class="noise-overlay" xmlns="http://www.w3.org/2000/svg">
+  <filter id="noiseFilter">
+    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
+    <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+  </filter>
+  <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
+</svg>
+
+<div class="monolith-wrapper">
+
+  <!-- MASTHEAD / GALVANIZED CHASSIS HEADER -->
+  <header class="chassis-header">
+    <div class="header-grid">
+      <div class="brand-badge">
+        <div class="emblem"></div>
+        <div class="brand-title">
+          ARTIFACT EDGE <span>v3.1.0-PROD</span>
+          <span class="sub">MULTI-NODE TASK ORCHESTRATION FABRIC</span>
+        </div>
+      </div>
+
+      <div class="telemetry-strip">
+        <div class="gauge-pill">
+          <div class="led"></div>
+          <div>
+            <div class="lbl">Consensus State</div>
+            <div class="val" id="consensus-status">EVENTUAL_SYNC_OK</div>
+          </div>
+        </div>
+        <div class="gauge-pill">
+          <div class="led amber"></div>
+          <div>
+            <div class="lbl">Hash Space Ring</div>
+            <div class="val">SHA256 MOD 3</div>
+          </div>
+        </div>
+        <div class="gauge-pill">
+          <div class="led"></div>
+          <div>
+            <div class="lbl">Persistence WAL</div>
+            <div class="val">SQLite (DURABLE)</div>
+          </div>
+        </div>
+        <div class="gauge-pill">
+          <div class="led"></div>
+          <div>
+            <div class="lbl">Vector Clock</div>
+            <div class="val" id="global-vclock">[N1:14, N2:14, N3:14]</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="btn-steel" onclick="triggerGossipWave()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          Sync Gossip
+        </button>
+        <button class="btn-steel accent-amber" onclick="simulateSwarmBurst()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Stress Swarm (5x)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN DUAL-COLUMN GRID -->
+  <div class="grid-layout">
+    
+    <!-- LEFT TELEMETRY COLUMN -->
+    <div class="main-column">
+
+      <!-- TOPOLOGY & LIVE HASH RING VISUALIZER -->
+      <section class="panel-chassis active-glow">
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></svg>
+            Deterministic Ownership & Ring Topology
+            <span class="code-tag">core/ownership.py</span>
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 10px; color: var(--slate-dark);">GOSSIP PORT: TCP / HTTP :5001-5003</span>
+        </div>
+
+        <div class="panel-body">
+          <div class="ring-visualizer-container" id="ringCanvasContainer">
+            <svg class="topology-svg" id="topologySvg" viewBox="0 0 700 380">
+              <!-- Ring Guideline -->
+              <circle cx="350" cy="190" r="125" fill="none" stroke="#232c3b" stroke-width="2" stroke-dasharray="4,4"/>
+              
+              <!-- Mesh Interconnects -->
+              <line x1="350" y1="65" x2="241" y2="252" stroke="#1c222b" stroke-width="1.5" id="mesh-line-1"/>
+              <line x1="241" y1="252" x2="458" y2="252" stroke="#1c222b" stroke-width="1.5" id="mesh-line-2"/>
+              <line x1="458" y1="252" x2="350" y2="65" stroke="#1c222b" stroke-width="1.5" id="mesh-line-3"/>
+
+              <!-- Dynamic Broadcast Pulses will inject here -->
+              <g id="pulseLayer"></g>
+
+              <!-- Node 1 Graphic -->
+              <g transform="translate(350, 65)" class="node-graphic" id="g-node-1" style="cursor: pointer;" onclick="selectIngestNode('node-1')">
+                <circle r="30" fill="#0d1117" stroke="#2d384a" stroke-width="2" id="c-node-1"/>
+                <circle r="6" fill="#00f0a8"/>
+                <text y="-38" text-anchor="middle" fill="#f0f4fc" font-family="'Chakra Petch', sans-serif" font-weight="700" font-size="12">NODE-1 (5001)</text>
+                <text y="44" text-anchor="middle" fill="#00b8ff" font-family="'JetBrains Mono', monospace" font-size="9">PORT 5001 • MASTER</text>
+              </g>
+
+              <!-- Node 2 Graphic -->
+              <g transform="translate(241, 252)" class="node-graphic" id="g-node-2" style="cursor: pointer;" onclick="selectIngestNode('node-2')">
+                <circle r="30" fill="#0d1117" stroke="#2d384a" stroke-width="2" id="c-node-2"/>
+                <circle r="6" fill="#00b8ff"/>
+                <text y="46" text-anchor="middle" fill="#f0f4fc" font-family="'Chakra Petch', sans-serif" font-weight="700" font-size="12">NODE-2 (5002)</text>
+                <text y="58" text-anchor="middle" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="9">PEER REPLICA</text>
+              </g>
+
+              <!-- Node 3 Graphic -->
+              <g transform="translate(458, 252)" class="node-graphic" id="g-node-3" style="cursor: pointer;" onclick="selectIngestNode('node-3')">
+                <circle r="30" fill="#0d1117" stroke="#2d384a" stroke-width="2" id="c-node-3"/>
+                <circle r="6" fill="#ffaa00"/>
+                <text y="46" text-anchor="middle" fill="#f0f4fc" font-family="'Chakra Petch', sans-serif" font-weight="700" font-size="12">NODE-3 (5003)</text>
+                <text y="58" text-anchor="middle" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="9">PEER REPLICA</text>
+              </g>
+
+              <!-- Center Hash Ring HUD -->
+              <g transform="translate(350, 190)">
+                <circle r="32" fill="#07090c" stroke="#2d384a" stroke-width="1"/>
+                <text y="-4" text-anchor="middle" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="8">ORCHESTRATION</text>
+                <text y="10" text-anchor="middle" fill="#00f0a8" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="10">GUARANTEED</text>
+                <text y="20" text-anchor="middle" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="7">SINGLE EXEC</text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Real-Time Edge Nodes Telemetry Rack -->
+          <div class="nodes-rack">
+            <!-- Node 1 -->
+            <div class="node-card is-owner" id="card-node-1">
+              <div class="node-head">
+                <div>
+                  <div class="node-id">EDGE-NODE-01</div>
+                  <div class="node-port">TCP :5001 (API INGEST)</div>
+                </div>
+                <div class="gauge-pill" style="padding: 2px 6px;">
+                  <span class="led"></span>
+                  <span class="val" style="font-size: 10px;">LIVE</span>
+                </div>
+              </div>
+              <div class="node-metrics">
+                <div class="metric-box">
+                  <div class="label">SQLite Events</div>
+                  <div class="val" id="db-count-n1">14 Persisted</div>
+                </div>
+                <div class="metric-box">
+                  <div class="label">Tasks Executed</div>
+                  <div class="val" id="exec-count-n1">6 Handled</div>
+                </div>
+                <div class="metric-box">
+                  <div class="label">Vector Clock</div>
+                  <div class="val" id="vc-n1">Clock: 14</div>
+                </div>
+                <div class="metric-box">
+                  <div class="label">Gossip Sync</div>
+                  <div class="val" style="color: var(--phosphor-green);">100% Synced</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Node 2 -->
+            <div class="node-card" id="card-node-2">
+              <div class="node-head">
+                <div>
+                  <div class="node-id">EDGE-NODE-02</div>
+                  <div class="node-port">TCP :5002 (PEER MESH)</div>
+                </div>
+                <div class="gauge-pill" style="padding: 2px 6px;">
+                  <span class="led"></span>
+                  <span class="val" style="font-size: 10px;">LIVE</span>
+                </div>
+              </div>
+              <div class="node-metrics">
+                <div class="metric-box">
+                  <div class="label">SQLite Events</div>
+                  <div class="val" id="db-count-n2">14 Persisted</div>
+                </div>
+                <div class="metric-box">
+                  <div class="label">Tasks Executed</div>
+                  <div class="val" id="exec-count-n2">4 Handled</div>
+                </div>
+                <div class="metric-box">
+                  <div class="label">Vector Clock</div>
+                  <div class="val" id="vc-n2">Clock: 14</div>
+                </div>
+                <div class="metric-box">
+                  <div class="label">Gossip Sync</div>
+                  <div class="val" style="color: var(--phosphor-green);">100% Synced</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Node 3 -->
+            <div class="node-card" id="card-node-3">
+              <div class="node-head">
+                <div>
+                  <div class="node-id">EDGE-NODE-03</div>
+                  <div class="node-port">TCP :5003 (PEER MESH)</div>
+                </div>
+                <div class="gauge-pill" style="padding: 2px 6px;">
+                  <span class="led"></span>
+                  <span class="val" style="font-size: 10px;">LIVE</span>
+                </div>
+              </div>
+              <div class="node-metrics">
+                <div class="metric-box">
+                  <div class="label">SQLite Events</div>
+                  <div class="val" id="db-count-n3">14 Persisted</div>
+                </div>
+                <div class="metric-box">
+                  <div class="label">Tasks Executed</div>
+                  <div class="val" id="exec-count-n3">4 Handled</div>
+                </div>
+                <div class="metric-box">
+                  <div class="label">Vector Clock</div>
+                  <div class="val" id="vc-n3">Clock: 14</div>
+                </div>
+                <div class="metric-box">
+                  <div class="label">Gossip Sync</div>
+                  <div class="val" style="color: var(--phosphor-green);">100% Synced</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXECUTION PROTOCOL SEQUENCE STEPPER -->
+      <section class="panel-chassis">
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Guaranteed Single-Execution Lifecycle
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 10px; color: var(--phosphor-green);">PROTOCOL: INTENT → GOSSIP SYNC</span>
+        </div>
+
+        <div class="panel-body">
+          <div class="sequence-flow-stepper">
+            <div class="step-node" id="step-1">
+              <span class="step-num">01</span>
+              <div class="step-title">Intent Ingest</div>
+              <div class="step-desc">Client POST to arbitrary edge node. Unique UUID & clock stamped.</div>
+            </div>
+            <div class="step-node" id="step-2">
+              <span class="step-num">02</span>
+              <div class="step-title">SQLite WAL</div>
+              <div class="step-desc">Immutable append via <code>INSERT OR IGNORE</code> preventing dupes.</div>
+            </div>
+            <div class="step-node" id="step-3">
+              <span class="step-num">03</span>
+              <div class="step-title">Consistent Hash</div>
+              <div class="step-desc"><code>assign_owner(task_id)</code> computes designated node.</div>
+            </div>
+            <div class="step-node" id="step-4">
+              <span class="step-num">04</span>
+              <div class="step-title">Runtime Agent</div>
+              <div class="step-desc">ONLY owner executes task object via background thread loop.</div>
+            </div>
+            <div class="step-node" id="step-5">
+              <span class="step-num">05</span>
+              <div class="step-title">Gossip Sync</div>
+              <div class="step-desc">Background push to <code>/sync</code> merges clocks & updates SQLite.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SPECIFICATION & CORE ENGINE ARCHITECTURE MATRIX -->
+      <section class="panel-chassis">
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Component Specifications & Distributed Architecture
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 10px; color: var(--slate-dark);">PYTHON 3.8+ / FLASK / RAW SOCKETS</span>
+        </div>
+
+        <div class="panel-body">
+          <div class="components-grid">
+            <div class="spec-card">
+              <div class="spec-name">EdgeNode Orchestrator</div>
+              <div class="spec-file">node/edge_node.py</div>
+              <div class="spec-desc">Receives intents, creates canonical events, manages local SQLite WAL, calculates task ownership, and broadcasts to mesh peers.</div>
+            </div>
+
+            <div class="spec-card">
+              <div class="spec-name">Runtime Execution Loop</div>
+              <div class="spec-file">core/runtime.py</div>
+              <div class="spec-desc">Threaded background agent loop executing registered task objects (e.g. <code>MoveTask</code>) exclusively when self-ownership is proven.</div>
+            </div>
+
+            <div class="spec-card">
+              <div class="spec-name">Consistent Hash Ring</div>
+              <div class="spec-file">core/ownership.py</div>
+              <div class="spec-desc">Deterministic owner selection using SHA-256 hash modular mapping of <code>task_id</code> across peer nodes with zero central coordinator.</div>
+            </div>
+
+            <div class="spec-card">
+              <div class="spec-name">SQLite Persistent Store</div>
+              <div class="spec-file">storage/sqlite_store.py</div>
+              <div class="spec-desc">Durable local event store with <code>save_event()</code> and idempotent <code>has_event()</code> checks to prevent replay execution loops.</div>
+            </div>
+
+            <div class="spec-card">
+              <div class="spec-name">Causal Vector Clock</div>
+              <div class="spec-file">core/vector_clock.py</div>
+              <div class="spec-desc">Tracks logical time across distributed nodes, allowing deterministic conflict resolution and causal ordering during sync merges.</div>
+            </div>
+
+            <div class="spec-card">
+              <div class="spec-name">Gossip Protocol</div>
+              <div class="spec-file">mesh/gossip.py</div>
+              <div class="spec-desc">Autonomous heartbeat thread syncing unseen canonical events over HTTP <code>/sync</code> endpoints across all registered peer nodes.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HARDWARE & MULTI-TRANSPORT PROFILES -->
+      <section class="panel-chassis">
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+            Deployment Profiles & Onboarding State Machine
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 10px; color: var(--amber-core);">ESP32-S3 / LORA / LAN BRIDGE</span>
+        </div>
+
+        <div class="panel-body">
+          <div class="profile-tabs">
+            <button class="tab-btn active" onclick="switchProfile('esp32', this)">ESP32-S3 / LoRa Micro-Node</button>
+            <button class="tab-btn" onclick="switchProfile('lan', this)">LAN High-Throughput</button>
+            <button class="tab-btn" onclick="switchProfile('space', this)">Deep-Space Intermittent</button>
+          </div>
+
+          <div id="profile-content">
+            <div style="font-size: 12px; color: var(--slate-text); margin-bottom: 10px;">
+              <strong>Deterministic State Machine:</strong> AP USB bootstrap transitions into STA mesh node. Unrecoverable link loss triggers <code>recovery_ap</code> fallback.
+            </div>
+            
+            <div class="state-progression-bar">
+              <div class="state-pill" id="st-1">AP_ONBOARDING</div>
+              <span class="state-arrow">→</span>
+              <div class="state-pill" id="st-2">STA_CONNECTING</div>
+              <span class="state-arrow">→</span>
+              <div class="state-pill current" id="st-3">BACKEND_READY</div>
+              <span class="state-arrow">↺</span>
+              <div class="state-pill" id="st-4">RECOVERY_AP</div>
+            </div>
+
+            <div class="code-snippet-box">
+              <button class="btn-copy" onclick="copySnippet('esp-cli')">COPY</button>
+              <pre id="esp-cli" style="margin:0; color: var(--titanium-white);"># Authenticated write session setup (Local Dev / Gateway):
+export EDGE_SESSION_TOKEN=edge-local-dev
+curl -X POST http://localhost:8000/intent \
+  -H "Content-Type: application/json" \
+  -H "X-EDGE-SESSION: edge-local-dev" \
+  -d '{"type": "move", "target": "Sector-7-Depot", "distance": 45.2}'</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- RIGHT DISPATCH & TELEMETRY LOG COLUMN -->
+    <div class="sidebar-column">
+
+      <!-- INTERACTIVE DISPATCH TERMINAL -->
+      <section class="control-rack">
+        <div class="form-label" style="color: var(--phosphor-green); font-weight: 700;">
+          <span>// DISPATCH INTENT TERMINAL</span>
+          <span>POST /intent</span>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">
+            <span>Ingest Edge Node</span>
+            <span id="targetNodeBadge" style="color: var(--cyan-edge);">NODE-1 (:5001)</span>
+          </div>
+          <select class="form-select" id="ingestNodeSelect" onchange="selectIngestNode(this.value)">
+            <option value="node-1">Edge Node 1 — Port 5001</option>
+            <option value="node-2">Edge Node 2 — Port 5002</option>
+            <option value="node-3">Edge Node 3 — Port 5003</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">
+            <span>Preset Task Templates</span>
+          </div>
+          <div class="quick-intent-grid">
+            <button class="btn-quick" onclick="setPreset('move', 'Warehouse Beta', 120)">
+              <strong>MOVE_TASK</strong><br>Warehouse Beta
+            </button>
+            <button class="btn-quick" onclick="setPreset('telemetry', 'Sensor-Grid-X', 1)">
+              <strong>POLL_METRIC</strong><br>Sensor-Grid-X
+            </button>
+            <button class="btn-quick" onclick="setPreset('firmware_sync', 'OTA-Patch-v3.1', 890)">
+              <strong>FIRMWARE_SYNC</strong><br>OTA-Patch-v3.1
+            </button>
+            <button class="btn-quick" onclick="setPreset('actuate', 'Valve-Regulator-4', 90)">
+              <strong>ACTUATE</strong><br>Valve 90 Deg
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">
+            <span>Task Intent Payload (JSON)</span>
+          </div>
+          <input type="text" class="form-input" id="intentType" value="move" placeholder="Task Type (e.g. move)" style="margin-bottom: 6px;">
+          <input type="text" class="form-input" id="intentTarget" value="Warehouse Alpha Sector 4" placeholder="Target / Parameter">
+        </div>
+
+        <button class="btn-steel" style="width: 100%; justify-content: center; padding: 12px; margin-top: 8px;" onclick="dispatchIntentForm()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Dispatch Intent & Trace Path
+        </button>
+      </section>
+
+      <!-- LIVE EVENT LOG TERMINAL STREAM -->
+      <section class="terminal-box">
+        <div class="terminal-header">
+          <div class="terminal-title">
+            <span style="color: var(--phosphor-green);">●</span> SWARM EVENT STREAM (STDOUT)
+          </div>
+          <div class="terminal-tools">
+            <button class="btn-terminal-clear" onclick="clearLogs()">CLEAR</button>
+          </div>
+        </div>
+        <div class="terminal-stream" id="terminalStream">
+          <!-- Real-time logs stream here -->
+        </div>
+      </section>
+
+      <!-- INVESTOR / QUICKSTART DEMO CHEAT SHEET -->
+      <section class="panel-chassis" style="margin-top: 24px;">
+        <div class="panel-header">
+          <div class="panel-title" style="font-size: 12px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            Interactive CLI Quickstart
+          </div>
+        </div>
+        <div class="panel-body" style="padding: 16px;">
+          <div style="font-size: 11px; color: var(--slate-text); margin-bottom: 8px;">
+            Run full 3-node swarm demo in single command:
+          </div>
+          <div class="code-snippet-box" style="margin-top:0;">
+            <button class="btn-copy" onclick="copySnippet('demo-py')">COPY</button>
+            <pre id="demo-py" style="margin:0; color: var(--phosphor-green);">python scripts/demo.py</pre>
+          </div>
+          <div style="font-size: 11px; color: var(--slate-text); margin-top: 12px; margin-bottom: 8px;">
+            Run multi-node stress validation:
+          </div>
+          <div class="code-snippet-box" style="margin-top:0;">
+            <button class="btn-copy" onclick="copySnippet('stress-py')">COPY</button>
+            <pre id="stress-py" style="margin:0; color: var(--amber-core);">pytest -q simulation/stress_swarm.py --nodes 5 --intents 500</pre>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="rivet-seam">
+    <div class="rivet"></div>
+    <div class="rivet"></div>
+    <div class="rivet"></div>
+    <div class="rivet"></div>
+  </div>
+</div>
+
+<script>
+  // Global State for Interactive Telemetry
+  let globalClock = 14;
+  let nodeStats = {
+    'node-1': { dbEvents: 14, execs: 6, clock: 14 },
+    'node-2': { dbEvents: 14, execs: 4, clock: 14 },
+    'node-3': { dbEvents: 14, execs: 4, clock: 14 }
+  };
+  let selectedIngest = 'node-1';
+
+  // Coordinate geometry of nodes in SVG
+  const nodePositions = {
+    'node-1': { x: 350, y: 65 },
+    'node-2': { x: 241, y: 252 },
+    'node-3': { x: 458, y: 252 }
+  };
+
+  // Helper: SHA256 simulation to determine consistent owner
+  function computeConsistentOwner(taskId) {
+    let hash = 0;
+    for (let i = 0; i < taskId.length; i++) {
+      hash = ((hash << 5) - hash) + taskId.charCodeAt(i);
+      hash |= 0;
+    }
+    const idx = Math.abs(hash) % 3;
+    const owners = ['node-1', 'node-2', 'node-3'];
+    return owners[idx];
+  }
+
+  function getTimestamp() {
+    const d = new Date();
+    return d.toTimeString().split(' ')[0] + '.' + String(d.getMilliseconds()).padStart(3, '0');
+  }
+
+  function appendLog(tag, tagClass, msg) {
+    const stream = document.getElementById('terminalStream');
+    const line = document.createElement('div');
+    line.className = 'log-line';
+    line.innerHTML = `
+      <span class="log-ts">${getTimestamp()}</span>
+      <span class="log-tag ${tagClass}">${tag}</span>
+      <span class="log-msg">${msg}</span>
+    `;
+    stream.appendChild(line);
+    stream.scrollTop = stream.scrollHeight;
+  }
+
+  function clearLogs() {
+    document.getElementById('terminalStream').innerHTML = '';
+    appendLog('SYS', 'tag-intent', 'Telemetry buffer cleared. Monitoring mesh network on [::]:5001-5003.');
+  }
+
+  function selectIngestNode(nodeId) {
+    selectedIngest = nodeId;
+    document.getElementById('ingestNodeSelect').value = nodeId;
+    document.getElementById('targetNodeBadge').innerText = `${nodeId.toUpperCase()} (:${nodeId === 'node-1' ? '5001' : nodeId === 'node-2' ? '5002' : '5003'})`;
+    
+    // Highlight SVG Node
+    ['node-1', 'node-2', 'node-3'].forEach(n => {
+      const circle = document.getElementById(`c-${n}`);
+      if (n === nodeId) {
+        circle.setAttribute('stroke', '#00f0a8');
+        circle.setAttribute('stroke-width', '3');
+      } else {
+        circle.setAttribute('stroke', '#2d384a');
+        circle.setAttribute('stroke-width', '2');
+      }
+    });
+  }
+
+  function setPreset(type, target, param) {
+    document.getElementById('intentType').value = type;
+    document.getElementById('intentTarget').value = target;
+  }
+
+  function animateSequenceStep(stepNum) {
+    for (let i = 1; i <= 5; i++) {
+      const el = document.getElementById(`step-${i}`);
+      if (i === stepNum) {
+        el.classList.add('active');
+      } else {
+        el.classList.remove('active');
+      }
+    }
+  }
+
+  function shootVisualPulse(fromNode, toNode, color = '#00f0a8', duration = 600) {
+    const pulseLayer = document.getElementById('pulseLayer');
+    const p1 = nodePositions[fromNode];
+    const p2 = nodePositions[toNode];
+
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('r', '5');
+    circle.setAttribute('fill', color);
+    circle.setAttribute('cx', p1.x);
+    circle.setAttribute('cy', p1.y);
+    circle.style.boxShadow = `0 0 10px ${color}`;
+    pulseLayer.appendChild(circle);
+
+    const startTime = performance.now();
+
+    function frame(time) {
+      const elapsed = time - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      const curX = p1.x + (p2.x - p1.x) * progress;
+      const curY = p1.y + (p2.y - p1.y) * progress;
+      circle.setAttribute('cx', curX);
+      circle.setAttribute('cy', curY);
+
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        circle.remove();
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function updateDashboardUI() {
+    document.getElementById('global-vclock').innerText = `[N1:${nodeStats['node-1'].clock}, N2:${nodeStats['node-2'].clock}, N3:${nodeStats['node-3'].clock}]`;
+    
+    ['node-1', 'node-2', 'node-3'].forEach(n => {
+      document.getElementById(`db-count-${n.replace('node-', 'n')}`).innerText = `${nodeStats[n].dbEvents} Persisted`;
+      document.getElementById(`exec-count-${n.replace('node-', 'n')}`).innerText = `${nodeStats[n].execs} Handled`;
+      document.getElementById(`vc-${n.replace('node-', 'n')}`).innerText = `Clock: ${nodeStats[n].clock}`;
+    });
+  }
+
+  // Core Intent Lifecycle Simulation
+  function dispatchIntent(type, target, ingestNode) {
+    const taskId = 'task-' + Math.random().toString(36).substring(2, 9);
+    globalClock++;
+    nodeStats[ingestNode].clock = globalClock;
+
+    // Step 1: Ingest
+    animateSequenceStep(1);
+    appendLog('INTENT', 'tag-intent', `Ingested at [${ingestNode}] id=${taskId} type=${type} target="${target}"`);
+
+    // Step 2: SQLite WAL Persist
+    setTimeout(() => {
+      animateSequenceStep(2);
+      nodeStats[ingestNode].dbEvents++;
+      updateDashboardUI();
+      appendLog('SQLITE', 'tag-persist', `[${ingestNode}] SQLiteStore.save_event() WAL commit verified (clock=${globalClock})`);
+
+      // Step 3: Consistent Hash Owner Calculation
+      setTimeout(() => {
+        animateSequenceStep(3);
+        const designatedOwner = computeConsistentOwner(taskId);
+        appendLog('HASH', 'tag-hash', `Ownership.assign_owner('${taskId}') => Deterministic Owner: [${designatedOwner.toUpperCase()}]`);
+
+        // Highlight Designated Owner Card
+        ['node-1', 'node-2', 'node-3'].forEach(n => {
+          const card = document.getElementById(`card-${n}`);
+          if (n === designatedOwner) {
+            card.classList.add('is-owner');
+          } else {
+            card.classList.remove('is-owner');
+          }
+        });
+
+        // Step 4: Execution / Dispatch
+        setTimeout(() => {
+          animateSequenceStep(4);
+          if (designatedOwner === ingestNode) {
+            nodeStats[designatedOwner].execs++;
+            updateDashboardUI();
+            appendLog('EXEC', 'tag-exec', `[${designatedOwner}] LOCAL RUNTIME: Executing Agent "${type.toUpperCase()}" -> Success`);
+          } else {
+            shootVisualPulse(ingestNode, designatedOwner, '#00b8ff', 500);
+            appendLog('MESH', 'tag-intent', `[${ingestNode}] Peer forward canonical event -> [${designatedOwner}]`);
+            setTimeout(() => {
+              nodeStats[designatedOwner].execs++;
+              nodeStats[designatedOwner].dbEvents++;
+              nodeStats[designatedOwner].clock = globalClock;
+              updateDashboardUI();
+              appendLog('EXEC', 'tag-exec', `[${designatedOwner}] REMOTE RUNTIME: Exactly-Once Execution completed for ${taskId}`);
+            }, 550);
+          }
+
+          // Step 5: Eventual Consistency Gossip Wave
+          setTimeout(() => {
+            animateSequenceStep(5);
+            ['node-1', 'node-2', 'node-3'].forEach(peer => {
+              if (peer !== designatedOwner) {
+                shootVisualPulse(designatedOwner, peer, '#ffaa00', 700);
+                nodeStats[peer].dbEvents = Math.max(nodeStats[peer].dbEvents, nodeStats[designatedOwner].dbEvents);
+                nodeStats[peer].clock = globalClock;
+              }
+            });
+            updateDashboardUI();
+            appendLog('GOSSIP', 'tag-gossip', `MeshNetwork.gossip() synced causal event to all peers. Eventual consistency resolved.`);
+            setTimeout(() => animateSequenceStep(0), 1200);
+          }, 800);
+
+        }, 450);
+
+      }, 400);
+
+    }, 350);
+  }
+
+  function dispatchIntentForm() {
+    const type = document.getElementById('intentType').value || 'move';
+    const target = document.getElementById('intentTarget').value || 'Warehouse Alpha';
+    dispatchIntent(type, target, selectedIngest);
+  }
+
+  function triggerGossipWave() {
+    appendLog('GOSSIP', 'tag-gossip', 'Manual Gossip Trigger: Pushing SQLite delta frames to /sync endpoints...');
+    shootVisualPulse('node-1', 'node-2', '#ffaa00', 400);
+    shootVisualPulse('node-2', 'node-3', '#ffaa00', 400);
+    shootVisualPulse('node-3', 'node-1', '#ffaa00', 400);
+    setTimeout(() => {
+      appendLog('GOSSIP', 'tag-gossip', 'All 3 peer nodes acknowledge zero uncommitted delta entries.');
+    }, 450);
+  }
+
+  function simulateSwarmBurst() {
+    appendLog('SWARM', 'tag-intent', 'BURST TEST: Submitting 5 concurrent distributed intents...');
+    const presets = [
+      { t: 'move', tgt: 'Bay-10' },
+      { t: 'poll', tgt: 'LiDAR-Sensors' },
+      { t: 'actuate', tgt: 'Hydraulic-Clamp' },
+      { t: 'move', tgt: 'Depot-East' },
+      { t: 'sync', tgt: 'ConfigMap' }
+    ];
+    presets.forEach((p, idx) => {
+      setTimeout(() => {
+        const randomNode = ['node-1', 'node-2', 'node-3'][Math.floor(Math.random() * 3)];
+        dispatchIntent(p.t, p.tgt, randomNode);
+      }, idx * 450);
+    });
+  }
+
+  function switchProfile(profile, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    const content = document.getElementById('profile-content');
+    if (profile === 'esp32') {
+      content.innerHTML = `
+        <div style="font-size: 12px; color: var(--slate-text); margin-bottom: 10px;">
+          <strong>ESP32-S3 Micro-Profile:</strong> AP onboarding over USB bootstrap transitioning into STA mesh node.
+        </div>
+        <div class="state-progression-bar">
+          <div class="state-pill">AP_ONBOARDING</div>
+          <span class="state-arrow">→</span>
+          <div class="state-pill">STA_CONNECTING</div>
+          <span class="state-arrow">→</span>
+          <div class="state-pill current">BACKEND_READY</div>
+          <span class="state-arrow">↺</span>
+          <div class="state-pill">RECOVERY_AP</div>
+        </div>
+        <div class="code-snippet-box">
+          <button class="btn-copy" onclick="copySnippet('esp-cli')">COPY</button>
+          <pre id="esp-cli" style="margin:0; color: var(--titanium-white);"># Authenticated write session setup (Local Dev / Gateway):
+export EDGE_SESSION_TOKEN=edge-local-dev
+curl -X POST http://localhost:8000/intent \\
+  -H "Content-Type: application/json" \\
+  -H "X-EDGE-SESSION: edge-local-dev" \\
+  -d '{"type": "move", "target": "Sector-7-Depot", "distance": 45.2}'</pre>
+        </div>
+      `;
+    } else if (profile === 'lan') {
+      content.innerHTML = `
+        <div style="font-size: 12px; color: var(--slate-text); margin-bottom: 10px;">
+          <strong>LAN Profile:</strong> High-bandwidth raw TCP sockets with sub-millisecond gossip broadcast intervals.
+        </div>
+        <div class="code-snippet-box">
+          <button class="btn-copy" onclick="copySnippet('lan-cli')">COPY</button>
+          <pre id="lan-cli" style="margin:0; color: var(--phosphor-green);"># Run interactive multi-node harness on Local LAN:
+python -c "from node.edge_node import EdgeNode; n=EdgeNode('node-1', 5001, peers=[('127.0.0.1', 5002), ('127.0.0.1', 5003)]); n.mesh.start(); n.runtime.start();"</pre>
+        </div>
+      `;
+    } else {
+      content.innerHTML = `
+        <div style="font-size: 12px; color: var(--slate-text); margin-bottom: 10px;">
+          <strong>Deep-Space Intermittent Profile:</strong> Tolerates multi-hour network partitions; vector clocks preserve strict causal ordering upon reconnection.
+        </div>
+        <div class="code-snippet-box">
+          <button class="btn-copy" onclick="copySnippet('space-cli')">COPY</button>
+          <pre id="space-cli" style="margin:0; color: var(--amber-core);"># Run partition healing stress validation:
+pytest tests/test_swarm.py -k "test_partition_and_eventual_heal" -v</pre>
+        </div>
+      `;
+    }
+  }
+
+  function copySnippet(elementId) {
+    const text = document.getElementById(elementId).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      appendLog('CLI', 'tag-intent', `Command snippet copied to clipboard.`);
+    });
+  }
+
+  // Initial boot log stream
+  window.addEventListener('DOMContentLoaded', () => {
+    appendLog('SYS', 'tag-intent', 'Artifact Edge v3.1 Kernel initialized.');
+    appendLog('BOOT', 'tag-persist', 'SQLite WAL storage opened: node-1.db, node-2.db, node-3.db');
+    appendLog('CONSENSUS', 'tag-hash', 'Deterministic consistent hash ring established across 3 nodes.');
+    appendLog('MESH', 'tag-gossip', 'Gossip protocol listening on ports [5001, 5002, 5003]. Ready.');
+  });
+</script>
+
+</body>
+</html>
+
+
+Phosphor-Thread Vector Kinematics
+
+Brushed Auric Stratification
+
